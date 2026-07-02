@@ -1,0 +1,2248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0d1f1a">
+<title>氣功 · TB300 · VUIM</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.svg">
+<meta name="apple-mobile-web-app-title" content="氣功 TB300">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Inter:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0d1f1a;
+  --ink2: #1a3a30;
+  --jade: #2e7d5a;
+  --jade-light: #3da870;
+  --jade-dim: #1e4d3a;
+  --gold: #c9a84c;
+  --gold-light: #e8c96a;
+  --silk: #f5f0e8;
+  --silk2: #ede6d8;
+  --mist: rgba(46,125,90,0.12);
+  --mist2: rgba(201,168,76,0.12);
+  --red: #c0392b;
+  --text: #f0ebe0;
+  --text2: #a8b8a0;
+  --text3: #6a8070;
+  --card: rgba(255,255,255,0.04);
+  --card2: rgba(255,255,255,0.08);
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(46,125,90,0.3);
+  --r: 12px;
+  --r2: 8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;background:var(--ink);color:var(--text);font-family:'Inter',sans-serif}
+
+/* ── LAYOUT ── */
+#app{display:flex;flex-direction:column;height:100vh;height:100dvh}
+#content{flex:1;overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth;padding-bottom:env(safe-area-inset-bottom)}
+#content::-webkit-scrollbar{width:3px}
+#content::-webkit-scrollbar-thumb{background:var(--jade-dim);border-radius:2px}
+
+/* ── NAV ── */
+#nav{
+  display:flex;background:rgba(13,31,26,0.95);
+  border-top:1px solid var(--border);
+  padding:6px 0 calc(6px + env(safe-area-inset-bottom));
+  flex-shrink:0;backdrop-filter:blur(20px);
+}
+.nav-btn{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:6px 2px;cursor:pointer;border:none;background:none;
+  color:var(--text3);font-size:9px;font-family:'Inter',sans-serif;
+  letter-spacing:0.04em;transition:color 0.2s;
+}
+.nav-btn .icon{font-size:20px;line-height:1;transition:transform 0.2s}
+.nav-btn.active{color:var(--jade-light)}
+.nav-btn.active .icon{transform:scale(1.15)}
+.nav-btn:active .icon{transform:scale(0.9)}
+
+/* ── PAGES ── */
+.page{display:none;min-height:100%;animation:fadeIn 0.25s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SHARED COMPONENTS ── */
+.hero{
+  background:linear-gradient(160deg,var(--ink) 0%,var(--ink2) 60%,#0f2820 100%);
+  padding:28px 20px 24px;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 60% at 85% 20%, rgba(46,125,90,0.18) 0%, transparent 70%),
+             radial-gradient(ellipse 40% 40% at 10% 80%, rgba(201,168,76,0.08) 0%, transparent 60%);
+}
+.hero-zh{font-family:'Noto Serif SC',serif;font-size:36px;color:var(--jade-light);opacity:0.25;position:absolute;right:16px;top:16px;letter-spacing:-2px;line-height:1}
+.hero h1{font-family:'Noto Serif SC',serif;font-size:22px;font-weight:700;color:var(--text);position:relative;z-index:1}
+.hero p{font-size:13px;color:var(--text2);margin-top:6px;position:relative;z-index:1;line-height:1.5}
+.hero-badge{display:inline-block;background:var(--mist);border:1px solid var(--border2);border-radius:20px;padding:3px 10px;font-size:10px;color:var(--jade-light);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px}
+
+.section{padding:0 16px;margin-bottom:20px}
+.section-title{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;padding:0 2px;display:flex;align-items:center;gap:8px}
+.section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:10px}
+.card2{background:var(--card2);border:1px solid var(--border2);border-radius:var(--r);padding:16px;margin-bottom:10px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:12px 20px;border-radius:var(--r2);font-size:14px;font-weight:500;cursor:pointer;border:none;transition:all 0.15s;font-family:'Inter',sans-serif}
+.btn-primary{background:var(--jade);color:white}
+.btn-primary:active{background:var(--jade-dim);transform:scale(0.97)}
+.btn-gold{background:var(--gold);color:var(--ink);font-weight:600}
+.btn-ghost{background:var(--card);border:1px solid var(--border);color:var(--text2)}
+.btn-ghost:active{background:var(--card2)}
+.btn-sm{padding:8px 14px;font-size:12px}
+.btn-full{width:100%}
+
+.pill{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:500}
+.pill-jade{background:var(--mist);color:var(--jade-light);border:1px solid var(--border2)}
+.pill-gold{background:var(--mist2);color:var(--gold-light);border:1px solid rgba(201,168,76,0.3)}
+.pill-red{background:rgba(192,57,43,0.15);color:#e74c3c;border:1px solid rgba(192,57,43,0.3)}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+
+.progress-bar{height:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;margin-top:6px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--jade),var(--jade-light));border-radius:3px;transition:width 0.4s ease}
+
+/* ── TODAY PAGE ── */
+.countdown-display{text-align:center;padding:20px 0}
+.countdown-num{font-size:52px;font-weight:300;color:var(--jade-light);font-family:'Noto Serif SC',serif;line-height:1}
+.countdown-label{font-size:12px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px}
+.streak-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:8px}
+.streak-dot{width:100%;aspect-ratio:1;border-radius:4px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--text3)}
+.streak-dot.done{background:var(--jade);color:white}
+.streak-dot.today{background:var(--gold);color:var(--ink);font-weight:700}
+.week-card{background:linear-gradient(135deg,rgba(46,125,90,0.15),rgba(46,125,90,0.05));border:1px solid var(--border2);border-radius:var(--r);padding:14px 16px;margin-bottom:10px}
+.exam-alert{background:linear-gradient(135deg,rgba(201,168,76,0.15),rgba(201,168,76,0.05));border:1px solid rgba(201,168,76,0.3);border-radius:var(--r);padding:14px 16px;margin-bottom:10px}
+
+/* ── FORMS PAGE ── */
+.movement-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px;overflow:hidden;cursor:pointer;transition:border-color 0.2s}
+.movement-card:active{border-color:var(--jade)}
+.movement-header{display:flex;align-items:center;gap:12px;padding:14px 16px}
+.movement-num{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--jade),var(--jade-light));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:white;flex-shrink:0}
+.movement-name{flex:1}
+.movement-name h3{font-size:14px;font-weight:600;color:var(--text)}
+.movement-name p{font-size:11px;color:var(--text3);font-family:'Noto Sans SC',sans-serif;margin-top:2px}
+.movement-chevron{color:var(--text3);font-size:18px;transition:transform 0.25s}
+.movement-body{max-height:0;overflow:hidden;transition:max-height 0.35s ease}
+.movement-body.open{max-height:600px}
+.movement-body-inner{padding:0 16px 16px;border-top:1px solid var(--border)}
+.breath-tags{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.breath-tag{padding:4px 10px;border-radius:20px;font-size:10px;font-weight:500}
+.inhale{background:rgba(46,125,90,0.2);color:var(--jade-light);border:1px solid rgba(46,125,90,0.4)}
+.exhale{background:rgba(201,168,76,0.2);color:var(--gold-light);border:1px solid rgba(201,168,76,0.4)}
+.hold{background:rgba(255,255,255,0.1);color:var(--text2);border:1px solid var(--border)}
+.movement-body p{font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:8px}
+.yt-btn{display:flex;align-items:center;gap:8px;background:rgba(255,0,0,0.1);border:1px solid rgba(255,0,0,0.2);border-radius:8px;padding:10px 14px;color:#ff6b6b;font-size:12px;font-weight:500;cursor:pointer;margin-top:12px;text-decoration:none;width:100%}
+.organ-tag{display:flex;align-items:center;gap:6px;background:var(--mist2);border:1px solid rgba(201,168,76,0.2);border-radius:6px;padding:6px 10px;margin-top:8px;font-size:11px;color:var(--gold-light)}
+
+/* ── PRACTICE TIMER ── */
+.timer-ring-wrap{display:flex;flex-direction:column;align-items:center;padding:20px 0}
+.timer-svg{overflow:visible}
+.ring-bg{fill:none;stroke:rgba(255,255,255,0.06)}
+.ring-fill{fill:none;stroke-linecap:round;transition:stroke-dashoffset 0.5s linear,stroke 0.5s}
+.timer-center{text-align:center;margin-top:-10px}
+.timer-time{font-size:48px;font-weight:300;font-family:'Noto Serif SC',serif;color:var(--text)}
+.timer-phase{font-size:13px;color:var(--text3);letter-spacing:0.15em;text-transform:uppercase;margin-top:2px}
+.timer-controls{display:flex;gap:10px;justify-content:center;margin-top:16px}
+.timer-ctrl{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:transform 0.15s}
+.timer-ctrl:active{transform:scale(0.9)}
+.timer-main{width:68px;height:68px;font-size:24px;background:var(--jade);color:white}
+.timer-sec{background:var(--card2);border:1px solid var(--border);color:var(--text2)}
+.session-log{max-height:180px;overflow-y:auto}
+.log-entry{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text2)}
+.log-dot{width:8px;height:8px;border-radius:50%;background:var(--jade);flex-shrink:0}
+.preset-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.preset-btn{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;cursor:pointer;transition:all 0.15s}
+.preset-btn.selected{background:var(--mist);border-color:var(--jade)}
+.preset-btn span{display:block;font-size:16px;margin-bottom:3px}
+.preset-btn small{font-size:10px;color:var(--text3)}
+
+/* ── MUSIC ── */
+.music-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:10px;cursor:pointer;transition:all 0.2s}
+.music-card.playing{background:var(--mist);border-color:var(--jade)}
+.music-header{display:flex;align-items:center;gap:12px}
+.music-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.music-info h3{font-size:14px;font-weight:600}
+.music-info p{font-size:11px;color:var(--text3);margin-top:2px}
+.music-play{margin-left:auto;width:36px;height:36px;border-radius:50%;background:var(--jade);display:flex;align-items:center;justify-content:center;font-size:14px;color:white;flex-shrink:0}
+.music-viz{height:32px;display:flex;align-items:flex-end;gap:3px;margin-top:12px;justify-content:center}
+.viz-bar{width:4px;border-radius:2px;background:var(--jade-light);animation:vizAnim 0.8s ease-in-out infinite alternate}
+@keyframes vizAnim{from{height:4px;opacity:0.3}to{height:24px;opacity:1}}
+
+/* ── JOURNAL ── */
+.journal-week-sel{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px}
+.journal-week-sel::-webkit-scrollbar{display:none}
+.week-chip{flex-shrink:0;padding:6px 12px;border-radius:20px;font-size:11px;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--text3);transition:all 0.15s;white-space:nowrap}
+.week-chip.active{background:var(--jade);border-color:var(--jade);color:white}
+.week-chip.exam{border-color:rgba(192,57,43,0.4);color:#e74c3c}
+.week-chip.journal-due{border-color:rgba(201,168,76,0.4);color:var(--gold)}
+.journal-prompt{background:var(--card);border-left:3px solid var(--jade);border-radius:0 8px 8px 0;padding:12px 14px;margin-bottom:12px}
+.journal-prompt p{font-size:12px;color:var(--text3);margin-bottom:6px;font-style:italic}
+.journal-prompt span{font-size:13px;color:var(--text2);font-weight:500}
+textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;font-family:'Inter',sans-serif;padding:12px;resize:vertical;line-height:1.65;min-height:100px;outline:none;transition:border-color 0.2s}
+textarea:focus{border-color:var(--jade)}
+.char-count{text-align:right;font-size:10px;color:var(--text3);margin-top:4px}
+.export-bar{position:sticky;bottom:0;background:rgba(13,31,26,0.95);backdrop-filter:blur(20px);padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:10px}
+
+/* ── SCHEDULE ── */
+.sched-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.sched-wk{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;border:1px solid var(--border)}
+.sched-wk.current{background:var(--jade);border-color:var(--jade);color:white}
+.sched-wk.exam{background:var(--red);border-color:var(--red);color:white}
+.sched-wk.jdue{background:var(--gold);border-color:var(--gold);color:var(--ink)}
+.sched-wk.past{background:rgba(255,255,255,0.06);color:var(--text3)}
+.sched-content{flex:1}
+.sched-date{font-size:10px;color:var(--text3);margin-bottom:2px}
+.sched-focus{font-size:13px;font-weight:500}
+.sched-tag{font-size:10px;margin-top:3px}
+
+/* ── FLASHCARDS ── */
+.flashcard-wrap{perspective:1200px;margin:20px 0}
+.flashcard{width:100%;min-height:200px;border-radius:var(--r);cursor:pointer;transform-style:preserve-3d;transition:transform 0.5s ease;position:relative}
+.flashcard.flipped{transform:rotateY(180deg)}
+.fc-face{position:absolute;inset:0;border-radius:var(--r);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.fc-front{background:linear-gradient(135deg,var(--jade-dim),var(--ink2));border:1px solid var(--border2)}
+.fc-back{background:linear-gradient(135deg,rgba(201,168,76,0.15),var(--ink2));border:1px solid rgba(201,168,76,0.3);transform:rotateY(180deg)}
+.fc-zh{font-family:'Noto Serif SC',serif;font-size:40px;color:var(--jade-light);margin-bottom:12px}
+.fc-en{font-size:16px;font-weight:600;text-align:center}
+.fc-hint{font-size:11px;color:var(--text3);margin-top:8px;text-align:center}
+.fc-answer{font-size:14px;color:var(--text2);text-align:center;line-height:1.6}
+.fc-nav{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.fc-counter{font-size:12px;color:var(--text3)}
+.fc-result{display:flex;gap:8px;margin-top:12px}
+.know-btn{flex:1;padding:10px;border-radius:8px;cursor:pointer;border:none;font-size:13px;font-weight:600;font-family:'Inter',sans-serif;transition:transform 0.1s}
+.know-btn:active{transform:scale(0.96)}
+.know-yes{background:var(--jade);color:white}
+.know-no{background:rgba(192,57,43,0.2);border:1px solid rgba(192,57,43,0.3);color:#e74c3c}
+
+/* ── EXAM SIMULATOR ── */
+.exam-q{background:var(--card2);border:1px solid var(--border2);border-radius:var(--r);padding:20px;margin-bottom:14px}
+.exam-q h3{font-size:15px;font-weight:600;margin-bottom:16px;line-height:1.5}
+.exam-options{display:flex;flex-direction:column;gap:8px}
+.exam-opt{padding:12px 14px;border-radius:8px;border:1px solid var(--border);background:var(--card);cursor:pointer;font-size:13px;color:var(--text2);transition:all 0.15s;text-align:left}
+.exam-opt:active{transform:scale(0.98)}
+.exam-opt.correct{background:rgba(46,125,90,0.2);border-color:var(--jade);color:var(--jade-light)}
+.exam-opt.wrong{background:rgba(192,57,43,0.15);border-color:rgba(192,57,43,0.4);color:#e74c3c}
+.exam-score{text-align:center;padding:24px;font-family:'Noto Serif SC',serif}
+.exam-score .big{font-size:64px;color:var(--jade-light)}
+.exam-score p{font-size:14px;color:var(--text2);margin-top:8px}
+
+/* ── TOOLS ── */
+.tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.tool-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px;cursor:pointer;transition:all 0.15s;text-align:center}
+.tool-card:active{background:var(--card2);border-color:var(--jade)}
+.tool-card .tool-icon{font-size:28px;margin-bottom:8px}
+.tool-card h3{font-size:13px;font-weight:600}
+.tool-card p{font-size:10px;color:var(--text3);margin-top:3px}
+
+/* breath metronome */
+.breath-ring{width:160px;height:160px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;margin:0 auto;transition:all 1s ease;border:3px solid var(--jade-dim);background:radial-gradient(circle,rgba(46,125,90,0.1),transparent)}
+.breath-ring.inhaling{background:radial-gradient(circle,rgba(46,125,90,0.25),rgba(46,125,90,0.05));border-color:var(--jade-light);transform:scale(1.12)}
+.breath-ring.exhaling{background:radial-gradient(circle,rgba(13,31,26,0.5),transparent);border-color:var(--jade-dim);transform:scale(0.9)}
+.breath-phase-text{font-size:16px;font-weight:600;color:var(--jade-light)}
+.breath-count{font-size:32px;font-family:'Noto Serif SC',serif;color:var(--text)}
+
+/* tap counter */
+.tap-circle{width:140px;height:140px;border-radius:50%;background:linear-gradient(135deg,var(--jade),var(--jade-light));display:flex;align-items:center;justify-content:center;margin:20px auto;cursor:pointer;user-select:none;transition:transform 0.1s,box-shadow 0.1s;box-shadow:0 8px 24px rgba(46,125,90,0.3)}
+.tap-circle:active{transform:scale(0.93);box-shadow:0 4px 12px rgba(46,125,90,0.2)}
+.tap-count{font-size:56px;font-family:'Noto Serif SC',serif;color:white;font-weight:700}
+.tap-label{font-size:11px;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:0.1em}
+
+/* Adaptation worksheet */
+.adapt-table{width:100%;border-collapse:collapse;font-size:12px}
+.adapt-table th{background:var(--jade-dim);color:var(--text2);padding:8px 10px;text-align:left;font-weight:600;font-size:11px}
+.adapt-table td{padding:8px 10px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top;line-height:1.5}
+.adapt-table tr:last-child td{border-bottom:none}
+
+/* ── MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:100;align-items:flex-end;justify-content:center}
+.modal-overlay.open{display:flex;animation:slideUp 0.3s ease}
+.modal{background:var(--ink2);border:1px solid var(--border);border-radius:20px 20px 0 0;width:100%;max-height:90vh;overflow-y:auto;padding:20px 16px calc(20px + env(safe-area-inset-bottom))}
+.modal-handle{width:40px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+
+/* ── MISC ── */
+.divider{height:1px;background:var(--border);margin:16px 0}
+.text-jade{color:var(--jade-light)}
+.text-gold{color:var(--gold-light)}
+.text-muted{color:var(--text3)}
+.text-sm{font-size:12px}
+.text-xs{font-size:10px}
+.fw6{font-weight:600}
+.mt8{margin-top:8px}
+.mt12{margin-top:12px}
+.flex{display:flex;align-items:center}
+.flex-between{display:flex;align-items:center;justify-content:space-between}
+.gap8{gap:8px}
+.warning-box{background:rgba(192,57,43,0.1);border:1px solid rgba(192,57,43,0.3);border-radius:8px;padding:12px 14px;font-size:11px;color:#e07070;line-height:1.6}
+
+/* Tool sub-pages */
+.tool-page{display:none}
+.tool-page.active{display:block}
+.back-btn{display:flex;align-items:center;gap:6px;color:var(--jade-light);font-size:13px;font-weight:500;cursor:pointer;padding:16px 16px 8px;background:none;border:none;font-family:'Inter',sans-serif}
+
+/* reading response */
+.rr-tabs{display:flex;gap:6px;overflow-x:auto;padding:0 16px 12px;margin:0 -16px}
+.rr-tabs::-webkit-scrollbar{display:none}
+.rr-tab{flex-shrink:0;padding:5px 12px;border-radius:20px;font-size:11px;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--text3)}
+.rr-tab.active{background:var(--jade);border-color:var(--jade);color:white}
+
+/* Patient adaptation */
+.adapt-movement-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:12px}
+.adapt-movement-tabs::-webkit-scrollbar{display:none}
+.amt{flex-shrink:0;padding:5px 10px;border-radius:6px;font-size:11px;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--text3);white-space:nowrap}
+.amt.active{background:var(--mist);border-color:var(--jade);color:var(--jade-light)}
+
+.ai-warning{background:rgba(192,57,43,0.1);border:1px solid rgba(192,57,43,0.25);border-radius:8px;padding:10px 12px;font-size:11px;color:#c0392b;margin-bottom:14px;display:flex;gap:8px;align-items:flex-start}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="content">
+
+    <!-- ═══════════ TODAY ═══════════ -->
+    <div class="page active" id="page-today">
+      <div class="hero">
+        <div class="hero-zh">氣功</div>
+        <div class="hero-badge">TB300 · VUIM · Summer 2026</div>
+        <h1>今日 · Today</h1>
+        <p>Dr. Justin Flinner · Tuesdays 6:30–8:00pm</p>
+      </div>
+
+      <div style="padding:16px">
+
+        <div class="week-card" id="today-week-card">
+          <div class="flex-between">
+            <div>
+              <div class="text-xs text-muted" style="margin-bottom:3px">CURRENT WEEK</div>
+              <div class="fw6" id="today-week-title">Week 1 · Jul 7</div>
+              <div class="text-sm text-muted mt8" id="today-week-focus">Opening Movement of Ba Duan Jin</div>
+            </div>
+            <div style="text-align:right">
+              <div class="countdown-num" id="today-countdown" style="font-size:36px">5</div>
+              <div class="text-xs text-muted">days to class</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="exam-alert-box" class="exam-alert" style="display:none">
+          <div class="text-xs" style="color:var(--gold);letter-spacing:0.08em;margin-bottom:4px">⚠ EXAM APPROACHING</div>
+          <div class="fw6" id="exam-alert-text"></div>
+          <div class="text-sm text-muted mt8" id="exam-alert-sub"></div>
+        </div>
+
+        <div class="section-title">Practice Streak</div>
+        <div class="card">
+          <div class="flex-between" style="margin-bottom:8px">
+            <span class="fw6 text-jade" id="streak-count">0 day streak</span>
+            <button class="btn btn-sm btn-primary" onclick="markPracticed()">✓ Practiced Today</button>
+          </div>
+          <div class="streak-grid" id="streak-grid"></div>
+          <div class="progress-bar mt12"><div class="progress-fill" id="streak-bar" style="width:0%"></div></div>
+          <div class="text-xs text-muted mt8">Goal: 63 of 63 days (7 weeks remaining + today)</div>
+        </div>
+
+        <div class="section-title">Grade Tracker</div>
+        <div class="card">
+          <div id="grade-display">
+            <div class="flex-between" style="margin-bottom:10px">
+              <span class="text-sm">Journal <span class="text-muted">(20%)</span></span>
+              <div style="display:flex;align-items:center;gap:6px">
+                <input type="number" id="grade-journal" placeholder="—" min="0" max="100" style="width:52px;background:var(--card2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;padding:4px 8px;text-align:center" oninput="updateGrade()">
+                <span class="text-xs text-muted">/100</span>
+              </div>
+            </div>
+            <div class="flex-between" style="margin-bottom:10px">
+              <span class="text-sm">Midterm Practical <span class="text-muted">(40%)</span></span>
+              <div style="display:flex;align-items:center;gap:6px">
+                <input type="number" id="grade-midterm" placeholder="—" min="0" max="100" style="width:52px;background:var(--card2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;padding:4px 8px;text-align:center" oninput="updateGrade()">
+                <span class="text-xs text-muted">/100</span>
+              </div>
+            </div>
+            <div class="flex-between" style="margin-bottom:12px">
+              <span class="text-sm">Final Practical <span class="text-muted">(40%)</span></span>
+              <div style="display:flex;align-items:center;gap:6px">
+                <input type="number" id="grade-final" placeholder="—" min="0" max="100" style="width:52px;background:var(--card2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;padding:4px 8px;text-align:center" oninput="updateGrade()">
+                <span class="text-xs text-muted">/100</span>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="flex-between mt8">
+              <span class="fw6">Weighted Average</span>
+              <span class="fw6 text-jade" id="grade-avg">— %</span>
+            </div>
+            <div class="text-xs text-muted mt8">A=90+ · B=80–89 · C=70–79 · F=below 70. Need 70% to pass.</div>
+          </div>
+        </div>
+
+        <div class="section-title">Quick Nav</div>
+        <div class="grid2">
+          <div class="card" style="cursor:pointer;text-align:center" onclick="switchPage('forms')">
+            <div style="font-size:24px">🥋</div>
+            <div class="text-sm fw6 mt8">All 8 Movements</div>
+            <div class="text-xs text-muted mt8">Ba Duan Jin form</div>
+          </div>
+          <div class="card" style="cursor:pointer;text-align:center" onclick="switchPage('timer')">
+            <div style="font-size:24px">⏱</div>
+            <div class="text-sm fw6 mt8">Practice Timer</div>
+            <div class="text-xs text-muted mt8">Guided session</div>
+          </div>
+          <div class="card" style="cursor:pointer;text-align:center" onclick="switchPage('journal')">
+            <div style="font-size:24px">📓</div>
+            <div class="text-sm fw6 mt8">Journal</div>
+            <div class="text-xs text-muted mt8">Due Week 9</div>
+          </div>
+          <div class="card" style="cursor:pointer;text-align:center" onclick="switchPage('exam')">
+            <div style="font-size:24px">🎯</div>
+            <div class="text-sm fw6 mt8">Exam Simulator</div>
+            <div class="text-xs text-muted mt8">Practice quizzes</div>
+          </div>
+        </div>
+
+        <div class="ai-warning" style="margin-top:6px">
+          <span>🚫</span>
+          <span><strong>AI Use Policy:</strong> AI tools including Claude are strictly prohibited in all coursework for TB300. This app is for personal study prep only.</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════ FORMS ═══════════ -->
+    <div class="page" id="page-forms">
+      <div class="hero">
+        <div class="hero-zh">八段錦</div>
+        <div class="hero-badge">Ba Duan Jin · Eight Brocades</div>
+        <h1>The 8 Movements</h1>
+        <p>Tap any movement to expand · YouTube links included</p>
+      </div>
+      <div style="padding:16px">
+
+        <div class="card" style="margin-bottom:16px">
+          <div class="fw6" style="margin-bottom:6px">🧘 Opening Position · 開始</div>
+          <div class="text-sm text-muted" style="line-height:1.65">Feet together, step left to shoulder width. Hands to lower dantian (one on top of other). Close eyes. Breathe naturally for ~30 seconds to calm body and mind.</div>
+        </div>
+
+        <div id="movements-list"></div>
+
+        <div class="card" style="margin-top:6px">
+          <div class="fw6" style="margin-bottom:6px">🌿 Closing Position · 結束</div>
+          <div class="text-sm text-muted" style="line-height:1.65">Inhale raising arms to each side with palms upward until just over your head. Exhale lowering with palms down to lower dantian. Repeat 3 cycles. Finish with hands on lower dantian, eyes closed, 30+ seconds. Open eyes, relax arms, return left foot.</div>
+        </div>
+
+        <div class="card2" style="margin-top:16px">
+          <div class="text-xs text-muted" style="margin-bottom:8px;letter-spacing:0.08em">FULL FORM VIDEO</div>
+          <a href="https://www.youtube.com/playlist?list=PL3JhIZLAcC0gRSwBh3rXHt-pQ0saM9qhC" target="_blank" class="yt-btn">
+            <span>▶</span> My Metro Medicine · Full Qigong Playlist
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ TIMER ═══════════ -->
+    <div class="page" id="page-timer">
+      <div class="hero">
+        <div class="hero-zh">練習</div>
+        <div class="hero-badge">Daily Practice · 1 Hour Goal</div>
+        <h1>Practice Timer</h1>
+        <p>Guided sessions with breath cues and movement prompts</p>
+      </div>
+      <div style="padding:16px">
+
+        <div class="section-title">Session Type</div>
+        <div class="preset-grid">
+          <div class="preset-btn selected" onclick="selectPreset(this,'full')" id="preset-full">
+            <span>🥋</span><small>Full Hour</small>
+          </div>
+          <div class="preset-btn" onclick="selectPreset(this,'form')" id="preset-form">
+            <span>🌀</span><small>Form Only</small>
+          </div>
+          <div class="preset-btn" onclick="selectPreset(this,'quick')" id="preset-quick">
+            <span>⚡</span><small>Quick 15m</small>
+          </div>
+        </div>
+
+        <div class="card" style="text-align:center">
+          <div style="margin-bottom:6px">
+            <div class="text-xs text-muted" id="timer-session-name" style="letter-spacing:0.1em;margin-bottom:8px">FULL HOUR PRACTICE</div>
+          </div>
+          <svg class="timer-svg" width="220" height="220" viewBox="0 0 220 220">
+            <circle class="ring-bg" cx="110" cy="110" r="95" stroke-width="8"/>
+            <circle class="ring-fill" cx="110" cy="110" r="95" stroke-width="8" stroke="var(--jade-light)"
+              stroke-dasharray="597" stroke-dashoffset="0" id="timer-ring" transform="rotate(-90 110 110)"/>
+            <text x="110" y="100" text-anchor="middle" font-size="40" font-family="'Noto Serif SC',serif" fill="var(--text)" id="timer-display">60:00</text>
+            <text x="110" y="130" text-anchor="middle" font-size="13" fill="var(--text3)" id="timer-phase-svg">Ready</text>
+            <text x="110" y="150" text-anchor="middle" font-size="11" fill="var(--jade-light)" id="timer-movement-svg"></text>
+          </svg>
+
+          <div class="timer-controls">
+            <button class="timer-ctrl timer-sec" onclick="resetTimer()" title="Reset">↩</button>
+            <button class="timer-ctrl timer-main" onclick="toggleTimer()" id="timer-play-btn">▶</button>
+            <button class="timer-ctrl timer-sec" onclick="skipPhase()" title="Skip">⏭</button>
+          </div>
+          <div class="text-xs text-muted" style="margin-top:12px" id="timer-next-cue"></div>
+        </div>
+
+        <div class="section-title" style="margin-top:16px">Breath Metronome</div>
+        <div class="card" style="text-align:center">
+          <div class="breath-ring" id="breath-ring">
+            <div class="breath-phase-text" id="breath-phase">Ready</div>
+            <div class="breath-count" id="breath-count">—</div>
+          </div>
+          <div class="grid3" style="margin-top:14px;gap:8px">
+            <div style="text-align:center">
+              <div class="text-xs text-muted">INHALE</div>
+              <input type="range" id="inhale-dur" min="2" max="8" value="4" style="width:100%;accent-color:var(--jade)">
+              <div class="text-xs text-jade" id="inhale-val">4s</div>
+            </div>
+            <div style="text-align:center">
+              <div class="text-xs text-muted">HOLD</div>
+              <input type="range" id="hold-dur" min="0" max="6" value="0" style="width:100%;accent-color:var(--gold)">
+              <div class="text-xs text-gold" id="hold-val">0s</div>
+            </div>
+            <div style="text-align:center">
+              <div class="text-xs text-muted">EXHALE</div>
+              <input type="range" id="exhale-dur" min="2" max="10" value="6" style="width:100%;accent-color:var(--jade)">
+              <div class="text-xs text-jade" id="exhale-val">6s</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:12px;justify-content:center">
+            <button class="btn btn-primary btn-sm" onclick="toggleBreath()"><span id="breath-btn-text">Start</span></button>
+            <button class="btn btn-ghost btn-sm" onclick="stopBreath()">Stop</button>
+          </div>
+        </div>
+
+        <div class="section-title">Cycle Counter</div>
+        <div class="card">
+          <div class="text-xs text-muted" style="text-align:center;margin-bottom:4px">TAP TO COUNT · TARGET: 6 CYCLES</div>
+          <div class="tap-circle" onclick="tapCount()" id="tap-circle">
+            <div class="tap-count" id="tap-num">0</div>
+            <div class="tap-label">cycles</div>
+          </div>
+          <div id="tap-goal-msg" class="text-sm text-muted" style="text-align:center;margin-top:8px"></div>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:10px">
+            <button class="btn btn-ghost btn-sm" onclick="resetTap()">Reset</button>
+            <button class="btn btn-primary btn-sm" onclick="setTapGoal()">Set Movement</button>
+          </div>
+        </div>
+
+        <div class="section-title">Today's Sessions</div>
+        <div class="card">
+          <div class="session-log" id="session-log">
+            <div class="text-sm text-muted" style="text-align:center;padding:16px">No sessions logged today</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════ MUSIC ═══════════ -->
+    <div class="page" id="page-music">
+      <div class="hero">
+        <div class="hero-zh">音樂</div>
+        <div class="hero-badge">Five Elements · Ambient Soundscapes</div>
+        <h1>Practice Music</h1>
+        <p>Generative pentatonic soundscapes for each element</p>
+      </div>
+      <div style="padding:16px">
+
+        <div class="section-title">Now Playing</div>
+        <div id="now-playing-bar" style="display:none" class="card2">
+          <div class="flex-between">
+            <div>
+              <div class="text-xs text-muted" style="margin-bottom:3px">NOW PLAYING</div>
+              <div class="fw6" id="np-name"></div>
+            </div>
+            <button class="btn btn-sm btn-ghost" onclick="stopMusic()">■ Stop</button>
+          </div>
+          <div class="music-viz" id="music-viz">
+            <!-- bars added by JS -->
+          </div>
+        </div>
+
+        <div class="section-title">Elements Collection</div>
+        <div id="music-list"></div>
+
+        <div class="card" style="margin-top:6px">
+          <div class="text-sm fw6" style="margin-bottom:6px">🎵 Volume</div>
+          <input type="range" id="vol-slider" min="0" max="100" value="60" style="width:100%;accent-color:var(--jade)" oninput="setVolume(this.value)">
+          <div class="flex-between text-xs text-muted mt8"><span>Quiet</span><span id="vol-display">60%</span><span>Loud</span></div>
+        </div>
+
+        <div class="card">
+          <div class="text-sm fw6" style="margin-bottom:6px">ℹ About the Music</div>
+          <div class="text-sm text-muted" style="line-height:1.65">All soundscapes are procedurally generated using the pentatonic scale (五聲音階), tuned to each of the Five Elements. No copyright. Play during practice or study.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ JOURNAL ═══════════ -->
+    <div class="page" id="page-journal">
+      <div class="hero">
+        <div class="hero-zh">日記</div>
+        <div class="hero-badge">20% of Grade · Due Week 9 (Sep 1)</div>
+        <h1>Practice Journal</h1>
+        <p>Weekly reflections · APA format · −5pts/day late</p>
+      </div>
+      <div style="padding:16px 16px 80px">
+
+        <div class="warning-box" style="margin-bottom:14px">
+          📅 Journal due <strong>Week 9 (Sep 1, 2026)</strong>. Submissions more than 1 week late receive a zero. −5 points per day late.
+        </div>
+
+        <div class="section-title">Select Week</div>
+        <div class="journal-week-sel" id="journal-week-sel"></div>
+
+        <div id="journal-week-meta" class="card" style="margin-bottom:14px">
+          <div class="flex-between">
+            <div>
+              <div class="fw6" id="jw-title">Week 1 · Jul 7</div>
+              <div class="text-sm text-muted mt8" id="jw-focus">Opening Movement of Ba Duan Jin</div>
+            </div>
+            <div class="pill pill-jade" id="jw-clos">CLO 1–5</div>
+          </div>
+        </div>
+
+        <div id="journal-prompts"></div>
+
+        <div class="section-title" style="margin-top:14px">Your Response</div>
+        <div class="text-xs text-muted" style="margin-bottom:8px">Write in first person. Reference your physical, mental, and energetic observations. Cite readings using APA format where applicable.</div>
+        <textarea id="journal-text" placeholder="Begin your journal entry for this week…" rows="8" oninput="journalInput()"></textarea>
+        <div class="char-count"><span id="journal-chars">0</span> words</div>
+      </div>
+
+      <div class="export-bar">
+        <button class="btn btn-ghost btn-sm" style="flex:1" onclick="saveJournalDraft()">💾 Save Draft</button>
+        <button class="btn btn-primary" style="flex:2" onclick="exportJournal()">📄 Export All Weeks</button>
+      </div>
+    </div>
+
+    <!-- ═══════════ SCHEDULE ═══════════ -->
+    <div class="page" id="page-schedule">
+      <div class="hero">
+        <div class="hero-zh">課程</div>
+        <div class="hero-badge">TB300 · 10-Week Schedule</div>
+        <h1>Course Schedule</h1>
+        <p>Tuesdays · 6:30–8:00pm · Summer 2026</p>
+      </div>
+      <div style="padding:16px">
+
+        <div class="section-title">Grading</div>
+        <div class="grid3" style="margin-bottom:16px">
+          <div class="card" style="text-align:center">
+            <div class="text-jade fw6" style="font-size:20px">20%</div>
+            <div class="text-xs text-muted mt8">Journal</div>
+            <div class="text-xs" style="color:var(--gold);margin-top:3px">Due Wk 9</div>
+          </div>
+          <div class="card" style="text-align:center">
+            <div class="text-jade fw6" style="font-size:20px">40%</div>
+            <div class="text-xs text-muted mt8">Midterm</div>
+            <div class="text-xs" style="color:#e74c3c;margin-top:3px">Wk 5 Exam</div>
+          </div>
+          <div class="card" style="text-align:center">
+            <div class="text-jade fw6" style="font-size:20px">40%</div>
+            <div class="text-xs text-muted mt8">Final</div>
+            <div class="text-xs" style="color:#e74c3c;margin-top:3px">Wk 10 Exam</div>
+          </div>
+        </div>
+
+        <div class="section-title">10-Week Calendar</div>
+        <div id="schedule-list"></div>
+
+        <div class="section-title" style="margin-top:16px">Policies</div>
+        <div class="card">
+          <div class="text-sm fw6" style="margin-bottom:8px">📋 Key Rules</div>
+          <div class="text-sm text-muted" style="line-height:1.75">
+            • Must attend <strong>80%</strong> of hours (12 of 15) or grade of F<br>
+            • Journal: −5pts/day late; zero if &gt;1 week<br>
+            • Passing grade: 70% or higher<br>
+            • Grading: A=90–100, B=80–89, C=70–79, F≤69<br>
+            • No AI tools of any kind permitted<br>
+            • Cell phones prohibited during tests and class<br>
+            • Contact: jflinner@vuim.edu · reply within 2 business days
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ FLASHCARDS ═══════════ -->
+    <div class="page" id="page-flash">
+      <div class="hero">
+        <div class="hero-zh">記憶</div>
+        <div class="hero-badge">Spaced Repetition · TCM Theory</div>
+        <h1>Flashcards</h1>
+        <p>Tap card to flip · Mark what you know</p>
+      </div>
+      <div style="padding:16px">
+
+        <div class="flex-between" style="margin-bottom:12px">
+          <div>
+            <span class="fw6 text-jade" id="fc-progress">1 / 30</span>
+            <span class="text-sm text-muted" style="margin-left:8px" id="fc-deck-name">All Cards</span>
+          </div>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-ghost btn-sm" onclick="shuffleCards()">🔀</button>
+            <select id="fc-deck-sel" class="btn btn-ghost btn-sm" style="padding:6px 10px;cursor:pointer;font-family:'Inter',sans-serif" onchange="changeDeck(this.value)">
+              <option value="all">All (30)</option>
+              <option value="movements">Movements (8)</option>
+              <option value="theory">TCM Theory (12)</option>
+              <option value="elements">5 Elements (10)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="progress-bar" style="margin-bottom:14px">
+          <div class="progress-fill" id="fc-pbar" style="width:3%"></div>
+        </div>
+
+        <div class="flashcard-wrap">
+          <div class="flashcard" id="flashcard" onclick="flipCard()">
+            <div class="fc-face fc-front">
+              <div class="fc-zh" id="fc-zh"></div>
+              <div class="fc-en" id="fc-en"></div>
+              <div class="fc-hint">Tap to reveal</div>
+            </div>
+            <div class="fc-face fc-back">
+              <div class="fc-answer" id="fc-answer"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fc-result" id="fc-result" style="display:none">
+          <button class="know-btn know-no" onclick="markCard(false)">✗ Review Again</button>
+          <button class="know-btn know-yes" onclick="markCard(true)">✓ Got It</button>
+        </div>
+
+        <div class="fc-nav" style="margin-top:12px">
+          <button class="btn btn-ghost btn-sm" onclick="prevCard()">← Prev</button>
+          <span class="fc-counter text-muted" id="fc-counter"></span>
+          <button class="btn btn-ghost btn-sm" onclick="nextCard()">Next →</button>
+        </div>
+
+        <div class="card" style="margin-top:14px">
+          <div class="flex-between">
+            <span class="text-sm">Known: <span class="text-jade fw6" id="fc-known">0</span></span>
+            <span class="text-sm">Review: <span style="color:#e74c3c" class="fw6" id="fc-review">0</span></span>
+            <button class="btn btn-ghost btn-sm" onclick="resetFlash()">Reset All</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ EXAM ═══════════ -->
+    <div class="page" id="page-exam">
+      <div class="hero">
+        <div class="hero-zh">考試</div>
+        <div class="hero-badge">Practical Exam Prep</div>
+        <h1>Exam Simulator</h1>
+        <p>Midterm Week 5 (Aug 4) · Final Week 10 (Sep 8)</p>
+      </div>
+      <div style="padding:16px">
+
+        <div id="exam-menu">
+          <div class="section-title">Choose Quiz Mode</div>
+          <div class="card" style="cursor:pointer;margin-bottom:10px" onclick="startExam('sequence')">
+            <div class="flex gap8">
+              <span style="font-size:24px">🔢</span>
+              <div>
+                <div class="fw6">Movement Sequence</div>
+                <div class="text-sm text-muted mt8">Order the 8 Ba Duan Jin movements correctly</div>
+              </div>
+            </div>
+          </div>
+          <div class="card" style="cursor:pointer;margin-bottom:10px" onclick="startExam('organs')">
+            <div class="flex gap8">
+              <span style="font-size:24px">🫁</span>
+              <div>
+                <div class="fw6">Organ Match</div>
+                <div class="text-sm text-muted mt8">Match movements to their TCM organs</div>
+              </div>
+            </div>
+          </div>
+          <div class="card" style="cursor:pointer;margin-bottom:10px" onclick="startExam('chinese')">
+            <div class="flex gap8">
+              <span style="font-size:24px">漢</span>
+              <div>
+                <div class="fw6">Chinese Names</div>
+                <div class="text-sm text-muted mt8">Match Chinese characters to movements</div>
+              </div>
+            </div>
+          </div>
+          <div class="card" style="cursor:pointer;margin-bottom:10px" onclick="startExam('breath')">
+            <div class="flex gap8">
+              <span style="font-size:24px">🌬</span>
+              <div>
+                <div class="fw6">Breath Phases</div>
+                <div class="text-sm text-muted mt8">Identify inhale/exhale cues for each movement</div>
+              </div>
+            </div>
+          </div>
+          <div class="card" style="cursor:pointer;margin-bottom:10px" onclick="startExam('adaptation')">
+            <div class="flex gap8">
+              <span style="font-size:24px">♿</span>
+              <div>
+                <div class="fw6">Patient Adaptation (CLO 3)</div>
+                <div class="text-sm text-muted mt8">Modifications for movement disabilities</div>
+              </div>
+            </div>
+          </div>
+          <div class="card" style="cursor:pointer" onclick="startExam('theory')">
+            <div class="flex gap8">
+              <span style="font-size:24px">📚</span>
+              <div>
+                <div class="fw6">TCM Theory Mix</div>
+                <div class="text-sm text-muted mt8">Qi, Dantian, meridians, Five Elements</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="exam-active" style="display:none">
+          <div class="flex-between" style="margin-bottom:14px">
+            <button class="btn btn-ghost btn-sm" onclick="exitExam()">← Back</button>
+            <span class="text-sm text-muted" id="exam-q-counter"></span>
+          </div>
+          <div class="progress-bar" style="margin-bottom:14px">
+            <div class="progress-fill" id="exam-pbar" style="width:0%"></div>
+          </div>
+          <div id="exam-question-area"></div>
+        </div>
+
+        <div id="exam-score-area" style="display:none">
+          <div class="exam-score card">
+            <div class="big" id="exam-score-num">0/0</div>
+            <p id="exam-score-msg"></p>
+            <div class="flex-between" style="margin-top:20px;gap:10px">
+              <button class="btn btn-ghost" style="flex:1" onclick="exitExam()">← Menu</button>
+              <button class="btn btn-primary" style="flex:1" onclick="retryExam()">Retry ↩</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════ TOOLS ═══════════ -->
+    <div class="page" id="page-tools">
+      <div id="tools-home">
+        <div class="hero">
+          <div class="hero-zh">工具</div>
+          <div class="hero-badge">Study & Practice Tools</div>
+          <h1>Tools</h1>
+          <p>Reading responses, patient adaptation, pre-exam checklist</p>
+        </div>
+        <div style="padding:16px">
+          <div class="section-title">Available Tools</div>
+          <div class="tools-grid">
+            <div class="tool-card" onclick="openTool('reading')">
+              <div class="tool-icon">📖</div>
+              <h3>Reading Response</h3>
+              <p>10-week structured forms</p>
+            </div>
+            <div class="tool-card" onclick="openTool('adapt')">
+              <div class="tool-icon">♿</div>
+              <h3>Adaptation Guide</h3>
+              <p>CLO 3 · disability mods</p>
+            </div>
+            <div class="tool-card" onclick="openTool('checklist')">
+              <div class="tool-icon">✅</div>
+              <h3>Exam Checklist</h3>
+              <p>Pre-exam readiness</p>
+            </div>
+            <div class="tool-card" onclick="openTool('mistakes')">
+              <div class="tool-icon">📝</div>
+              <h3>Mistake Log</h3>
+              <p>Track what to fix</p>
+            </div>
+          </div>
+          <div class="section-title">Quick Reference</div>
+          <div class="card">
+            <div class="fw6" style="margin-bottom:10px">Five Elements · 五行</div>
+            <table style="width:100%;font-size:11px;border-collapse:collapse">
+              <tr style="color:var(--text3)"><th style="text-align:left;padding:4px 0">Element</th><th>Organ</th><th>Emotion</th><th>Season</th><th>Movement</th></tr>
+              <tr><td style="padding:4px 0;color:var(--text2)">🌳 Wood</td><td>Liver/GB</td><td>Anger</td><td>Spring</td><td>#7</td></tr>
+              <tr><td style="padding:4px 0;color:var(--text2)">🔥 Fire</td><td>Heart/SI</td><td>Joy</td><td>Summer</td><td>#5</td></tr>
+              <tr><td style="padding:4px 0;color:var(--text2)">🌍 Earth</td><td>Spleen/ST</td><td>Worry</td><td>Late Sum</td><td>#3</td></tr>
+              <tr><td style="padding:4px 0;color:var(--text2)">⚙️ Metal</td><td>Lung/LI</td><td>Grief</td><td>Autumn</td><td>#1</td></tr>
+              <tr><td style="padding:4px 0;color:var(--text2)">💧 Water</td><td>Kidney/UB</td><td>Fear</td><td>Winter</td><td>#6</td></tr>
+            </table>
+          </div>
+          <div class="card" style="margin-top:0">
+            <div class="fw6" style="margin-bottom:8px">Key TCM Terms</div>
+            <div class="text-sm text-muted" style="line-height:1.9">
+              <strong class="text-jade">Qi (氣)</strong> — vital energy/life force<br>
+              <strong class="text-jade">Dantian (丹田)</strong> — energy center ~2" below navel<br>
+              <strong class="text-jade">Jing (精)</strong> — essence, stored in kidneys<br>
+              <strong class="text-jade">Shen (神)</strong> — spirit/mind<br>
+              <strong class="text-jade">Three Treasures</strong> — Jing, Qi, Shen<br>
+              <strong class="text-jade">San Jiao (三焦)</strong> — Triple Warmer / Triple Burner<br>
+              <strong class="text-jade">Meridians (經絡)</strong> — pathways of qi flow<br>
+              <strong class="text-jade">Wu Xing (五行)</strong> — Five Elements theory<br>
+              <strong class="text-jade">Yin/Yang (陰陽)</strong> — opposing complementary forces
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-page" id="tool-reading">
+        <button class="back-btn" onclick="closeTool()">← Tools</button>
+        <div style="padding:0 16px 80px">
+          <div class="hero-badge" style="margin-bottom:10px">Reading Response Form</div>
+          <div class="rr-tabs" id="rr-tabs"></div>
+          <div id="rr-content"></div>
+        </div>
+        <div class="export-bar">
+          <button class="btn btn-ghost btn-sm" style="flex:1" onclick="saveRR()">💾 Save</button>
+          <button class="btn btn-primary" style="flex:2" onclick="exportRR()">📄 Export</button>
+        </div>
+      </div>
+
+      <div class="tool-page" id="tool-adapt">
+        <button class="back-btn" onclick="closeTool()">← Tools</button>
+        <div style="padding:0 16px 16px">
+          <div class="fw6" style="margin-bottom:12px">Patient Adaptation · CLO 3</div>
+          <div class="text-sm text-muted" style="margin-bottom:14px;line-height:1.6">Modifications for patients with movement limitations. Required for Clinical Learning Outcome 3: Adapt and teach Qi Gong to patients with movement disabilities.</div>
+          <div class="adapt-movement-tabs" id="adapt-tabs"></div>
+          <div id="adapt-content"></div>
+        </div>
+      </div>
+
+      <div class="tool-page" id="tool-checklist">
+        <button class="back-btn" onclick="closeTool()">← Tools</button>
+        <div style="padding:0 16px 16px">
+          <div class="fw6" style="margin-bottom:4px">Pre-Exam Checklist</div>
+          <div class="text-sm text-muted" style="margin-bottom:14px">Check off each element before your practical exam</div>
+          <div id="checklist-items"></div>
+          <div class="card" style="margin-top:14px">
+            <div class="flex-between">
+              <span class="fw6">Ready: <span class="text-jade" id="cl-score">0/0</span></span>
+              <button class="btn btn-ghost btn-sm" onclick="resetChecklist()">Reset</button>
+            </div>
+            <div class="progress-bar mt8"><div class="progress-fill" id="cl-bar" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-page" id="tool-mistakes">
+        <button class="back-btn" onclick="closeTool()">← Tools</button>
+        <div style="padding:0 16px 80px">
+          <div class="fw6" style="margin-bottom:4px">Mistake & Correction Log</div>
+          <div class="text-sm text-muted" style="margin-bottom:14px">Track what needs work so you can focus practice</div>
+          <div style="display:flex;gap:8px;margin-bottom:12px">
+            <select id="mistake-movement" style="flex:1;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;padding:10px;font-family:'Inter',sans-serif">
+              <option value="">Movement…</option>
+            </select>
+          </div>
+          <textarea id="mistake-input" placeholder="Describe the mistake or area to improve…" rows="3" style="margin-bottom:8px"></textarea>
+          <button class="btn btn-primary btn-sm" onclick="addMistake()">+ Log Mistake</button>
+          <div class="divider"></div>
+          <div id="mistakes-list"></div>
+        </div>
+        <div class="export-bar">
+          <button class="btn btn-primary btn-full" onclick="exportMistakes()">📄 Export Mistake Log</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <button class="nav-btn active" onclick="switchPage('today')" id="nav-today">
+      <span class="icon">🏠</span>Today
+    </button>
+    <button class="nav-btn" onclick="switchPage('forms')" id="nav-forms">
+      <span class="icon">🥋</span>Forms
+    </button>
+    <button class="nav-btn" onclick="switchPage('timer')" id="nav-timer">
+      <span class="icon">⏱</span>Practice
+    </button>
+    <button class="nav-btn" onclick="switchPage('music')" id="nav-music">
+      <span class="icon">🎵</span>Music
+    </button>
+    <button class="nav-btn" onclick="switchPage('journal')" id="nav-journal">
+      <span class="icon">📓</span>Journal
+    </button>
+    <button class="nav-btn" onclick="switchPage('schedule')" id="nav-schedule">
+      <span class="icon">📅</span>Schedule
+    </button>
+    <button class="nav-btn" onclick="switchPage('flash')" id="nav-flash">
+      <span class="icon">🃏</span>Cards
+    </button>
+    <button class="nav-btn" onclick="switchPage('exam')" id="nav-exam">
+      <span class="icon">🎯</span>Exam
+    </button>
+    <button class="nav-btn" onclick="switchPage('tools')" id="nav-tools">
+      <span class="icon">🛠</span>Tools
+    </button>
+  </nav>
+</div>
+
+<script>
+// ══════════════════════════════
+// DATA
+// ══════════════════════════════
+const MOVEMENTS = [
+  {
+    num:1, en:"Holding Up the Heavens", zh:"雙手托天理三焦",
+    pinyin:"Shuāng Shǒu Tuō Tiān Lǐ Sān Jiāo",
+    organ:"Triple Warmer (San Jiao) · Stretches spine & torso",
+    element:"Metal",
+    desc:"Release hands from lower dantian, relax arms. Clasp hands with palms facing upward. Slowly lift to center of chest while inhaling. Rotate hands outwards, push upwards toward sky, exhale. Continue exhaling as you release hands and lower them to each side with palms down, returning to lower dantian. Repeat 6 cycles.",
+    breath:[{label:"Inhale",type:"inhale",cue:"Lift clasped hands to chest"},{label:"Exhale",type:"exhale",cue:"Push up to sky, lower back to dantian"}],
+    yt:"https://www.youtube.com/watch?v=&list=PL3JhIZLAcC0gRSwBh3rXHt-pQ0saM9qhC&index=1"
+  },
+  {
+    num:2, en:"Draw the Bow to Shoot the Eagle", zh:"左右開弓似射雕",
+    pinyin:"Zuǒ Yòu Kāi Gōng Sì Shè Diāo",
+    organ:"Lung & Large Intestine · Opens chest, strengthens arms",
+    element:"Metal",
+    desc:"Raise arms and cross left forearm in front of right at chest. Step left foot twice shoulder width, toes forward. Inhale while lowering to horse stance, pull right hand to fist at right shoulder while pushing left hand in Southern Palm (index extended, others curl like tiger claw) to the left. Follow left hand with eyes/head. Exhale, step back to shoulder width, lower arms to dantian. Alternate sides. 6 cycles total.",
+    breath:[{label:"Inhale",type:"inhale",cue:"Lower into horse stance, draw bow"},{label:"Exhale",type:"exhale",cue:"Step back to shoulder width"}],
+    yt:"https://www.youtube.com/playlist?list=PL3JhIZLAcC0gRSwBh3rXHt-pQ0saM9qhC"
+  },
+  {
+    num:3, en:"Separating Heaven and Earth", zh:"調理脾胃須單臂",
+    pinyin:"Tiáo Lǐ Pí Wèi Xū Dān Bì",
+    organ:"Spleen & Stomach · Massages digestive organs",
+    element:"Earth",
+    desc:"Feet shoulder width. Hands at lower dantian, palms up. Inhale and raise both arms in front of torso, palms up, to center of chest. Rotate left palm outward (facing up). Exhale and push left hand up to sky while right hand pushes down toward ground. Inhale, lower left hand, raise right hand back to chest center (both palms up). Exhale, repeat with right hand up, left down. 6 cycles.",
+    breath:[{label:"Inhale",type:"inhale",cue:"Raise both arms to chest"},{label:"Exhale",type:"exhale",cue:"Separate — one hand up, one down"}],
+    yt:"https://www.youtube.com/playlist?list=PL3JhIZLAcC0gRSwBh3rXHt-pQ0saM9qhC"
+  },
+  {
+    num:4, en:"Wise Owl Gazes Backwards", zh:"五勞七傷向後瞧",
+    pinyin:"Wǔ Láo Qī Shāng Xiàng Hòu Qiáo",
+    organ:"Heart & Neck vessels · Reduces stress, cervical tension",
+    element:"Fire",
+    desc:"Arms relaxed at sides, palms facing ground. Inhale and rotate both arms from shoulder until palms face outward, thumbs pointing back as far as possible. Simultaneously rotate head left, looking as far back as possible (turn eyes too). Exhale, return head to center, rotate arms back to start position. Repeat on right side. 6 cycles alternating.",
+    breath:[{label:"Inhale",type:"inhale",cue:"Rotate arms out, turn head to side"},{label:"Exhale",type:"exhale",cue:"Return to center"}],
+    yt:"https://www.youtube.com/playlist?list=PL3JhIZLAcC0gRSwBh3rXHt-pQ0saM9qhC"
+  },
+  {
+    num:5, en:"Sway the Head and Shake the Tail", zh:"搖頭擺尾去心火",
+    pinyin:"Yáo Tóu Bǎi Wěi Qù Xīn Huǒ",
+    organ:"Heart · Reduces Heart Fire, calms mind",
+    element:"Fire",
+    desc:"Step left foot to left, horse stance, body tall, toes forward. Hands on inner thighs near knees (fingers on inside). Inhale and rotate torso in full circle — start right, move left. Circle a second time, then exhale while twisting left, look behind you, lean over left thigh with right leg extending behind. Inhale, swing back to right, horse stance. One more swing for second cycle on right. 6 total cycles.",
+    breath:[{label:"Inhale",type:"inhale",cue:"Circle torso in horse stance"},{label:"Exhale",type:"exhale",cue:"Twist and look behind, lean over thigh"}],
+    yt:"https://www.youtube.com/playlist?list=PL3JhIZLAcC0gRSwBh3rXHt-pQ0saM9qhC"
+  },
+  {
+    num:6, en:"Hold the Feet to Strengthen Kidneys", zh:"兩手把住足根搖",
+    pinyin:"Liǎng Shǒu Bǎ Zhù Zú Gēn Yáo",
+    organ:"Kidney & Urinary Bladder · Strengthens kidneys, lumbar",
+    element:"Water",
+    desc:"Clasp hands at lower dantian. Raise palms up to chest height inhaling. Rotate palms forward, push front and exhale. Inhale and raise arms above head. Release hands, rotate to palms down. Pull to chest height exhaling. Rotate palms up, inhale, pull hands to back at solar plexus level. Exhale, slide hands down back — buttocks, hamstrings, outside of feet — and extend arms to front (palms facing each other). Inhale, lift torso with arms extended to standing. 6 cycles.",
+    breath:[{label:"Inhale",type:"inhale",cue:"Raise to chest, then overhead"},{label:"Exhale",type:"exhale",cue:"Slide hands down back, forward bend"}],
+    yt:"https://www.youtube.com/playlist?list=PL3JhIZLAcC0gRSwBh3rXHt-pQ0saM9qhC"
+  },
+  {
+    num:7, en:"Clench the Fists and Gaze Fiercely", zh:"攥拳怒目增氣力",
+    pinyin:"Zuàn Quán Nù Mù Zēng Qì Lì",
+    organ:"Liver · Releases anger, builds qi and strength",
+    element:"Wood",
+    desc:"Step left foot to left side, horse stance, tall, toes forward. Make two fists at sides with palms up (thumbs on top). Exhale, punch left hand forward while looking fiercely with eyes wide open. Open left hand, rotate to push palm forward with thumb pointing down. Twist fingers inward, make fist with left hand, inhale. Exhale, pull left fist back while punching right fist forward slowly. Alternate sides. 6 cycles. Return to shoulder width standing.",
+    breath:[{label:"Inhale",type:"inhale",cue:"Pull fist back, twist fingers"},{label:"Exhale",type:"exhale",cue:"Punch forward with fierce eyes"}],
+    yt:"https://www.youtube.com/playlist?list=PL3JhIZLAcC0gRSwBh3rXHt-pQ0saM9qhC"
+  },
+  {
+    num:8, en:"Bouncing the Feet and Vibrating the Back", zh:"背后七顛百病消",
+    pinyin:"Bèi Hòu Qī Diān Bǎi Bìng Xiāo",
+    organ:"All organs · Vibration settles qi, clears all disease",
+    element:"Water/All",
+    desc:"Inhale and raise arms to approximately shoulder height or slightly higher, palms facing down. Simultaneously lift heels off ground and balance on balls of feet. Exhale with a little extra force, allow heels to hit floor and drop arms beside you. Let movement be loose and natural. 6 cycles.",
+    breath:[{label:"Inhale",type:"inhale",cue:"Raise arms & heels simultaneously"},{label:"Exhale",type:"exhale",cue:"Heels drop to floor, arms drop"}],
+    yt:"https://www.youtube.com/playlist?list=PL3JhIZLAcC0gRSwBh3rXHt-pQ0saM9qhC"
+  }
+];
+
+const SCHEDULE = [
+  {wk:1,date:"Jul 7",focus:"Opening Movement + Ba Duan Jin basics",type:"class"},
+  {wk:2,date:"Jul 14",focus:"Recap & Continue Ba Duan Jin",type:"class"},
+  {wk:3,date:"Jul 21",focus:"Continue Ba Duan Jin",type:"class"},
+  {wk:4,date:"Jul 28",focus:"Continue Ba Duan Jin",type:"class"},
+  {wk:5,date:"Aug 4",focus:"MIDTERM PRACTICAL EXAM · Ba Duan Jin",type:"exam"},
+  {wk:6,date:"Aug 11",focus:"Introduce Medical Qigong",type:"class"},
+  {wk:7,date:"Aug 18",focus:"Organ-Specific Qigong",type:"class"},
+  {wk:8,date:"Aug 25",focus:"Immune Strengthening Qigong",type:"class"},
+  {wk:9,date:"Sep 1",focus:"Yi Jin Jing Qigong · JOURNAL DUE",type:"journal"},
+  {wk:10,date:"Sep 8",focus:"FINAL PRACTICAL EXAM · Full Ba Duan Jin",type:"exam"},
+];
+
+const FLASHCARD_DATA = {
+  movements: MOVEMENTS.map(m=>({zh:m.zh,en:m.en,answer:`#${m.num} · ${m.organ} · Element: ${m.element}`,category:'movements'})),
+  theory: [
+    {zh:"氣",en:"Qi (Chi)",answer:"Vital energy/life force that flows through meridians in the body. The fundamental substance of TCM.",category:'theory'},
+    {zh:"丹田",en:"Dantian",answer:"Energy center/field located approximately 2 inches below the navel. Home base for qi storage.",category:'theory'},
+    {zh:"精",en:"Jing",answer:"Essence — one of the Three Treasures. Stored in kidneys. Related to reproductive energy and longevity.",category:'theory'},
+    {zh:"神",en:"Shen",answer:"Spirit/mind — one of the Three Treasures. Housed in the Heart. Governs consciousness and emotions.",category:'theory'},
+    {zh:"三焦",en:"San Jiao",answer:"Triple Warmer/Triple Burner — one of the 6 organ systems. Governs water metabolism. Targeted by Movement #1.",category:'theory'},
+    {zh:"經絡",en:"Meridians (Jingluo)",answer:"Pathways through which qi flows in the body. 12 primary meridians correspond to organ systems.",category:'theory'},
+    {zh:"陰陽",en:"Yin & Yang",answer:"Opposing yet complementary forces. Yin: dark, cool, feminine, passive. Yang: light, warm, masculine, active.",category:'theory'},
+    {zh:"氣功",en:"Qigong",answer:"Practice of cultivating qi through movement, breath, and meditation. Literally: 'energy work/cultivation'.",category:'theory'},
+    {zh:"八段錦",en:"Ba Duan Jin",answer:"Eight Brocades — a classical Qigong form with 8 movements. Each targets different organ systems.",category:'theory'},
+    {zh:"易筋經",en:"Yi Jin Jing",answer:"Muscle/Tendon Changing Classic — introduced in Week 9. A more advanced Qigong system.",category:'theory'},
+    {zh:"五行",en:"Wu Xing",answer:"Five Elements: Wood (木), Fire (火), Earth (土), Metal (金), Water (水). Framework for TCM diagnosis.",category:'theory'},
+    {zh:"氣海",en:"Qihai",answer:"CV-6 — Sea of Qi acupuncture point. Located at the lower dantian, 1.5 cun below navel.",category:'theory'},
+  ],
+  elements: [
+    {zh:"木",en:"Wood Element",answer:"Liver & Gallbladder · Emotion: Anger · Season: Spring · Color: Green · Movement #7",category:'elements'},
+    {zh:"火",en:"Fire Element",answer:"Heart & Small Intestine · Emotion: Joy · Season: Summer · Color: Red · Movements #4, #5",category:'elements'},
+    {zh:"土",en:"Earth Element",answer:"Spleen & Stomach · Emotion: Worry · Season: Late Summer · Color: Yellow · Movement #3",category:'elements'},
+    {zh:"金",en:"Metal Element",answer:"Lung & Large Intestine · Emotion: Grief · Season: Autumn · Color: White · Movements #1, #2",category:'elements'},
+    {zh:"水",en:"Water Element",answer:"Kidney & Urinary Bladder · Emotion: Fear · Season: Winter · Color: Blue/Black · Movements #6, #8",category:'elements'},
+    {zh:"相生",en:"Generation Cycle",answer:"Wood→Fire→Earth→Metal→Water→Wood. Each element nourishes/generates the next.",category:'elements'},
+    {zh:"相剋",en:"Control Cycle",answer:"Wood→Earth→Water→Fire→Metal→Wood. Each element controls/restrains another.",category:'elements'},
+    {zh:"君火",en:"Ministerial Fire",answer:"Heart Fire — reduced by Movement #5 (Sway Head & Shake Tail). Excess causes restlessness, insomnia.",category:'elements'},
+    {zh:"腎精",en:"Kidney Essence",answer:"Jing stored in kidneys. Strengthened by Movement #6 (Hold the Feet). Governs aging and reproduction.",category:'elements'},
+    {zh:"肝氣",en:"Liver Qi",answer:"Liver's qi — tends to stagnate, causing anger or depression. Movement #7 releases Liver Qi stagnation.",category:'elements'},
+  ]
+};
+
+const EXAM_QUESTIONS = {
+  sequence: [
+    {q:"What is the CORRECT order of the first 4 Ba Duan Jin movements?",options:["Heavens → Bow → Separate → Owl","Bow → Heavens → Owl → Separate","Heavens → Separate → Bow → Owl","Owl → Heavens → Bow → Separate"],ans:0},
+    {q:"Which movement comes AFTER 'Sway the Head and Shake the Tail'?",options:["Clench Fists","Hold the Feet (Kidneys)","Bouncing the Feet","Wise Owl"],ans:1},
+    {q:"What is the FINAL movement of Ba Duan Jin?",options:["Clench the Fists","Separating Heaven & Earth","Bouncing the Feet and Vibrating the Back","Hold the Feet"],ans:2},
+    {q:"Which is movement #3?",options:["Draw the Bow","Wise Owl Gazes Backwards","Separating Heaven and Earth","Sway the Head"],ans:2},
+    {q:"What movement number is 'Clench the Fists and Gaze Fiercely'?",options:["#5","#6","#7","#8"],ans:2},
+  ],
+  organs: [
+    {q:"Movement #1 (Holding Up the Heavens) targets which organ system?",options:["Kidney & Bladder","Triple Warmer (San Jiao)","Spleen & Stomach","Liver & Gallbladder"],ans:1},
+    {q:"'Hold the Feet to Strengthen Kidneys' (Movement #6) primarily benefits:",options:["Heart & Lungs","Spleen & Stomach","Kidney & Urinary Bladder","Triple Warmer"],ans:2},
+    {q:"Which movement reduces Heart Fire (君火)?",options:["Movement #1","Movement #5","Movement #6","Movement #8"],ans:1},
+    {q:"Movement #3 (Separating Heaven and Earth) massages:",options:["Kidneys","Heart","Spleen & Stomach","Liver"],ans:2},
+    {q:"Movement #7 (Clench Fists) releases stagnant qi in which organ?",options:["Liver","Kidney","Lung","Spleen"],ans:0},
+    {q:"'Bouncing the Feet' (Movement #8) vibrates and benefits:",options:["Only kidneys","Only spine","All organs throughout the body","Only the Triple Warmer"],ans:2},
+  ],
+  chinese: [
+    {q:"Which Chinese name means 'Holding Up the Heavens — Triple Warmer'?",options:["左右開弓似射雕","雙手托天理三焦","五勞七傷向後瞧","調理脾胃須單臂"],ans:1},
+    {q:"八段錦 means:",options:["Eight Brocades of Qigong","Five Elements Exercise","Triple Warmer Opening","Kidney Strengthening Form"],ans:0},
+    {q:"丹田 (Dantian) is located:",options:["In the chest","Between the eyebrows","~2 inches below the navel","Behind the kidneys"],ans:2},
+    {q:"搖頭擺尾去心火 is the Chinese name for:",options:["Wise Owl Gazes Backwards","Holding Up the Heavens","Sway the Head and Shake the Tail","Bouncing the Feet"],ans:2},
+    {q:"攥拳怒目增氣力 — this movement involves:",options:["Looking backward while rotating arms","Punching with fierce eyes in horse stance","Bending forward to touch feet","Pushing one hand to sky"],ans:1},
+  ],
+  breath: [
+    {q:"In Movement #1, when do you EXHALE?",options:["When lifting hands to chest","When pushing hands to sky and lowering them","When clasping hands together","When opening eyes"],ans:1},
+    {q:"In Movement #2 (Draw the Bow), you INHALE when:",options:["Stepping back to shoulder width","Looking to the side","Lowering into horse stance and drawing the bow","Crossing arms at chest"],ans:2},
+    {q:"In Movement #6 (Hold Feet), the forward bend/sliding down the back occurs on:",options:["Inhale","Exhale","Hold (no breath)","Both inhale and exhale"],ans:1},
+    {q:"Movement #8 (Bouncing Feet): heels hit the floor on:",options:["Inhale","Exhale","The hold between breaths","No specific breath coordination"],ans:1},
+    {q:"During the Opening Position, you should breathe:",options:["Only through mouth","Hold the breath","Naturally for ~30 seconds","As fast as possible"],ans:2},
+  ],
+  adaptation: [
+    {q:"For a patient in a wheelchair, how would you adapt Movement #2 (Draw the Bow)?",options:["Skip entirely","Perform upper body only — arm movements without horse stance","Have them stand using a walker","Reduce to 2 cycles"],ans:1},
+    {q:"For Movement #5 (Sway Head), a patient with severe vertigo should:",options:["Perform full movement","Avoid head rotation, only perform torso twist","Skip entirely","Increase cycles to compensate"],ans:1},
+    {q:"A patient with knee osteoarthritis cannot do horse stance. The BEST adaptation for Movement #7 is:",options:["Cancel the movement","Perform all arm/fist movements seated or standing straight","Tell patient to push through pain","Only do the eye gazing part"],ans:1},
+    {q:"For Movement #6 forward bend — a patient with lumbar herniation:",options:["Skip entirely, no modification possible","Limit forward bend range of motion, keep knees bent, never force","Push gently into the bend for stretch","Bend at neck only"],ans:1},
+    {q:"Which CLO requires you to adapt Qigong for patients with movement disabilities?",options:["CLO 1","CLO 2","CLO 3","CLO 4"],ans:2},
+  ],
+  theory: [
+    {q:"The Three Treasures of TCM are:",options:["Qi, Blood, Fluids","Jing, Qi, Shen","Yin, Yang, Qi","Wood, Fire, Water"],ans:1},
+    {q:"San Jiao (三焦) is also known as:",options:["Sea of Qi","Five Elements","Triple Warmer / Triple Burner","Eight Brocades"],ans:2},
+    {q:"Which element is associated with FEAR as its corresponding emotion?",options:["Wood","Fire","Earth","Water"],ans:3},
+    {q:"The Generation Cycle of Five Elements goes:",options:["Wood→Fire→Earth→Metal→Water","Water→Wood→Fire→Earth→Metal","Fire→Earth→Metal→Water→Wood","Metal→Water→Wood→Fire→Earth"],ans:0},
+    {q:"Qigong means:",options:["Eight brocades","Energy cultivation/work","Mind-body medicine","Acupuncture points"],ans:1},
+    {q:"The lower dantian is located approximately:",options:["2 inches above the navel","In the chest center","2 inches below the navel","At the base of the spine"],ans:2},
+  ]
+};
+
+const MUSIC_TRACKS = [
+  {id:'water',name:'Water · 水',sub:'Kidney Yin · Deep Winter',icon:'💧',color:'#1a3a6a',
+   notes:[196,220,261,294,329],tempo:0.6,desc:'Slow, flowing pentatonic. Nourishes Kidney Yin.'},
+  {id:'wood',name:'Wood · 木',sub:'Liver Yang · Spring Rising',icon:'🌳',color:'#1a4a1a',
+   notes:[261,293,329,392,440],tempo:0.9,desc:'Flowing upward pentatonic. Soothes Liver Qi stagnation.'},
+  {id:'fire',name:'Fire · 火',sub:'Heart Joy · Summer',icon:'🔥',color:'#4a1a0a',
+   notes:[329,370,415,494,554],tempo:1.1,desc:'Bright, joyful pentatonic. Opens Heart Shen.'},
+  {id:'earth',name:'Earth · 土',sub:'Spleen Center · Late Summer',icon:'🌍',color:'#3a2a00',
+   notes:[220,247,294,330,370],tempo:0.75,desc:'Grounded pentatonic. Calms Spleen/Stomach.'},
+  {id:'metal',name:'Metal · 金',sub:'Lung Clarity · Autumn',icon:'⚙️',color:'#2a2a3a',
+   notes:[440,494,554,659,740],tempo:0.7,desc:'Clear high pentatonic. Opens Lung, releases grief.'},
+];
+
+const ADAPT_DATA = {
+  0:{ name:"M1 · Holding Up the Heavens", adaptations:[
+    {cond:"Shoulder injury / limited ROM",mod:"Reduce height of arm raise; clasp hands at chest level only; skip overhead push"},
+    {cond:"Balance impairment / fall risk",mod:"Perform seated. Same breath and hand movements."},
+    {cond:"Cervical spine issues",mod:"Skip if neck strain; focus on torso elongation with hands stationary"},
+    {cond:"Wheelchair user",mod:"Perform entire movement from seated position. No standing required."},
+    {cond:"Elderly / fatigue",mod:"Reduce to 3 cycles. Slow the movement pace."},
+  ]},
+  1:{ name:"M2 · Draw the Bow", adaptations:[
+    {cond:"Knee/hip osteoarthritis",mod:"Stand straight instead of horse stance. Perform all arm/shoulder movements standing tall."},
+    {cond:"Shoulder/rotator cuff injury",mod:"Reduce pull-back range; do not force elbow behind shoulder"},
+    {cond:"Wheelchair user",mod:"Upper body only. No stepping. Rotate torso in chair for added effect."},
+    {cond:"Balance impairment",mod:"Remain at shoulder width; skip wide stance; use chair back for support"},
+    {cond:"Wrist issues",mod:"Soften Southern Palm hand position; do not force tiger claw"},
+  ]},
+  2:{ name:"M3 · Separating Heaven & Earth", adaptations:[
+    {cond:"Shoulder injury",mod:"Reduce arm extension height. Stop at shoulder level, do not force overhead."},
+    {cond:"Low blood pressure",mod:"Perform slowly; pause at chest before separating; avoid dizziness"},
+    {cond:"Wheelchair user",mod:"Perform seated. Focus on torso elongation and breath."},
+    {cond:"Wrist issues",mod:"Do not fully extend or hyperextend wrists. Gentle rotation only."},
+    {cond:"Pregnant (2nd/3rd trimester)",mod:"Avoid extreme separation; keep movement gentle and supported"},
+  ]},
+  3:{ name:"M4 · Wise Owl Gazes Backwards", adaptations:[
+    {cond:"Cervical disc herniation",mod:"Limit head rotation range. Rotate only to comfortable range, never force."},
+    {cond:"Vertigo / BPPV",mod:"Avoid or greatly reduce head rotation. Perform arm rotation only."},
+    {cond:"Post-neck surgery",mod:"Skip head rotation; perform arm external rotation only"},
+    {cond:"Wheelchair user",mod:"Fully performable seated. Excellent for upper body and cervical mobility."},
+    {cond:"Shoulder surgery",mod:"Reduce arm external rotation; do not force thumbs backward"},
+  ]},
+  4:{ name:"M5 · Sway Head & Shake Tail", adaptations:[
+    {cond:"Knee injury",mod:"Stand straight, no horse stance. Perform torso rotation standing."},
+    {cond:"Lumbar herniation",mod:"Reduce torso twist range. Never lean aggressively over thigh."},
+    {cond:"Vertigo",mod:"Skip or minimize head/gaze component. Focus on torso and breath."},
+    {cond:"Wheelchair user",mod:"Perform torso rotation seated. Skip leaning over thigh."},
+    {cond:"Hip replacement",mod:"Do not force wide stance. Gentle torso rotation standing straight."},
+  ]},
+  5:{ name:"M6 · Hold Feet / Kidney", adaptations:[
+    {cond:"Lumbar disc disease",mod:"Significantly limit forward bend. Bend at hips with bent knees; never fully fold."},
+    {cond:"Osteoporosis",mod:"Skip full forward bend. Gentle waist rotation in lieu."},
+    {cond:"High blood pressure",mod:"Avoid full forward bend (head below heart). Modified: bend to 45 degrees only."},
+    {cond:"Wheelchair user",mod:"Skip bending. Perform overhead arm reach and lower back massage seated."},
+    {cond:"Hamstring tightness",mod:"Bend knees generously. Never force straight-leg forward fold."},
+  ]},
+  6:{ name:"M7 · Clench Fists & Gaze", adaptations:[
+    {cond:"Arthritis in hands",mod:"Soften fist grip; do not fully clench. Partial fist acceptable."},
+    {cond:"Knee/hip pain",mod:"Stand tall, no horse stance. Perform punching movements standing."},
+    {cond:"Eye conditions / glaucoma",mod:"Avoid fierce eye widening; keep eyes soft and relaxed"},
+    {cond:"Shoulder/elbow injury",mod:"Reduce punch extension. Stop at 3/4 arm extension."},
+    {cond:"Wheelchair user",mod:"Seated version: torso rotation with punch. No stance needed."},
+  ]},
+  7:{ name:"M8 · Bouncing the Feet", adaptations:[
+    {cond:"Osteoporosis",mod:"Critical: SKIP heel drop impact. Replace with gentle heel raise and lower — no dropping."},
+    {cond:"Joint replacement (hip/knee)",mod:"Skip impact. Gentle heel raise/lower only. No forceful landing."},
+    {cond:"Plantar fasciitis",mod:"Reduce number of cycles; land softly; may skip entirely if painful"},
+    {cond:"Ankle injury",mod:"Perform arm-only movement. No heel raise/drop."},
+    {cond:"Pregnancy",mod:"Skip impact component. Gentle rocking on heels acceptable in first trimester only."},
+  ]},
+};
+
+const CHECKLIST_ITEMS = [
+  "Opening Position: feet together → step left to shoulder width",
+  "Opening Position: hands at lower dantian, one on top of other",
+  "Opening Position: eyes closed, 30 seconds of natural breathing",
+  "M1: Clasp hands palms up, lift to chest on inhale",
+  "M1: Rotate outward, push to sky on exhale",
+  "M1: Lower to sides palms down, return to dantian (6 cycles)",
+  "M2: Cross left forearm in front of right, step to horse stance",
+  "M2: Southern Palm — index extended, others curl inward",
+  "M2: Follow hand with head/eyes (6 cycles alternating)",
+  "M3: Separate — one palm up to sky, one palm down to earth (6 cycles)",
+  "M4: Rotate arms from shoulder, thumbs backward, head turns far left/right (6 cycles)",
+  "M5: Horse stance, torso circle, exhale twisting and looking behind (6 cycles)",
+  "M6: Slide hands down entire back, hamstrings, outside feet, extend arms (6 cycles)",
+  "M7: Horse stance, fierce eyes, punch alternating sides (6 cycles)",
+  "M8: Raise arms and heels simultaneously, exhale — heels drop (6 cycles)",
+  "Closing Position: raise arms to each side overhead (3 cycles)",
+  "Closing Position: finish with hands on dantian, eyes closed 30+ seconds",
+  "Breath coordination throughout entire form is consistent",
+  "Movements flow without hesitation or pausing to recall sequence",
+  "Posture maintained: back straight, knees soft, shoulders relaxed",
+  "All movements at appropriate slow, meditative pace",
+  "Horse stance correct: feet 2x shoulder width, toes forward",
+  "Southern Palm (M2) hand shape correct",
+  "Can name all 8 movements in Chinese",
+  "Can explain the organ system targeted by each movement",
+];
+
+// ══════════════════════════════
+// STATE
+// ══════════════════════════════
+let state = {
+  streakDays: [],
+  journalEntries: {}, // {week: text}
+  rrEntries: {}, // {week: text}
+  mistakes: [],
+  checklistState: [],
+  tapCount: 0,
+  tapTarget: 6,
+  tapMovement: 'Current',
+  timerActive: false,
+  timerMode: 'full',
+  timerSeconds: 3600,
+  timerTotal: 3600,
+  timerInterval: null,
+  timerPhaseIndex: 0,
+  breathActive: false,
+  breathInterval: null,
+  breathPhase: 'inhale',
+  breathCount: 0,
+  currentMusic: null,
+  audioCtx: null,
+  musicOscillators: [],
+  musicGain: null,
+  musicInterval: null,
+  volumeLevel: 0.6,
+  fcDeck: 'all',
+  fcCards: [],
+  fcIndex: 0,
+  fcKnown: new Set(),
+  fcReview: new Set(),
+  fcFlipped: false,
+  examMode: null,
+  examQuestions: [],
+  examIndex: 0,
+  examScore: 0,
+  examAnswered: false,
+  openMovement: null,
+  currentJournalWeek: 1,
+  currentRRWeek: 1,
+  currentAdaptMovement: 0,
+  sessionLog: [],
+  gradeJournal: '',
+  gradeMidterm: '',
+  gradeFinal: '',
+};
+
+// ══════════════════════════════
+// NAV
+// ══════════════════════════════
+function switchPage(id) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+id)?.classList.add('active');
+  document.getElementById('nav-'+id)?.classList.add('active');
+  document.getElementById('content').scrollTo(0,0);
+  // Reset tools view
+  if(id==='tools') {
+    document.getElementById('tools-home').style.display='block';
+    document.querySelectorAll('.tool-page').forEach(p=>p.classList.remove('active'));
+  }
+}
+
+function openTool(name) {
+  document.getElementById('tools-home').style.display='none';
+  document.querySelectorAll('.tool-page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tool-'+name).classList.add('active');
+  if(name==='reading') initRR();
+  if(name==='adapt') initAdapt();
+  if(name==='checklist') initChecklist();
+  if(name==='mistakes') initMistakes();
+}
+function closeTool() {
+  document.getElementById('tools-home').style.display='block';
+  document.querySelectorAll('.tool-page').forEach(p=>p.classList.remove('active'));
+}
+
+// ══════════════════════════════
+// TODAY PAGE
+// ══════════════════════════════
+function initToday() {
+  // Calculate current week
+  const start = new Date('2026-07-07');
+  const now = new Date();
+  const diff = Math.floor((now - start) / (1000*60*60*24));
+  const currentWeek = Math.max(1, Math.min(10, Math.floor(diff/7)+1));
+  const nextClass = getNextClassDate();
+  const daysToClass = Math.ceil((nextClass - now) / (1000*60*60*24));
+  
+  const sch = SCHEDULE[currentWeek-1] || SCHEDULE[0];
+  document.getElementById('today-week-title').textContent = `Week ${sch.wk} · ${sch.date}`;
+  document.getElementById('today-week-focus').textContent = sch.focus;
+  document.getElementById('today-countdown').textContent = Math.max(0, daysToClass);
+
+  // Exam alert
+  const daysToMid = Math.ceil((new Date('2026-08-04') - now) / (1000*60*60*24));
+  const daysToFin = Math.ceil((new Date('2026-09-08') - now) / (1000*60*60*24));
+  const alertBox = document.getElementById('exam-alert-box');
+  if(daysToMid > 0 && daysToMid <= 14) {
+    alertBox.style.display='block';
+    document.getElementById('exam-alert-text').textContent = `Midterm Practical in ${daysToMid} days (Aug 4)`;
+    document.getElementById('exam-alert-sub').textContent = 'Ba Duan Jin form · 40% of your grade';
+  } else if(daysToFin > 0 && daysToFin <= 14) {
+    alertBox.style.display='block';
+    document.getElementById('exam-alert-text').textContent = `Final Exam in ${daysToFin} days (Sep 8)`;
+    document.getElementById('exam-alert-sub').textContent = 'Full Ba Duan Jin form · 40% of your grade';
+  }
+
+  renderStreak();
+}
+
+function getNextClassDate() {
+  const now = new Date();
+  const d = new Date(now);
+  // Find next Tuesday
+  while(d.getDay() !== 2) d.setDate(d.getDate()+1);
+  d.setHours(18,30,0,0);
+  if(d <= now) d.setDate(d.getDate()+7);
+  return d;
+}
+
+function renderStreak() {
+  const grid = document.getElementById('streak-grid');
+  const today = new Date().toDateString();
+  // Show last 21 days
+  const days = [];
+  for(let i=20;i>=0;i--) {
+    const d = new Date(); d.setDate(d.getDate()-i);
+    days.push(d.toDateString());
+  }
+  grid.innerHTML = '';
+  days.forEach(day=>{
+    const el = document.createElement('div');
+    el.className = 'streak-dot' + (state.streakDays.includes(day)?' done':'') + (day===today?' today':'');
+    const d = new Date(day);
+    el.textContent = ['S','M','T','W','T','F','S'][d.getDay()];
+    grid.appendChild(el);
+  });
+  const streak = calcStreak();
+  document.getElementById('streak-count').textContent = `${streak} day streak`;
+  document.getElementById('streak-bar').style.width = Math.min(100, (streak/63)*100)+'%';
+}
+
+function calcStreak() {
+  let count=0;
+  const today = new Date();
+  for(let i=0;i<63;i++) {
+    const d = new Date(today); d.setDate(d.getDate()-i);
+    if(state.streakDays.includes(d.toDateString())) count++;
+    else if(i>0) break;
+  }
+  return count;
+}
+
+function markPracticed() {
+  const today = new Date().toDateString();
+  if(!state.streakDays.includes(today)) {
+    state.streakDays.push(today);
+    // Log session
+    state.sessionLog.push({time: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}), label:'Daily Practice'});
+    renderSessionLog();
+  }
+  renderStreak();
+}
+
+function updateGrade() {
+  const j = parseFloat(document.getElementById('grade-journal').value)||0;
+  const m = parseFloat(document.getElementById('grade-midterm').value)||0;
+  const f = parseFloat(document.getElementById('grade-final').value)||0;
+  const hasJ = document.getElementById('grade-journal').value !== '';
+  const hasM = document.getElementById('grade-midterm').value !== '';
+  const hasF = document.getElementById('grade-final').value !== '';
+  if(!hasJ && !hasM && !hasF) { document.getElementById('grade-avg').textContent='— %'; return; }
+  let total=0, weight=0;
+  if(hasJ){total+=j*0.2;weight+=0.2;}
+  if(hasM){total+=m*0.4;weight+=0.4;}
+  if(hasF){total+=f*0.4;weight+=0.4;}
+  const avg = weight>0 ? total/weight : 0;
+  const el = document.getElementById('grade-avg');
+  el.textContent = avg.toFixed(1)+'%';
+  el.style.color = avg>=90?'var(--gold-light)':avg>=70?'var(--jade-light)':'#e74c3c';
+}
+
+// ══════════════════════════════
+// FORMS PAGE
+// ══════════════════════════════
+function initForms() {
+  const list = document.getElementById('movements-list');
+  list.innerHTML = '';
+  MOVEMENTS.forEach(m=>{
+    const div = document.createElement('div');
+    div.className = 'movement-card';
+    div.innerHTML = `
+      <div class="movement-header" onclick="toggleMovement(${m.num})">
+        <div class="movement-num">${m.num}</div>
+        <div class="movement-name">
+          <h3>${m.en}</h3>
+          <p>${m.zh}</p>
+        </div>
+        <div class="movement-chevron" id="chev-${m.num}">›</div>
+      </div>
+      <div class="movement-body" id="body-${m.num}">
+        <div class="movement-body-inner">
+          <div class="text-xs text-muted" style="margin-bottom:6px;letter-spacing:0.06em">${m.pinyin}</div>
+          <div class="breath-tags">
+            ${m.breath.map(b=>`<span class="breath-tag ${b.type}">${b.label}: ${b.cue}</span>`).join('')}
+          </div>
+          <div class="organ-tag">🫁 ${m.organ}</div>
+          <p style="margin-top:12px">${m.desc}</p>
+          <a href="${m.yt}" target="_blank" class="yt-btn">
+            <span>▶</span> Watch on YouTube · My Metro Medicine
+          </a>
+        </div>
+      </div>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function toggleMovement(num) {
+  const body = document.getElementById('body-'+num);
+  const chev = document.getElementById('chev-'+num);
+  const isOpen = body.classList.contains('open');
+  document.querySelectorAll('.movement-body').forEach(b=>b.classList.remove('open'));
+  document.querySelectorAll('.movement-chevron').forEach(c=>c.style.transform='');
+  if(!isOpen) {
+    body.classList.add('open');
+    chev.style.transform='rotate(90deg)';
+  }
+}
+
+// ══════════════════════════════
+// TIMER
+// ══════════════════════════════
+const TIMER_PHASES = {
+  full: [
+    {name:'Warm-Up',dur:300,cue:'Gentle stretching & Opening Position'},
+    {name:'Form Round 1',dur:600,cue:'Ba Duan Jin · Movements 1–4'},
+    {name:'Form Round 2',dur:600,cue:'Ba Duan Jin · Movements 5–8'},
+    {name:'Form Round 3',dur:600,cue:'Full Form · Focus on breath'},
+    {name:'Form Round 4',dur:600,cue:'Full Form · Eyes closed if possible'},
+    {name:'Medical Qigong',dur:600,cue:'Organ-specific exercises'},
+    {name:'Closing',dur:300,cue:'Closing Position · Meditation'},
+  ],
+  form: [
+    {name:'Opening',dur:60,cue:'Opening Position · Center qi'},
+    {name:'Movements 1–4',dur:360,cue:'Heavens → Bow → Separate → Owl'},
+    {name:'Movements 5–8',dur:360,cue:'Tail → Kidneys → Fists → Bounce'},
+    {name:'Closing',dur:120,cue:'Closing Position · Rest'},
+  ],
+  quick: [
+    {name:'Opening',dur:30,cue:'Opening Position'},
+    {name:'Ba Duan Jin',dur:600,cue:'Full form · 1 complete round'},
+    {name:'Closing',dur:270,cue:'Closing & breathing'},
+  ],
+};
+
+const TIMER_TOTALS = {full:3600, form:900, quick:900};
+
+function selectPreset(el, mode) {
+  document.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('selected'));
+  el.classList.add('selected');
+  state.timerMode = mode;
+  state.timerActive = false;
+  clearInterval(state.timerInterval);
+  state.timerSeconds = TIMER_TOTALS[mode];
+  state.timerTotal = TIMER_TOTALS[mode];
+  state.timerPhaseIndex = 0;
+  updateTimerDisplay();
+  document.getElementById('timer-play-btn').textContent='▶';
+  const names={full:'FULL HOUR PRACTICE',form:'FORM ONLY (15 min)',quick:'QUICK SESSION (15 min)'};
+  document.getElementById('timer-session-name').textContent = names[mode];
+}
+
+function updateTimerDisplay() {
+  const m=Math.floor(state.timerSeconds/60),s=state.timerSeconds%60;
+  document.getElementById('timer-display').textContent=`${m<10?'0':''}${m}:${s<10?'0':''}${s}`;
+  const phases = TIMER_PHASES[state.timerMode];
+  const phase = phases[state.timerPhaseIndex];
+  document.getElementById('timer-phase-svg').textContent = phase?.name||'Done';
+  document.getElementById('timer-movement-svg').textContent = phase?.cue||'';
+  // Ring
+  const ratio = state.timerSeconds / state.timerTotal;
+  const circ = 597;
+  document.getElementById('timer-ring').setAttribute('stroke-dashoffset', circ*(1-ratio));
+  document.getElementById('timer-ring').setAttribute('stroke', ratio>0.5?'var(--jade-light)':ratio>0.2?'var(--gold-light)':'#e74c3c');
+}
+
+function toggleTimer() {
+  if(state.timerActive) {
+    clearInterval(state.timerInterval);
+    state.timerActive=false;
+    document.getElementById('timer-play-btn').textContent='▶';
+    // Log session
+    const elapsed = state.timerTotal - state.timerSeconds;
+    if(elapsed > 30) {
+      const min = Math.floor(elapsed/60);
+      state.sessionLog.push({time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),label:`${min} min session`});
+      renderSessionLog();
+      markPracticed();
+    }
+  } else {
+    state.timerActive=true;
+    document.getElementById('timer-play-btn').textContent='⏸';
+    state.timerInterval = setInterval(()=>{
+      if(state.timerSeconds>0){
+        state.timerSeconds--;
+        updateTimerDisplay();
+        // Phase advancement
+        const phases = TIMER_PHASES[state.timerMode];
+        const phaseDone = phases.slice(0,state.timerPhaseIndex+1).reduce((a,p)=>a+p.dur,0);
+        const elapsed = state.timerTotal - state.timerSeconds;
+        if(state.timerPhaseIndex < phases.length-1 && elapsed >= phaseDone) {
+          state.timerPhaseIndex++;
+        }
+      } else {
+        clearInterval(state.timerInterval);
+        state.timerActive=false;
+        document.getElementById('timer-play-btn').textContent='▶';
+        document.getElementById('timer-phase-svg').textContent='Complete! 🎉';
+        const min = Math.floor(state.timerTotal/60);
+        state.sessionLog.push({time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),label:`${min} min session — COMPLETE`});
+        renderSessionLog();
+        markPracticed();
+      }
+    },1000);
+  }
+}
+
+function resetTimer() {
+  clearInterval(state.timerInterval);
+  state.timerActive=false;
+  state.timerSeconds = state.timerTotal;
+  state.timerPhaseIndex=0;
+  document.getElementById('timer-play-btn').textContent='▶';
+  updateTimerDisplay();
+}
+
+function skipPhase() {
+  const phases = TIMER_PHASES[state.timerMode];
+  if(state.timerPhaseIndex < phases.length-1) {
+    state.timerPhaseIndex++;
+    const done = phases.slice(0,state.timerPhaseIndex).reduce((a,p)=>a+p.dur,0);
+    state.timerSeconds = state.timerTotal - done;
+    updateTimerDisplay();
+  }
+}
+
+function renderSessionLog() {
+  const el = document.getElementById('session-log');
+  if(!state.sessionLog.length) {
+    el.innerHTML='<div class="text-sm text-muted" style="text-align:center;padding:16px">No sessions logged today</div>';
+    return;
+  }
+  el.innerHTML = state.sessionLog.slice(-5).reverse().map(s=>
+    `<div class="log-entry"><div class="log-dot"></div><span>${s.time}</span><span style="flex:1;text-align:right">${s.label}</span></div>`
+  ).join('');
+}
+
+// BREATH
+function toggleBreath() {
+  if(state.breathActive){stopBreath();return;}
+  state.breathActive=true;
+  document.getElementById('breath-btn-text').textContent='Pause';
+  runBreath();
+}
+function stopBreath() {
+  state.breathActive=false;
+  clearTimeout(state.breathInterval);
+  document.getElementById('breath-btn-text').textContent='Start';
+  document.getElementById('breath-ring').className='breath-ring';
+  document.getElementById('breath-phase').textContent='Ready';
+  document.getElementById('breath-count').textContent='—';
+}
+
+function runBreath() {
+  const inhale = parseInt(document.getElementById('inhale-dur').value);
+  const hold = parseInt(document.getElementById('hold-dur').value);
+  const exhale = parseInt(document.getElementById('exhale-dur').value);
+
+  function doPhase(phase, dur, next) {
+    if(!state.breathActive) return;
+    const ring = document.getElementById('breath-ring');
+    const phaseEl = document.getElementById('breath-phase');
+    const countEl = document.getElementById('breath-count');
+    ring.className = 'breath-ring '+(phase==='Inhale'?'inhaling':phase==='Exhale'?'exhaling':'');
+    phaseEl.textContent = phase;
+    let cnt=dur;
+    countEl.textContent=cnt;
+    const tick = setInterval(()=>{
+      cnt--;
+      if(cnt<=0){clearInterval(tick);if(state.breathActive)next();}
+      else countEl.textContent=cnt;
+    },1000);
+  }
+
+  function cycle() {
+    doPhase('Inhale',inhale,()=>{
+      if(hold>0) doPhase('Hold',hold,()=>doPhase('Exhale',exhale,()=>{if(state.breathActive)cycle();}));
+      else doPhase('Exhale',exhale,()=>{if(state.breathActive)cycle();});
+    });
+  }
+  cycle();
+}
+
+['inhale-dur','hold-dur','exhale-dur'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('input',function(){
+    const map={'inhale-dur':'inhale-val','hold-dur':'hold-val','exhale-dur':'exhale-val'};
+    document.getElementById(map[id]).textContent=this.value+'s';
+  });
+});
+
+// TAP COUNTER
+function tapCount() {
+  state.tapCount++;
+  document.getElementById('tap-num').textContent=state.tapCount;
+  const circle = document.getElementById('tap-circle');
+  circle.style.transform='scale(0.93)';
+  setTimeout(()=>circle.style.transform='',150);
+  const msg = document.getElementById('tap-goal-msg');
+  if(state.tapCount >= state.tapTarget) {
+    msg.textContent=`✅ ${state.tapTarget} cycles complete!`;
+    msg.style.color='var(--jade-light)';
+  } else {
+    msg.textContent=`${state.tapTarget-state.tapCount} more to go`;
+    msg.style.color='var(--text3)';
+  }
+}
+function resetTap() {
+  state.tapCount=0;
+  document.getElementById('tap-num').textContent='0';
+  document.getElementById('tap-goal-msg').textContent='';
+}
+function setTapGoal() {
+  const names = ['All','M1','M2','M3','M4','M5','M6','M7','M8'];
+  const cur = names.indexOf(state.tapMovement);
+  const next = names[(cur+1)%names.length];
+  state.tapMovement=next;
+  state.tapCount=0;
+  document.getElementById('tap-num').textContent='0';
+  document.getElementById('tap-goal-msg').textContent=`Tracking: ${next} · target 6`;
+}
+
+// ══════════════════════════════
+// MUSIC
+// ══════════════════════════════
+function initMusic() {
+  const list = document.getElementById('music-list');
+  list.innerHTML = '';
+  MUSIC_TRACKS.forEach(t=>{
+    const div = document.createElement('div');
+    div.className='music-card';
+    div.id='mc-'+t.id;
+    div.onclick=()=>playTrack(t.id);
+    div.innerHTML=`
+      <div class="music-header">
+        <div class="music-icon" style="background:${t.color}20;border:1px solid ${t.color}40">${t.icon}</div>
+        <div class="music-info">
+          <h3>${t.name}</h3>
+          <p>${t.sub}</p>
+        </div>
+        <div class="music-play" id="mp-${t.id}">▶</div>
+      </div>
+      <div class="text-xs text-muted" style="margin-top:8px">${t.desc}</div>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function playTrack(id) {
+  if(state.currentMusic===id){stopMusic();return;}
+  stopMusic();
+  state.currentMusic=id;
+  const track = MUSIC_TRACKS.find(t=>t.id===id);
+  document.querySelectorAll('.music-card').forEach(c=>c.classList.remove('playing'));
+  document.getElementById('mc-'+id)?.classList.add('playing');
+  document.querySelectorAll('[id^="mp-"]').forEach(b=>b.textContent='▶');
+  document.getElementById('mp-'+id).textContent='⏸';
+
+  // Show now playing
+  document.getElementById('now-playing-bar').style.display='block';
+  document.getElementById('np-name').textContent=track.name+' · '+track.sub;
+
+  // Viz bars
+  const viz = document.getElementById('music-viz');
+  viz.innerHTML = '';
+  for(let i=0;i<12;i++){
+    const b=document.createElement('div');
+    b.className='viz-bar';
+    b.style.animationDelay=(i*0.07)+'s';
+    b.style.animationDuration=(0.5+Math.random()*0.6)+'s';
+    viz.appendChild(b);
+  }
+
+  startAudio(track);
+}
+
+function stopMusic() {
+  if(state.musicInterval) clearInterval(state.musicInterval);
+  if(state.musicOscillators) state.musicOscillators.forEach(o=>{try{o.stop();}catch(e){}});
+  state.musicOscillators=[];
+  if(state.musicGain) {try{state.musicGain.disconnect();}catch(e){}}
+  state.currentMusic=null;
+  document.querySelectorAll('.music-card').forEach(c=>c.classList.remove('playing'));
+  document.querySelectorAll('[id^="mp-"]').forEach(b=>b.textContent='▶');
+  document.getElementById('now-playing-bar').style.display='none';
+  document.getElementById('music-viz').innerHTML='';
+}
+
+function startAudio(track) {
+  try {
+    if(!state.audioCtx || state.audioCtx.state==='closed') {
+      state.audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+    }
+    if(state.audioCtx.state==='suspended') state.audioCtx.resume();
+    state.musicGain = state.audioCtx.createGain();
+    state.musicGain.gain.value = state.volumeLevel * 0.15;
+    state.musicGain.connect(state.audioCtx.destination);
+
+    function playNote(freq, when, dur) {
+      const osc = state.audioCtx.createOscillator();
+      const gain = state.audioCtx.createGain();
+      osc.type='sine';
+      osc.frequency.value=freq;
+      gain.gain.setValueAtTime(0,when);
+      gain.gain.linearRampToValueAtTime(0.3,when+0.05);
+      gain.gain.exponentialRampToValueAtTime(0.001,when+dur);
+      osc.connect(gain);
+      gain.connect(state.musicGain);
+      osc.start(when);
+      osc.stop(when+dur);
+      state.musicOscillators.push(osc);
+    }
+
+    function schedulePattern() {
+      const now = state.audioCtx.currentTime;
+      const beatDur = 1/track.tempo;
+      for(let i=0;i<8;i++){
+        const note = track.notes[Math.floor(Math.random()*track.notes.length)];
+        const mult = Math.random()>0.5?2:1;
+        if(Math.random()>0.35) playNote(note*mult, now+i*beatDur*0.5, beatDur*0.4);
+      }
+    }
+    schedulePattern();
+    state.musicInterval = setInterval(schedulePattern, 3500/track.tempo);
+  } catch(e){ console.log('Audio error',e); }
+}
+
+function setVolume(v) {
+  state.volumeLevel = v/100;
+  document.getElementById('vol-display').textContent=v+'%';
+  if(state.musicGain) state.musicGain.gain.value = state.volumeLevel*0.15;
+}
+
+// ══════════════════════════════
+// JOURNAL
+// ══════════════════════════════
+const JOURNAL_PROMPTS = {
+  1:["What were your first impressions of the Opening Position and the concept of 'qi'?","Describe Movement 1 (Holding Up the Heavens) physically and its connection to the Triple Warmer (San Jiao).","What challenges did you encounter in class today, and how did you address them?"],
+  2:["Describe your daily home practice this week. What improvements are you noticing?","How does the breath coordination in Ba Duan Jin differ from everyday breathing?","Reflect on the mind-body connection you are beginning to develop."],
+  3:["Which movements feel most natural? Which require more practice?","Connect a Ba Duan Jin movement to a TCM concept from your readings.","How is your understanding of 'smooth flow of qi' evolving?"],
+  4:["Prepare for the Week 5 midterm. What areas still need attention?","Reflect on how these 4 weeks of practice have affected you physically.","How might these Qigong principles apply to future patient care?"],
+  5:["Reflect on your midterm practical exam performance. What went well?","What areas will you focus on in the second half of the course?","How does the physical exam of Qigong differ from written testing?"],
+  6:["How does Medical Qigong differ from Ba Duan Jin in its approach?","Describe how you might use Medical Qigong principles with a patient (CLO 5).","What new connections to TCM theory did this week's content reveal?"],
+  7:["Describe the organ-specific Qigong exercises. Which organ system resonated most with you?","How does the Five Elements framework connect to these organ-specific practices?","Reflect on how CLO 3 (adaptation for disabilities) applies to organ-specific Qigong."],
+  8:["How does immune-strengthening Qigong relate to wei qi (defensive qi) in TCM?","Describe your integration of Ba Duan Jin with the newer forms learned.","Reflect on your personal growth (CLO 4) throughout this course."],
+  9:["Describe Yi Jin Jing and how it differs from Ba Duan Jin in principle and practice.","As the course concludes, how has your relationship to qi cultivation changed?","How will you integrate Qigong into your future TCM professional practice (CLO 5)?"],
+  10:["Reflect on your final practical exam. How did 10 weeks of practice manifest?","What is your personal Qigong practice plan going forward?","Summarize the most important insight from this course and how it will affect your clinical work."],
+};
+
+function initJournal() {
+  const sel = document.getElementById('journal-week-sel');
+  sel.innerHTML='';
+  SCHEDULE.forEach(s=>{
+    const btn=document.createElement('div');
+    btn.className='week-chip'+(s.type==='exam'?' exam':s.type==='journal'?' journal-due':'')+(s.wk===state.currentJournalWeek?' active':'');
+    btn.textContent=`Wk ${s.wk} · ${s.date}`;
+    btn.onclick=()=>{state.currentJournalWeek=s.wk;initJournal();};
+    sel.appendChild(btn);
+  });
+  const sch=SCHEDULE[state.currentJournalWeek-1];
+  document.getElementById('jw-title').textContent=`Week ${sch.wk} · ${sch.date}`;
+  document.getElementById('jw-focus').textContent=sch.focus;
+  const prompts=JOURNAL_PROMPTS[state.currentJournalWeek]||[];
+  const pc=document.getElementById('journal-prompts');
+  pc.innerHTML=prompts.map((p,i)=>`
+    <div class="journal-prompt">
+      <p>Prompt ${i+1}</p>
+      <span>${p}</span>
+    </div>
+  `).join('');
+  const saved=state.journalEntries[state.currentJournalWeek]||'';
+  document.getElementById('journal-text').value=saved;
+  const wc=saved.trim().split(/\s+/).filter(Boolean).length;
+  document.getElementById('journal-chars').textContent=wc;
+}
+
+function journalInput() {
+  const text=document.getElementById('journal-text').value;
+  state.journalEntries[state.currentJournalWeek]=text;
+  const wc=text.trim().split(/\s+/).filter(Boolean).length;
+  document.getElementById('journal-chars').textContent=wc;
+}
+
+function saveJournalDraft() {
+  state.journalEntries[state.currentJournalWeek]=document.getElementById('journal-text').value;
+  showToast('Draft saved ✓');
+}
+
+function exportJournal() {
+  let out=`TB300 QI GONG — PRACTICE JOURNAL\n`;
+  out+=`Student: [Your Name] | ID: [Your ID]\n`;
+  out+=`Dr. Justin Flinner, DAc, LAc, DiplAc\n`;
+  out+=`Virginia University of Integrative Medicine — Summer 2026\n`;
+  out+=`Exported: ${new Date().toLocaleDateString()}\n`;
+  out+=`${'═'.repeat(60)}\n\n`;
+  SCHEDULE.forEach(s=>{
+    const entry=state.journalEntries[s.wk]||'[No entry yet]';
+    const prompts=JOURNAL_PROMPTS[s.wk]||[];
+    out+=`WEEK ${s.wk} · ${s.date}\n`;
+    out+=`Focus: ${s.focus}\n`;
+    out+=`${'─'.repeat(40)}\n`;
+    prompts.forEach((p,i)=>out+=`Prompt ${i+1}: ${p}\n`);
+    out+=`\nResponse:\n${entry}\n\n`;
+  });
+  downloadText(out,`TB300_Journal_Week_All.txt`);
+}
+
+// ══════════════════════════════
+// SCHEDULE PAGE
+// ══════════════════════════════
+function initSchedule() {
+  const list=document.getElementById('schedule-list');
+  list.innerHTML='';
+  const today=new Date();
+  const start=new Date('2026-07-07');
+  const currentWk=Math.max(1,Math.min(10,Math.floor((today-start)/(1000*60*60*24*7))+1));
+  SCHEDULE.forEach(s=>{
+    const isPast=s.wk<currentWk;
+    const isCurrent=s.wk===currentWk;
+    const wkClass=isCurrent?'current':s.type==='exam'?'exam':s.type==='journal'?'jdue':isPast?'past':'';
+    const tagHtml=s.type==='exam'?'<span class="pill pill-red">EXAM</span>':s.type==='journal'?'<span class="pill pill-gold">JOURNAL DUE</span>':'';
+    list.innerHTML+=`
+      <div class="sched-row">
+        <div class="sched-wk ${wkClass}">${s.wk}</div>
+        <div class="sched-content">
+          <div class="sched-date">${s.date} · Tuesday 6:30–8:00pm</div>
+          <div class="sched-focus">${s.focus}</div>
+          <div class="sched-tag">${tagHtml}</div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+// ══════════════════════════════
+// FLASHCARDS
+// ══════════════════════════════
+function initFlash() {
+  loadDeck(state.fcDeck);
+}
+
+function loadDeck(deck) {
+  state.fcDeck=deck;
+  if(deck==='all') state.fcCards=[...FLASHCARD_DATA.movements,...FLASHCARD_DATA.theory,...FLASHCARD_DATA.elements];
+  else state.fcCards=[...FLASHCARD_DATA[deck]||[]];
+  state.fcIndex=0;
+  state.fcKnown=new Set();
+  state.fcReview=new Set();
+  state.fcFlipped=false;
+  document.getElementById('flashcard').classList.remove('flipped');
+  document.getElementById('fc-result').style.display='none';
+  renderCard();
+}
+
+function shuffleCards() {
+  state.fcCards=[...state.fcCards].sort(()=>Math.random()-0.5);
+  state.fcIndex=0;
+  state.fcFlipped=false;
+  document.getElementById('flashcard').classList.remove('flipped');
+  document.getElementById('fc-result').style.display='none';
+  renderCard();
+}
+
+function renderCard() {
+  const card=state.fcCards[state.fcIndex];
+  if(!card) return;
+  document.getElementById('fc-zh').textContent=card.zh||'';
+  document.getElementById('fc-en').textContent=card.en||'';
+  document.getElementById('fc-answer').textContent=card.answer||'';
+  document.getElementById('fc-progress').textContent=`${state.fcIndex+1} / ${state.fcCards.length}`;
+  document.getElementById('fc-counter').textContent=`${state.fcIndex+1}/${state.fcCards.length}`;
+  document.getElementById('fc-pbar').style.width=((state.fcIndex+1)/state.fcCards.length*100)+'%';
+  document.getElementById('fc-known').textContent=state.fcKnown.size;
+  document.getElementById('fc-review').textContent=state.fcReview.size;
+}
+
+function flipCard() {
+  const fc=document.getElementById('flashcard');
+  state.fcFlipped=!state.fcFlipped;
+  fc.classList.toggle('flipped',state.fcFlipped);
+  document.getElementById('fc-result').style.display=state.fcFlipped?'flex':'none';
+}
+
+function markCard(knew) {
+  const key=state.fcIndex;
+  if(knew){state.fcKnown.add(key);state.fcReview.delete(key);}
+  else{state.fcReview.add(key);state.fcKnown.delete(key);}
+  nextCard();
+}
+
+function nextCard() {
+  if(state.fcIndex<state.fcCards.length-1) state.fcIndex++;
+  else state.fcIndex=0;
+  state.fcFlipped=false;
+  document.getElementById('flashcard').classList.remove('flipped');
+  document.getElementById('fc-result').style.display='none';
+  renderCard();
+}
+function prevCard() {
+  if(state.fcIndex>0) state.fcIndex--;
+  state.fcFlipped=false;
+  document.getElementById('flashcard').classList.remove('flipped');
+  document.getElementById('fc-result').style.display='none';
+  renderCard();
+}
+function changeDeck(v){loadDeck(v);}
+function resetFlash(){state.fcKnown=new Set();state.fcReview=new Set();renderCard();}
+
+// ══════════════════════════════
+// EXAM SIMULATOR
+// ══════════════════════════════
+function startExam(mode) {
+  state.examMode=mode;
+  state.examQuestions=[...EXAM_QUESTIONS[mode]].sort(()=>Math.random()-0.5);
+  state.examIndex=0;
+  state.examScore=0;
+  state.examAnswered=false;
+  document.getElementById('exam-menu').style.display='none';
+  document.getElementById('exam-active').style.display='block';
+  document.getElementById('exam-score-area').style.display='none';
+  renderExamQuestion();
+}
+
+function renderExamQuestion() {
+  const q=state.examQuestions[state.examIndex];
+  if(!q) return showExamScore();
+  document.getElementById('exam-q-counter').textContent=`${state.examIndex+1}/${state.examQuestions.length}`;
+  document.getElementById('exam-pbar').style.width=((state.examIndex)/state.examQuestions.length*100)+'%';
+  state.examAnswered=false;
+  document.getElementById('exam-question-area').innerHTML=`
+    <div class="exam-q">
+      <h3>${q.q}</h3>
+      <div class="exam-options">
+        ${q.options.map((o,i)=>`<button class="exam-opt" onclick="answerExam(${i})">${o}</button>`).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function answerExam(idx) {
+  if(state.examAnswered) return;
+  state.examAnswered=true;
+  const q=state.examQuestions[state.examIndex];
+  const opts=document.querySelectorAll('.exam-opt');
+  opts.forEach((o,i)=>{
+    if(i===q.ans) o.classList.add('correct');
+    else if(i===idx) o.classList.add('wrong');
+    o.onclick=null;
+  });
+  if(idx===q.ans) state.examScore++;
+  setTimeout(()=>{
+    state.examIndex++;
+    if(state.examIndex>=state.examQuestions.length) showExamScore();
+    else renderExamQuestion();
+  },1200);
+}
+
+function showExamScore() {
+  document.getElementById('exam-active').style.display='none';
+  document.getElementById('exam-score-area').style.display='block';
+  const pct=Math.round(state.examScore/state.examQuestions.length*100);
+  document.getElementById('exam-score-num').textContent=`${pct}%`;
+  const msg=pct>=90?'Excellent! 優秀 — Exam ready!':pct>=70?'Good 良好 — Keep practicing!':'Needs work 需要練習 — Review and retry';
+  document.getElementById('exam-score-msg').textContent=`${state.examScore}/${state.examQuestions.length} correct · ${msg}`;
+}
+
+function exitExam(){
+  document.getElementById('exam-menu').style.display='block';
+  document.getElementById('exam-active').style.display='none';
+  document.getElementById('exam-score-area').style.display='none';
+}
+function retryExam(){startExam(state.examMode);}
+
+// ══════════════════════════════
+// TOOLS SUBS
+// ══════════════════════════════
+
+// Reading Response
+const RR_TOPICS={
+  1:"Week 1: Introduction to Qigong principles and Ba Duan Jin. Opening position and the concept of lower dantian.",
+  2:"Week 2: Ba Duan Jin continued. Breath coordination and the relationship between movement and qi cultivation.",
+  3:"Week 3: Ba Duan Jin continued. The Five Elements and organ systems addressed by the form.",
+  4:"Week 4: Ba Duan Jin review. Preparing for Midterm. TCM therapeutic principles of Qigong.",
+  5:"Week 5: Midterm Practical. Differentiation of Qigong systems and main principles of effect.",
+  6:"Week 6: Medical Qigong introduction. Clinical applications and therapeutic protocols.",
+  7:"Week 7: Organ-specific Qigong exercises. Liver, Heart, Spleen, Lung, Kidney exercises.",
+  8:"Week 8: Immune strengthening Qigong. Wei Qi (defensive qi) and its cultivation.",
+  9:"Week 9: Yi Jin Jing Qigong introduction. Muscle/tendon changing classic — compare to Ba Duan Jin.",
+  10:"Week 10: Final Practical. Integration of all Qigong systems for personal and professional practice.",
+};
+
+function initRR() {
+  const tabs=document.getElementById('rr-tabs');
+  tabs.innerHTML='';
+  SCHEDULE.forEach(s=>{
+    const t=document.createElement('div');
+    t.className='rr-tab'+(s.wk===state.currentRRWeek?' active':'');
+    t.textContent=`Wk ${s.wk}`;
+    t.onclick=()=>{state.currentRRWeek=s.wk;initRR();};
+    tabs.appendChild(t);
+  });
+  const sch=SCHEDULE[state.currentRRWeek-1];
+  const saved=state.rrEntries[state.currentRRWeek]||'';
+  document.getElementById('rr-content').innerHTML=`
+    <div class="card" style="margin-bottom:12px">
+      <div class="fw6" style="margin-bottom:4px">Week ${sch.wk} · ${sch.date}</div>
+      <div class="text-sm text-muted">${RR_TOPICS[state.currentRRWeek]}</div>
+    </div>
+    <div class="section-title">APA Reading Response</div>
+    <div class="text-xs text-muted" style="margin-bottom:8px">Summarize assigned readings. Include APA in-text citations. Approximately 300–500 words.</div>
+    <textarea id="rr-text" placeholder="Write your reading response here…
+
+Reference: Author, A. A. (Year). Title of work. Publisher.
+
+In-text: (Author, Year, p. X)" rows="10" oninput="rrInput()">${saved}</textarea>
+    <div class="char-count"><span id="rr-chars">${saved.trim().split(/\s+/).filter(Boolean).length}</span> words</div>
+  `;
+}
+function rrInput(){
+  const text=document.getElementById('rr-text')?.value||'';
+  state.rrEntries[state.currentRRWeek]=text;
+  const wc=text.trim().split(/\s+/).filter(Boolean).length;
+  const el=document.getElementById('rr-chars');
+  if(el) el.textContent=wc;
+}
+function saveRR(){state.rrEntries[state.currentRRWeek]=document.getElementById('rr-text')?.value||'';showToast('Saved ✓');}
+function exportRR(){
+  let out=`TB300 QI GONG — READING RESPONSES\nStudent: [Name]\nVUIM Summer 2026\n${'═'.repeat(50)}\n\n`;
+  SCHEDULE.forEach(s=>{
+    out+=`WEEK ${s.wk} · ${s.date}\n${RR_TOPICS[s.wk]}\n${'─'.repeat(40)}\n`;
+    out+=(state.rrEntries[s.wk]||'[No entry yet]')+'\n\n';
+  });
+  downloadText(out,'TB300_Reading_Responses.txt');
+}
+
+// Adaptation
+function initAdapt() {
+  const tabs=document.getElementById('adapt-tabs');
+  tabs.innerHTML='';
+  Object.keys(ADAPT_DATA).forEach(k=>{
+    const t=document.createElement('div');
+    t.className='amt'+(parseInt(k)===state.currentAdaptMovement?' active':'');
+    t.textContent=`M${parseInt(k)+1}`;
+    t.onclick=()=>{state.currentAdaptMovement=parseInt(k);initAdapt();};
+    tabs.appendChild(t);
+  });
+  const data=ADAPT_DATA[state.currentAdaptMovement];
+  const content=document.getElementById('adapt-content');
+  content.innerHTML=`
+    <div class="fw6 text-jade" style="margin-bottom:12px">${data.name}</div>
+    <table class="adapt-table">
+      <tr><th>Condition / Limitation</th><th>Modification</th></tr>
+      ${data.adaptations.map(a=>`<tr><td><strong>${a.cond}</strong></td><td>${a.mod}</td></tr>`).join('')}
+    </table>
+    <div class="text-xs text-muted" style="margin-top:12px">CLO 3: Adapt and teach Qi Gong exercises to patients with movement disabilities.</div>
+  `;
+}
+
+// Checklist
+function initChecklist() {
+  if(!state.checklistState.length) state.checklistState=new Array(CHECKLIST_ITEMS.length).fill(false);
+  renderChecklist();
+}
+function renderChecklist() {
+  const el=document.getElementById('checklist-items');
+  el.innerHTML=CHECKLIST_ITEMS.map((item,i)=>`
+    <div class="card" style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;padding:12px 14px" onclick="toggleCheck(${i})">
+      <div style="width:20px;height:20px;border-radius:4px;border:2px solid ${state.checklistState[i]?'var(--jade)':'var(--border)'};background:${state.checklistState[i]?'var(--jade)':'transparent'};display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">
+        ${state.checklistState[i]?'<span style="color:white;font-size:12px">✓</span>':''}
+      </div>
+      <div class="text-sm" style="line-height:1.5">${item}</div>
+    </div>
+  `).join('');
+  const done=state.checklistState.filter(Boolean).length;
+  document.getElementById('cl-score').textContent=`${done}/${CHECKLIST_ITEMS.length}`;
+  document.getElementById('cl-bar').style.width=(done/CHECKLIST_ITEMS.length*100)+'%';
+}
+function toggleCheck(i){state.checklistState[i]=!state.checklistState[i];renderChecklist();}
+function resetChecklist(){state.checklistState=new Array(CHECKLIST_ITEMS.length).fill(false);renderChecklist();}
+
+// Mistakes
+function initMistakes() {
+  const sel=document.getElementById('mistake-movement');
+  sel.innerHTML='<option value="">Movement…</option>'+
+    MOVEMENTS.map(m=>`<option value="${m.num}">M${m.num}: ${m.en}</option>`).join('');
+  renderMistakes();
+}
+function addMistake() {
+  const mov=document.getElementById('mistake-movement').value;
+  const text=document.getElementById('mistake-input').value.trim();
+  if(!text) return;
+  state.mistakes.push({mov,text,date:new Date().toLocaleDateString(),fixed:false});
+  document.getElementById('mistake-input').value='';
+  renderMistakes();
+  showToast('Logged ✓');
+}
+function renderMistakes() {
+  const el=document.getElementById('mistakes-list');
+  if(!state.mistakes.length){el.innerHTML='<div class="text-sm text-muted">No mistakes logged yet</div>';return;}
+  el.innerHTML=state.mistakes.map((m,i)=>`
+    <div class="card" style="display:flex;gap:10px;align-items:flex-start">
+      <div onclick="toggleFixed(${i})" style="width:18px;height:18px;border-radius:3px;border:2px solid ${m.fixed?'var(--jade)':'var(--border)'};background:${m.fixed?'var(--jade)':'transparent'};cursor:pointer;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center">${m.fixed?'<span style="color:white;font-size:10px">✓</span>':''}</div>
+      <div style="flex:1">
+        ${m.mov?`<div class="text-xs text-jade" style="margin-bottom:3px">M${m.mov}: ${MOVEMENTS[m.mov-1]?.en||''}</div>`:''}
+        <div class="text-sm ${m.fixed?'text-muted':''}" style="${m.fixed?'text-decoration:line-through':''}">${m.text}</div>
+        <div class="text-xs text-muted mt8">${m.date}</div>
+      </div>
+      <button onclick="deleteMistake(${i})" style="background:none;border:none;color:var(--text3);font-size:16px;cursor:pointer;padding:0">×</button>
+    </div>
+  `).join('');
+}
+function toggleFixed(i){state.mistakes[i].fixed=!state.mistakes[i].fixed;renderMistakes();}
+function deleteMistake(i){state.mistakes.splice(i,1);renderMistakes();}
+function exportMistakes(){
+  let out=`TB300 MISTAKE & CORRECTION LOG\n${'═'.repeat(40)}\n\n`;
+  state.mistakes.forEach((m,i)=>{
+    out+=`${i+1}. [${m.fixed?'FIXED':'PENDING'}] ${m.date}\n`;
+    if(m.mov) out+=`   Movement: M${m.mov} — ${MOVEMENTS[m.mov-1]?.en}\n`;
+    out+=`   Issue: ${m.text}\n\n`;
+  });
+  downloadText(out,'TB300_Mistakes.txt');
+}
+
+// ══════════════════════════════
+// UTILITIES
+// ══════════════════════════════
+function downloadText(text, filename) {
+  const blob=new Blob([text],{type:'text/plain'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=filename;
+  a.click();
+}
+
+function showToast(msg) {
+  const t=document.createElement('div');
+  t.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--jade);color:white;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;z-index:999;pointer-events:none';
+  t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),2000);
+}
+
+// ══════════════════════════════
+// SERVICE WORKER
+// ══════════════════════════════
+if('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  });
+}
+
+// ══════════════════════════════
+// BOOT
+// ══════════════════════════════
+document.addEventListener('DOMContentLoaded',()=>{
+  initToday();
+  initForms();
+  initMusic();
+  initSchedule();
+  initFlash();
+  updateTimerDisplay();
+  // Init journal
+  initJournal();
+  // Nav default
+  document.getElementById('nav-today').classList.add('active');
+});
+</script>
+</body>
+</html>
