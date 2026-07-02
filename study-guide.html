@@ -2,1451 +2,746 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>TB300 Qi Gong · Complete Study Guide · VUIM 2026</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400&display=swap" rel="stylesheet">
+<title>TB300 Qi Gong · Study Guide · VUIM 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 
-/* ════════════════════════════════════
-   PRINT SETUP — Letter, portrait
-════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   LETTER PAGE:  8.5 × 11 in
+   Margins:      0.55in top/bottom, 0.5in left/right
+   Usable width: 7.5in
+   Usable height:9.9in  (950px at 96dpi)
+   Header:       55px
+   Footer:       28px
+   Content zone: 867px  ← every page stays inside this
+═══════════════════════════════════════ */
+
 @page {
-  size: letter portrait;
-  margin: 0.65in 0.6in 0.6in 0.6in;
+  size: 8.5in 11in;
+  margin: 0.55in 0.5in;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   font-family: 'Inter', sans-serif;
-  font-size: 10pt;
-  color: #1a1a1a;
+  font-size: 9pt;
+  line-height: 1.45;
+  color: #111;
   background: white;
-  line-height: 1.5;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
 
-/* ════════════════════════════════════
-   PAGE STRUCTURE
-   Each .sheet = one printed page
-════════════════════════════════════ */
-.sheet {
-  width: 7.3in;
-  min-height: 10.0in;
-  max-height: 10.0in;
+/* ── each .pg = exactly one printed page ── */
+.pg {
+  width: 7.5in;
+  height: 9.9in;
+  overflow: hidden;           /* hard clip — nothing spills to next page */
   page-break-after: always;
-  page-break-inside: avoid;
   display: flex;
   flex-direction: column;
+  gap: 0;
+}
+.pg:last-child { page-break-after: auto; }
+
+/* body of the page sits between header and footer */
+.pg-body {
+  flex: 1;
   overflow: hidden;
-}
-.sheet:last-child { page-break-after: auto; }
-
-/* ════════════════════════════════════
-   HEADER — appears on every sheet
-════════════════════════════════════ */
-.pg-head {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  border-bottom: 2pt solid #1a5c3a;
-  padding-bottom: 6pt;
-  margin-bottom: 14pt;
-  flex-shrink: 0;
-}
-.ph-left h1 {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 14pt;
-  font-weight: 700;
-  color: #1a5c3a;
-  line-height: 1.15;
-}
-.ph-left p {
-  font-size: 7.5pt;
-  color: #666;
-  margin-top: 3pt;
-  letter-spacing: 0.02em;
-}
-.ph-zh {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 32pt;
-  color: #1a5c3a;
-  opacity: 0.12;
-  line-height: 1;
-  letter-spacing: -1pt;
-  margin: 0 12pt;
-}
-.ph-right {
-  text-align: right;
-  font-size: 7pt;
-  color: #999;
-  line-height: 1.6;
-  white-space: nowrap;
+  flex-direction: column;
 }
 
-/* ════════════════════════════════════
-   FOOTER
-════════════════════════════════════ */
-.pg-foot {
-  margin-top: auto;
-  padding-top: 8pt;
-  border-top: 0.5pt solid #ccc;
-  display: flex;
-  justify-content: space-between;
-  font-size: 6.5pt;
-  color: #aaa;
-  flex-shrink: 0;
-}
-
-/* ════════════════════════════════════
-   SECTION LABELS
-════════════════════════════════════ */
-.sec {
-  font-size: 7pt;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #1a5c3a;
-  border-bottom: 0.75pt solid #1a5c3a;
-  padding-bottom: 3pt;
-  margin-bottom: 10pt;
-  margin-top: 16pt;
-}
-.sec:first-of-type { margin-top: 0; }
-.sec-gold {
-  font-size: 7pt;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #7a5200;
-  border-bottom: 0.75pt solid #c9a84c;
-  padding-bottom: 3pt;
-  margin-bottom: 10pt;
-  margin-top: 16pt;
-}
-.sec-red {
-  font-size: 7pt;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #8b1a1a;
-  border-bottom: 0.75pt solid #c0392b;
-  padding-bottom: 3pt;
-  margin-bottom: 10pt;
-  margin-top: 16pt;
-}
-
-/* ════════════════════════════════════
-   LAYOUT HELPERS
-════════════════════════════════════ */
-.col2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18pt; }
-.col3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12pt; }
-
-/* ════════════════════════════════════
-   MOVEMENT CARDS
-════════════════════════════════════ */
-.mv {
-  border: 0.75pt solid #c5ddd0;
-  border-radius: 5pt;
-  padding: 10pt 12pt;
-  margin-bottom: 10pt;
-  background: #fafcfb;
-  page-break-inside: avoid;
-}
-.mv-head {
-  display: flex;
-  align-items: flex-start;
-  gap: 9pt;
-  margin-bottom: 7pt;
-}
-.mv-num {
-  width: 20pt;
-  height: 20pt;
-  border-radius: 50%;
-  background: #1a5c3a;
-  color: white;
-  font-size: 9pt;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-top: 1pt;
-}
-.mv-title h3 {
-  font-size: 10pt;
-  font-weight: 700;
-  color: #111;
-  line-height: 1.2;
-}
-.mv-title .zh {
-  font-family: 'Noto Sans SC', sans-serif;
-  font-size: 9pt;
-  color: #1a5c3a;
-  margin-top: 1pt;
-}
-.mv-title .pin {
-  font-size: 7pt;
-  color: #888;
-  font-style: italic;
-  margin-top: 1pt;
-}
-.mv-desc {
-  font-size: 9pt;
-  color: #222;
-  line-height: 1.65;
-  margin-bottom: 8pt;
-}
-.mv-tags { display: flex; gap: 6pt; flex-wrap: wrap; margin-top: 4pt; }
-.tag {
-  display: inline-block;
-  padding: 2pt 7pt;
-  border-radius: 20pt;
-  font-size: 7pt;
-  font-weight: 600;
-  border: 0.5pt solid;
-}
-.tag-green { background: #e8f5ee; color: #1a5c3a; border-color: #8bc4a8; }
-.tag-gold  { background: #fef8e7; color: #7a5200; border-color: #c9a84c; }
-.tag-blue  { background: #eaf0f8; color: #1a3060; border-color: #8aaac8; }
-.tag-red   { background: #faeaea; color: #8b1a1a; border-color: #e08080; }
-
-/* ════════════════════════════════════
-   TABLES
-════════════════════════════════════ */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 9pt;
-  margin-bottom: 12pt;
-}
-th {
-  background: #1a5c3a;
-  color: white;
-  padding: 5pt 8pt;
-  text-align: left;
-  font-weight: 600;
-  font-size: 8pt;
-  letter-spacing: 0.02em;
-}
-th.gold { background: #7a5200; }
-th.red  { background: #8b1a1a; }
-td {
-  padding: 5pt 8pt;
-  border-bottom: 0.5pt solid #e5e5e5;
-  vertical-align: top;
-  line-height: 1.5;
-  color: #222;
-}
-tr:nth-child(even) td { background: #f7f7f7; }
-tr:last-child td { border-bottom: none; }
-.tr-exam td { background: #fdf0ee !important; font-weight: 600; }
-.tr-jdue td { background: #fef8e7 !important; font-weight: 600; }
-.tr-cur  td { background: #e8f5ee !important; font-weight: 700; }
-
-/* ════════════════════════════════════
-   INFO BOXES
-════════════════════════════════════ */
-.box {
-  border: 0.75pt solid #8bc4a8;
-  border-radius: 5pt;
-  padding: 10pt 12pt;
-  margin-bottom: 10pt;
-  background: #f5faf8;
-  page-break-inside: avoid;
-}
-.box-gold {
-  border: 0.75pt solid #c9a84c;
-  border-radius: 5pt;
-  padding: 10pt 12pt;
-  margin-bottom: 10pt;
-  background: #fef8e7;
-  page-break-inside: avoid;
-}
-.box-red {
-  border: 0.75pt solid #c0392b;
-  border-radius: 5pt;
-  padding: 10pt 12pt;
-  margin-bottom: 10pt;
-  background: #faeaea;
-  page-break-inside: avoid;
-}
-.box h4, .box-gold h4, .box-red h4 {
-  font-size: 8.5pt;
-  font-weight: 700;
-  margin-bottom: 5pt;
-}
-.box h4 { color: #1a5c3a; }
-.box-gold h4 { color: #7a5200; }
-.box-red h4 { color: #8b1a1a; }
-.box p, .box-gold p, .box-red p {
-  font-size: 9pt;
-  line-height: 1.65;
-  color: #333;
-}
-
-/* ════════════════════════════════════
-   S PEN WRITING LINES
-   Generous height for handwriting
-════════════════════════════════════ */
-.lines { width: 100%; }
-.line {
-  border-bottom: 1pt solid #d0d8d4;
-  height: 28pt;          /* ~10mm — comfortable S Pen height */
-  width: 100%;
-  display: block;
-  margin-bottom: 0;
-  position: relative;
-}
-.line-sm {
-  border-bottom: 0.75pt solid #e0e0e0;
-  height: 22pt;
-  width: 100%;
-  display: block;
-}
-.line-label {
-  font-size: 6.5pt;
-  color: #bbb;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-bottom: 2pt;
-  margin-top: 10pt;
-  display: block;
-}
-
-/* ════════════════════════════════════
-   CHECKLIST
-════════════════════════════════════ */
-.cl { display: flex; flex-direction: column; gap: 0; }
-.cl-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 8pt;
-  padding: 7pt 0;
-  border-bottom: 0.5pt solid #ececec;
-  page-break-inside: avoid;
-}
-.cl-item:last-child { border-bottom: none; }
-.cl-box {
-  width: 11pt;
-  height: 11pt;
-  border: 1pt solid #666;
-  border-radius: 2pt;
-  flex-shrink: 0;
-  margin-top: 1.5pt;
-}
-.cl-text {
-  font-size: 9pt;
-  line-height: 1.45;
-  color: #222;
-  flex: 1;
-}
-.cl-sub {
-  font-size: 7.5pt;
-  color: #888;
-  display: block;
-  margin-top: 1pt;
-}
-
-/* ════════════════════════════════════
-   TCM TERM ROWS
-════════════════════════════════════ */
-.term {
-  display: flex;
-  align-items: flex-start;
-  gap: 10pt;
-  padding: 8pt 0;
-  border-bottom: 0.75pt solid #e8e8e8;
-}
-.term:last-child { border-bottom: none; }
-.term-zh {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 14pt;
-  color: #1a5c3a;
-  min-width: 30pt;
-  text-align: center;
-  line-height: 1;
-  padding-top: 2pt;
-}
-.term-en {
-  font-size: 9pt;
-  font-weight: 700;
-  color: #111;
-  min-width: 80pt;
-  padding-top: 1pt;
-  line-height: 1.3;
-}
-.term-def {
-  font-size: 9pt;
-  color: #333;
-  flex: 1;
-  line-height: 1.55;
-}
-
-/* ════════════════════════════════════
-   GRADE BOXES
-════════════════════════════════════ */
-.grade-cell {
-  border: 0.75pt solid #8bc4a8;
-  border-radius: 5pt;
-  padding: 10pt;
-  text-align: center;
-  background: #f5faf8;
-}
-.grade-pct {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 22pt;
-  font-weight: 700;
-  color: #1a5c3a;
-  line-height: 1;
-}
-.grade-lbl { font-size: 8.5pt; font-weight: 600; margin-top: 4pt; }
-.grade-sub { font-size: 7.5pt; color: #c9a84c; font-weight: 600; margin-top: 3pt; }
-
-/* ════════════════════════════════════
-   SCREEN PREVIEW
-════════════════════════════════════ */
+/* ── screen preview ── */
 @media screen {
-  body {
-    background: #e8e8e8;
-    padding: 0.4in;
-  }
-  .sheet {
+  body { background: #ccc; padding: 0.25in; }
+  .pg {
     background: white;
-    padding: 0.65in 0.6in 0.6in 0.6in;
-    margin-bottom: 0.3in;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+    padding: 0.55in 0.5in;
+    margin: 0 auto 0.35in;
+    box-shadow: 0 2px 14px rgba(0,0,0,.22);
   }
-  .print-btn {
-    position: fixed;
-    top: 14px; right: 14px;
-    z-index: 999;
-    background: #1a5c3a;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 11px 22px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: 'Inter', sans-serif;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-  }
-  .print-btn:hover { background: #145030; }
-  .page-label {
-    position: absolute;
-    top: -22px;
-    left: 0;
-    font-size: 10px;
-    color: #888;
-    font-family: 'Inter', sans-serif;
+  .fab {
+    position: fixed; bottom: 18px; right: 18px; z-index: 999;
+    background: #1a5c3a; color: white; border: none;
+    border-radius: 28px; padding: 13px 26px;
+    font-size: 14px; font-weight: 700;
+    cursor: pointer; font-family: 'Inter', sans-serif;
+    box-shadow: 0 4px 16px rgba(0,0,0,.3);
   }
 }
-@media print {
-  .print-btn { display: none !important; }
-  body { background: white; padding: 0; }
-  .sheet { box-shadow: none; }
+@media print { .fab { display: none; } }
+
+/* ══════════════
+   HEADER / FOOTER
+══════════════ */
+.ph {
+  height: 55px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 2pt solid #1a5c3a;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+  flex-shrink: 0;
 }
+.ph-title { font-family: 'Noto Serif SC', serif; font-size: 12.5pt; font-weight: 700; color: #1a5c3a; line-height: 1.2; }
+.ph-sub   { font-size: 7pt; color: #777; margin-top: 2px; }
+.ph-zh    { font-family: 'Noto Serif SC', serif; font-size: 26pt; color: #1a5c3a; opacity: .11; margin: 0 8px; line-height: 1; flex-shrink: 0; }
+.ph-pg    { font-size: 7pt; color: #bbb; text-align: right; white-space: nowrap; line-height: 1.55; margin-left: 6px; }
+.pf {
+  height: 28px;
+  margin-top: auto;
+  border-top: .5pt solid #ccc;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 6.5pt; color: #bbb;
+  flex-shrink: 0;
+  padding-top: 4px;
+}
+
+/* ══════════════
+   LAYOUT
+══════════════ */
+.c2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14pt; }
+.c3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8pt; }
+
+/* ══════════════
+   SECTION HEADS
+   height: 22px
+══════════════ */
+.s  { font-size: 6.5pt; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      color: #1a5c3a; border-bottom: .75pt solid #1a5c3a; padding-bottom: 2px; margin-bottom: 6px; margin-top: 12px; }
+.sg { font-size: 6.5pt; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      color: #7a5200; border-bottom: .75pt solid #c9a84c; padding-bottom: 2px; margin-bottom: 6px; margin-top: 12px; }
+.sr { font-size: 6.5pt; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      color: #8b1a1a; border-bottom: .75pt solid #c0392b; padding-bottom: 2px; margin-bottom: 6px; margin-top: 12px; }
+.s:first-child, .sg:first-child, .sr:first-child { margin-top: 0; }
+
+/* ══════════════
+   TABLES
+   header: 22px, each row: 20px
+══════════════ */
+table { width: 100%; border-collapse: collapse; font-size: 8.5pt; margin-bottom: 8px; }
+th { background: #1a5c3a; color: white; padding: 3pt 6pt; text-align: left; font-weight: 600; font-size: 7.5pt; }
+th.g { background: #7a5200; }
+td { padding: 3pt 6pt; border-bottom: .5pt solid #e8e8e8; vertical-align: top; line-height: 1.4; }
+tr:nth-child(even) td { background: #f8f8f8; }
+tr:last-child td { border-bottom: none; }
+.er td { background: #fdf0ee !important; font-weight: 600; }
+.jr td { background: #fef8e7 !important; font-weight: 600; }
+
+/* ══════════════
+   BOXES
+   small (2 lines): 48px
+   medium (3 lines): 62px
+══════════════ */
+.bx, .bxg, .bxr {
+  border-radius: 4pt; padding: 6pt 9pt; margin-bottom: 7px;
+  font-size: 8.5pt; line-height: 1.55; color: #333;
+}
+.bx  { border: .75pt solid #8bc4a8; background: #f5faf8; }
+.bxg { border: .75pt solid #c9a84c; background: #fef8e7; }
+.bxr { border: .75pt solid #c0392b; background: #faeaea; }
+.bx h4, .bxg h4, .bxr h4 { font-size: 8pt; font-weight: 700; margin-bottom: 3px; }
+.bx h4  { color: #1a5c3a; }
+.bxg h4 { color: #7a5200; }
+.bxr h4 { color: #8b1a1a; }
+
+/* ══════════════
+   MOVEMENT CARDS
+   height: 98px
+══════════════ */
+.mv { border: .75pt solid #b8d8c8; border-radius: 4pt; padding: 7pt 9pt; margin-bottom: 7px; background: #fafcfb; }
+.mv-h { display: flex; align-items: flex-start; gap: 7pt; margin-bottom: 5px; }
+.mv-n {
+  width: 18pt; height: 18pt; border-radius: 50%; background: #1a5c3a; color: white;
+  font-size: 8pt; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.mv-t h3 { font-size: 9pt; font-weight: 700; line-height: 1.2; }
+.mv-t .zh { font-size: 8pt; color: #1a5c3a; margin-top: 1px; }
+.mv-t .py { font-size: 6.5pt; color: #999; font-style: italic; }
+.mv-d { font-size: 8pt; line-height: 1.55; color: #222; margin-bottom: 5px; }
+.mv-g { display: flex; gap: 4pt; flex-wrap: wrap; }
+.tg { display:inline-block; padding:1pt 5pt; border-radius:20pt; font-size:6.5pt; font-weight:600; border:.5pt solid; }
+.t1 { background:#e8f5ee; color:#1a5c3a; border-color:#8bc4a8; }
+.t2 { background:#fef8e7; color:#7a5200; border-color:#c9a84c; }
+.t3 { background:#eaf0f8; color:#1a3060; border-color:#8aaac8; }
+.t4 { background:#faeaea; color:#8b1a1a; border-color:#e08080; }
+
+/* ══════════════
+   GRADE CELLS
+══════════════ */
+.gc { border: .75pt solid #8bc4a8; border-radius: 4pt; padding: 7pt; text-align: center; background: #f5faf8; }
+.gc-p { font-size: 18pt; font-weight: 700; color: #1a5c3a; font-family:'Noto Serif SC',serif; line-height:1; }
+.gc-l { font-size: 8pt; font-weight: 600; margin-top: 3px; }
+.gc-s { font-size: 7pt; color: #c9a84c; font-weight: 600; margin-top: 2px; }
+
+/* ══════════════
+   TCM TERMS
+   each: 34px
+══════════════ */
+.tm { display:flex; align-items:flex-start; gap:7pt; padding:5pt 0; border-bottom:.5pt solid #eee; }
+.tm:last-child { border-bottom:none; }
+.tm-zh { font-family:'Noto Serif SC',serif; font-size:12pt; color:#1a5c3a; min-width:26pt; text-align:center; padding-top:1pt; }
+.tm-en { font-size:8pt; font-weight:700; min-width:72pt; padding-top:2pt; line-height:1.3; }
+.tm-df { font-size:8pt; color:#333; flex:1; line-height:1.45; }
+
+/* ══════════════
+   S PEN LINES
+   each line: 32px (comfortable for handwriting)
+══════════════ */
+.ln { display:block; border-bottom:1pt solid #ccc; height:32pt; width:100%; }
+.lnlbl { display:block; font-size:6pt; color:#bbb; letter-spacing:.06em; text-transform:uppercase; margin-top:7px; margin-bottom:1px; }
+
+/* ══════════════
+   CHECKLIST
+   each item: 24px
+══════════════ */
+.ci { display:flex; align-items:flex-start; gap:6pt; padding:4pt 0; border-bottom:.5pt solid #eee; }
+.ci:last-child { border-bottom:none; }
+.cb { width:10pt; height:10pt; border:1pt solid #666; border-radius:2pt; flex-shrink:0; margin-top:1.5pt; }
+.ct { font-size:8.5pt; line-height:1.35; flex:1; }
+.cs { display:block; font-size:6.5pt; color:#888; margin-top:1px; }
 
 </style>
 </head>
 <body>
+<button class="fab" onclick="window.print()">🖨 Print All 12 Pages</button>
 
-<button class="print-btn" onclick="window.print()">🖨 Print Study Guide</button>
 
-
-<!-- ══════════════════════════════════════════════════════
-     PAGE 1 — COVER / COURSE OVERVIEW
-══════════════════════════════════════════════════════ -->
-<div class="sheet">
-  <div class="pg-head">
-    <div class="ph-left">
-      <h1>Qi Gong · 氣功 · Complete Study Guide</h1>
-      <p>TB300/TB320 · Virginia University of Integrative Medicine · Summer 2026</p>
-    </div>
+<!-- ══════════════════════════════
+     PAGE 1 — COURSE OVERVIEW
+══════════════════════════════ -->
+<div class="pg">
+  <div class="ph">
+    <div><div class="ph-title">TB300 Qi Gong · Course Overview</div><div class="ph-sub">Virginia University of Integrative Medicine · Summer 2026 · Dr. Justin Flinner, DAc, LAc, DiplAc</div></div>
     <div class="ph-zh">氣功</div>
-    <div class="ph-right">Dr. Justin Flinner, DAc, LAc, DiplAc<br>jflinner@vuim.edu · 202.505.2805<br>Page 1 of 12</div>
+    <div class="ph-pg">Page 1 of 12<br>Course Overview</div>
   </div>
-
-  <!-- Course at a glance -->
-  <div class="col2" style="margin-bottom:16pt">
-    <div>
-      <div class="sec">Course At a Glance</div>
-      <table>
-        <tr><td style="width:90pt;font-weight:600;color:#1a5c3a">Term</td><td>2026 Summer Quarter</td></tr>
-        <tr><td style="font-weight:600;color:#1a5c3a">Course #</td><td>TB320 (2 cr) / TB300 (1 cr)</td></tr>
-        <tr><td style="font-weight:600;color:#1a5c3a">Class Hours</td><td>15 hours total</td></tr>
-        <tr><td style="font-weight:600;color:#1a5c3a">Time</td><td>Tuesdays, 6:30–8:00pm</td></tr>
-        <tr><td style="font-weight:600;color:#1a5c3a">Prerequisites</td><td>EAM300</td></tr>
-        <tr><td style="font-weight:600;color:#1a5c3a">Faculty</td><td>Dr. Justin Flinner, DAc, LAc, DiplAc</td></tr>
-        <tr><td style="font-weight:600;color:#1a5c3a">Contact</td><td>jflinner@vuim.edu</td></tr>
-        <tr><td style="font-weight:600;color:#1a5c3a">Office Hours</td><td>Virtual, by appointment only</td></tr>
-        <tr><td style="font-weight:600;color:#1a5c3a">Presentation</td><td>Lecture, demonstration, practice sessions</td></tr>
-      </table>
-
-      <div class="sec">Grading Breakdown</div>
-      <div class="col3">
-        <div class="grade-cell">
-          <div class="grade-pct">20%</div>
-          <div class="grade-lbl">📓 Journal</div>
-          <div class="grade-sub">Due Week 9</div>
+  <div class="pg-body">
+    <div class="c2">
+      <div>
+        <div class="s">Course Details</div>
+        <table>
+          <tr><td style="width:85pt;font-weight:600;color:#1a5c3a">Course #</td><td>TB320 (2 cr) / TB300 (1 cr)</td></tr>
+          <tr><td style="font-weight:600;color:#1a5c3a">Term</td><td>2026 Summer Quarter</td></tr>
+          <tr><td style="font-weight:600;color:#1a5c3a">Hours</td><td>15 hours total</td></tr>
+          <tr><td style="font-weight:600;color:#1a5c3a">Time</td><td>Tuesdays, 6:30–8:00pm</td></tr>
+          <tr><td style="font-weight:600;color:#1a5c3a">Prerequisites</td><td>EAM300</td></tr>
+          <tr><td style="font-weight:600;color:#1a5c3a">Faculty</td><td>Dr. Justin Flinner, DAc, LAc, DiplAc</td></tr>
+          <tr><td style="font-weight:600;color:#1a5c3a">Email</td><td>jflinner@vuim.edu</td></tr>
+          <tr><td style="font-weight:600;color:#1a5c3a">Phone</td><td>202.505.2805</td></tr>
+          <tr><td style="font-weight:600;color:#1a5c3a">Office Hours</td><td>Virtual, by appointment only</td></tr>
+          <tr><td style="font-weight:600;color:#1a5c3a">Reply Time</td><td>Within 2 business days</td></tr>
+          <tr><td style="font-weight:600;color:#1a5c3a">Grades</td><td>Posted in Populi within 1 week</td></tr>
+        </table>
+        <div class="s">Grading</div>
+        <div class="c3" style="margin-bottom:7px">
+          <div class="gc"><div class="gc-p">20%</div><div class="gc-l">📓 Journal</div><div class="gc-s">Due Week 9</div></div>
+          <div class="gc"><div class="gc-p">40%</div><div class="gc-l">⚔ Midterm</div><div class="gc-s">Wk 5 · Aug 4</div></div>
+          <div class="gc"><div class="gc-p">40%</div><div class="gc-l">🏆 Final</div><div class="gc-s">Wk 10 · Sep 8</div></div>
         </div>
-        <div class="grade-cell">
-          <div class="grade-pct">40%</div>
-          <div class="grade-lbl">⚔ Midterm</div>
-          <div class="grade-sub">Week 5 · Aug 4</div>
-        </div>
-        <div class="grade-cell">
-          <div class="grade-pct">40%</div>
-          <div class="grade-lbl">🏆 Final</div>
-          <div class="grade-sub">Week 10 · Sep 8</div>
-        </div>
+        <table><tr><th>A</th><th>B</th><th>C</th><th>F</th></tr><tr><td>90–100</td><td>80–89</td><td>70–79</td><td>≤69</td></tr></table>
+        <div style="font-size:7.5pt;color:#555;margin-bottom:8px">Min passing: <strong>70%</strong>. Must attend ≥12 of 15 hours or automatic F.</div>
+        <div class="s">Resources</div>
+        <div class="bx"><h4>📋 Required</h4>1. Ba Duan Jin Cheat Sheet (My Metro Medicine)<br>2. YouTube Playlist — My Metro Medicine Qigong Exercises<br>3. Loose exercise clothes + comfortable sneakers</div>
+        <div class="bxg"><h4>📚 Recommended</h4><strong>Qigong Empowerment</strong> — Liang &amp; Wu · ISBN 978-1889659022<br><strong>Root of Chinese Qigong</strong> 3rd ed. — Yang · ISBN 978-1594399107</div>
       </div>
-
-      <table style="margin-top:6pt">
-        <tr><th>A</th><th>B</th><th>C</th><th>F / IC</th></tr>
-        <tr><td>90–100</td><td>80–89</td><td>70–79</td><td>≤ 69 / Incomplete</td></tr>
-      </table>
-      <div style="font-size:8pt;color:#555;margin-top:4pt">Minimum passing grade: <strong>70%</strong>. Must attend 80% of hours (≥ 12 of 15) or receive automatic F.</div>
-    </div>
-
-    <div>
-      <div class="sec">Course Learning Outcomes (CLO)</div>
-      <table>
-        <tr><th style="width:30pt">#</th><th>Outcome</th></tr>
-        <tr><td><strong>1</strong></td><td>Explain the different therapeutic principles of Qi Gong and TCM</td></tr>
-        <tr><td><strong>2</strong></td><td>Differentiate Qi Gong systems and describe their main principles of effect</td></tr>
-        <tr><td><strong>3</strong></td><td>Adapt and teach Qi Gong exercises to patients with movement disabilities</td></tr>
-        <tr><td><strong>4</strong></td><td>Explain the needs for personal growth and health maintenance in student</td></tr>
-        <tr><td><strong>5</strong></td><td>Explain the needs for acupuncture/TCM professional practice</td></tr>
-      </table>
-
-      <div class="sec">Required Resources</div>
-      <div class="box">
-        <h4>📋 Required</h4>
-        <p>1. Ba Duan Jin Cheat Sheet (from My Metro Medicine)<br>
-        2. My Metro Medicine – Qigong Exercises (YouTube Playlist)<br>
-        &nbsp;&nbsp;&nbsp;<em style="font-size:7.5pt">youtube.com/playlist?list=PL3JhIZLAcC0gRSwBh3rXHt-pQ0saM9qhC</em><br>
-        3. Loose exercise clothes + comfortable sneakers</p>
-      </div>
-      <div class="box-gold">
-        <h4>📚 Recommended Texts</h4>
-        <p><strong>Qigong Empowerment</strong> — A Guide to Medical, Taoist, Buddhist, and Wushu Energy Cultivation. Master Shou-Yu Liang &amp; Wen-Ching Wu. ISBN: 978-1889659022<br><br>
-        <strong>The Root of Chinese Qigong</strong> 3rd ed. — Secrets for Health, Longevity, and Enlightenment. Dr. Yang, Jwing-Ming. ISBN: 978-1594399107</p>
-      </div>
-
-      <div class="box-red">
-        <h4>🚫 AI Use Policy — STRICTLY PROHIBITED</h4>
-        <p>ChatGPT, Claude, Copilot, Bard, Grammarly AI, image generators, and all other AI tools are <strong>banned for all coursework</strong> — written assignments, discussion posts, idea generation, and editing. Violations may result in failing grade or formal disciplinary action.</p>
+      <div>
+        <div class="s">Course Learning Outcomes (CLO)</div>
+        <table>
+          <tr><th style="width:24pt">#</th><th>Outcome — applies to all weeks</th></tr>
+          <tr><td><strong>1</strong></td><td>Explain the therapeutic principles of Qi Gong and TCM</td></tr>
+          <tr><td><strong>2</strong></td><td>Differentiate Qi Gong systems and their principles of effect</td></tr>
+          <tr><td><strong>3</strong></td><td>Adapt and teach Qi Gong to patients with movement disabilities</td></tr>
+          <tr><td><strong>4</strong></td><td>Explain needs for personal growth and health maintenance</td></tr>
+          <tr><td><strong>5</strong></td><td>Explain needs for acupuncture/TCM professional practice</td></tr>
+        </table>
+        <div class="s">Key Policies</div>
+        <div class="bxr"><h4>🚫 AI Strictly Prohibited</h4>ChatGPT, Claude, Copilot, Bard, Grammarly AI, image generators — ALL banned for all coursework including writing, idea generation, and editing. Violations may result in a failing grade or formal disciplinary action.</div>
+        <div class="bxr"><h4>📅 Journal Late Policy</h4><strong>−5 points per day late.</strong> More than 1 week late = automatic zero. Journal due <strong>Sep 1 (Week 9).</strong> No exceptions without dean approval.</div>
+        <div class="bx"><h4>🕐 Attendance</h4>Must attend <strong>≥80% of hours</strong> = minimum 12 of 15. Below 80% = automatic <strong>F</strong> and course must be retaken.</div>
+        <div class="bx"><h4>📱 Technology in Class</h4>Cell phones <strong>prohibited during tests and class.</strong> Laptops OK for notes and following along. NOT for email, messaging, or browsing.</div>
+        <div class="bxg"><h4>✍ Writing Standard</h4>All written work must follow <strong>APA format.</strong> Citations required for non-original content. Plagiarism = failing grade. See owl.purdue.edu for APA guidance.</div>
       </div>
     </div>
   </div>
-
-  <div class="pg-foot">
-    <span>氣功 · TB300 · VUIM Summer 2026</span>
-    <span>Page 1 of 12 · Course Overview</span>
-    <span>Dr. Justin Flinner · jflinner@vuim.edu</span>
-  </div>
+  <div class="pf"><span>TB300 · VUIM Summer 2026</span><span>Page 1 of 12 · Course Overview</span><span>jflinner@vuim.edu · 202.505.2805</span></div>
 </div>
 
 
-<!-- ══════════════════════════════════════════════════════
+<!-- ══════════════════════════════
      PAGE 2 — 10-WEEK SCHEDULE
-══════════════════════════════════════════════════════ -->
-<div class="sheet">
-  <div class="pg-head">
-    <div class="ph-left">
-      <h1>10-Week Course Schedule · 課程表</h1>
-      <p>TB300 Qi Gong · VUIM Summer 2026 · Tuesdays 6:30–8:00pm</p>
-    </div>
+══════════════════════════════ -->
+<div class="pg">
+  <div class="ph">
+    <div><div class="ph-title">10-Week Schedule · 課程表</div><div class="ph-sub">TB300 Qi Gong · VUIM Summer 2026 · Tuesdays 6:30–8:00pm</div></div>
     <div class="ph-zh">課程</div>
-    <div class="ph-right">Page 2 of 12<br>Schedule</div>
+    <div class="ph-pg">Page 2 of 12<br>Schedule</div>
   </div>
-
-  <div class="sec">Weekly Schedule</div>
-  <table>
-    <tr>
-      <th style="width:30pt">#</th>
-      <th style="width:55pt">Date</th>
-      <th>Lecture / Lab Focus</th>
-      <th style="width:90pt">Key Assignment</th>
-      <th style="width:55pt">CLOs</th>
-    </tr>
-    <tr>
-      <td><strong>1</strong></td><td>Jul 7</td>
-      <td>Opening Discussion · Review Basics of Qigong · Learn Opening Movement of Ba Duan Jin · Practice</td>
-      <td>Weekly Reading Assignment</td><td>1–5</td>
-    </tr>
-    <tr>
-      <td><strong>2</strong></td><td>Jul 14</td>
-      <td>Recap &amp; Review Basics · Continue Ba Duan Jin · Practice</td>
-      <td>Practice Form Daily – 1hr · Weekly Reading</td><td>3–5</td>
-    </tr>
-    <tr>
-      <td><strong>3</strong></td><td>Jul 21</td>
-      <td>Review Basics of Qigong · Continue Ba Duan Jin · Practice</td>
-      <td>Practice Form Daily – 1hr · Weekly Reading</td><td>3–5</td>
-    </tr>
-    <tr>
-      <td><strong>4</strong></td><td>Jul 28</td>
-      <td>Review Basics of Qigong · Continue Ba Duan Jin · Practice</td>
-      <td>Practice Form Daily – 1hr · Weekly Reading</td><td>3–5</td>
-    </tr>
-    <tr class="tr-exam">
-      <td><strong>5</strong></td><td>Aug 4</td>
-      <td>⚔ MIDTERM PRACTICAL EXAM · Review Ba Duan Jin</td>
-      <td>⚔ EXAM · 40% of Grade</td><td>1–5</td>
-    </tr>
-    <tr>
-      <td><strong>6</strong></td><td>Aug 11</td>
-      <td>Recap Basic Steps · Review Ba Duan Jin · Introduce Medical Qigong · Practice</td>
-      <td>Practice Form Daily – 1hr · Weekly Reading</td><td>1–5</td>
-    </tr>
-    <tr>
-      <td><strong>7</strong></td><td>Aug 18</td>
-      <td>Review Ba Duan Jin · Practice Organ-Specific Qigong Exercises · Practice</td>
-      <td>Practice Form Daily – 1hr · Weekly Reading</td><td>3–5</td>
-    </tr>
-    <tr>
-      <td><strong>8</strong></td><td>Aug 25</td>
-      <td>Review Ba Duan Jin · Practice Immune Strengthening Qigong · Practice</td>
-      <td>Practice Form Daily – 1hr · Weekly Reading</td><td>3–5</td>
-    </tr>
-    <tr class="tr-jdue">
-      <td><strong>9</strong></td><td>Sep 1</td>
-      <td>Review Ba Duan Jin · Introduce Yi Jin Jing Qigong · Practice</td>
-      <td>📓 JOURNAL DUE · 20% of Grade</td><td>3–5</td>
-    </tr>
-    <tr class="tr-exam">
-      <td><strong>10</strong></td><td>Sep 8</td>
-      <td>🏆 FINAL PRACTICAL EXAM · Full Ba Duan Jin Qigong Form</td>
-      <td>🏆 EXAM · 40% of Grade</td><td>1–5</td>
-    </tr>
-  </table>
-
-  <div class="col2" style="margin-top:4pt">
-    <div>
-      <div class="sec">Key Deadlines at a Glance</div>
-      <table>
-        <tr><th>Date</th><th>Event</th><th>Weight</th></tr>
-        <tr class="tr-exam"><td>Aug 4 (Wk 5)</td><td>⚔ Midterm Practical Exam</td><td>40%</td></tr>
-        <tr class="tr-jdue"><td>Sep 1 (Wk 9)</td><td>📓 Journal Assignment Due</td><td>20%</td></tr>
-        <tr class="tr-exam"><td>Sep 8 (Wk 10)</td><td>🏆 Final Practical Exam (full form)</td><td>40%</td></tr>
-      </table>
-
-      <div class="box-red" style="margin-top:6pt">
-        <h4>⚠ Journal Late Policy</h4>
-        <p><strong>−5 points per day late.</strong> Journals submitted more than one week late will not be accepted and receive a grade of zero. Do not wait until the last minute.</p>
+  <div class="pg-body">
+    <div class="s">Weekly Schedule</div>
+    <table>
+      <tr><th style="width:22pt">#</th><th style="width:46pt">Date</th><th>Lecture / Lab Focus</th><th style="width:105pt">Assignment</th><th style="width:42pt">CLOs</th></tr>
+      <tr><td><strong>1</strong></td><td>Jul 7</td><td>Opening Discussion · Review Basics of Qigong · Learn Opening Movement of Ba Duan Jin</td><td>Weekly Reading Assignment</td><td>1–5</td></tr>
+      <tr><td><strong>2</strong></td><td>Jul 14</td><td>Recap &amp; Review Basics · Continue Ba Duan Jin</td><td>Practice Daily – 1hr · Reading</td><td>3–5</td></tr>
+      <tr><td><strong>3</strong></td><td>Jul 21</td><td>Review Basics · Continue Ba Duan Jin</td><td>Practice Daily – 1hr · Reading</td><td>3–5</td></tr>
+      <tr><td><strong>4</strong></td><td>Jul 28</td><td>Review Basics · Continue Ba Duan Jin</td><td>Practice Daily – 1hr · Reading</td><td>3–5</td></tr>
+      <tr class="er"><td><strong>5</strong></td><td>Aug 4</td><td>⚔ MIDTERM PRACTICAL EXAM · Review Ba Duan Jin</td><td>⚔ EXAM — 40% of Grade</td><td>1–5</td></tr>
+      <tr><td><strong>6</strong></td><td>Aug 11</td><td>Recap Steps · Review Ba Duan Jin · Introduce Medical Qigong</td><td>Practice Daily – 1hr · Reading</td><td>1–5</td></tr>
+      <tr><td><strong>7</strong></td><td>Aug 18</td><td>Review Ba Duan Jin · Practice Organ-Specific Qigong</td><td>Practice Daily – 1hr · Reading</td><td>3–5</td></tr>
+      <tr><td><strong>8</strong></td><td>Aug 25</td><td>Review Ba Duan Jin · Practice Immune Strengthening Qigong</td><td>Practice Daily – 1hr · Reading</td><td>3–5</td></tr>
+      <tr class="jr"><td><strong>9</strong></td><td>Sep 1</td><td>Review Ba Duan Jin · Introduce Yi Jin Jing Qigong</td><td>📓 JOURNAL DUE — 20% of Grade</td><td>3–5</td></tr>
+      <tr class="er"><td><strong>10</strong></td><td>Sep 8</td><td>🏆 FINAL PRACTICAL EXAM · Full Ba Duan Jin Qigong Form</td><td>🏆 EXAM — 40% of Grade</td><td>1–5</td></tr>
+    </table>
+    <div class="c2" style="margin-top:6px">
+      <div>
+        <div class="s">Critical Dates</div>
+        <table>
+          <tr><th>Date</th><th>Event</th><th>Weight</th></tr>
+          <tr class="er"><td>Aug 4 · Wk 5</td><td>⚔ Midterm Practical Exam</td><td>40%</td></tr>
+          <tr class="jr"><td>Sep 1 · Wk 9</td><td>📓 Journal Due</td><td>20%</td></tr>
+          <tr class="er"><td>Sep 8 · Wk 10</td><td>🏆 Final Practical Exam</td><td>40%</td></tr>
+        </table>
+        <div class="bxr"><h4>⚠ Journal Late Penalty</h4><strong>−5 pts/day.</strong> Zero after 1 week late. No exceptions. Start drafting Week 1 entries immediately after class.</div>
       </div>
-    </div>
-    <div>
-      <div class="sec">Attendance Policy</div>
-      <div class="box">
-        <h4>📋 Attendance Requirements</h4>
-        <p>Must attend <strong>80% of scheduled hours</strong> = minimum 12 of 15 hours. Falling below 80% results in an automatic grade of <strong>F</strong>, and the course must be retaken. Classes missed due to weather or instructor illness are made up without penalty.</p>
-      </div>
-      <div class="box-gold">
-        <h4>📞 Communication Policy</h4>
-        <p>Email Dr. Flinner at <strong>jflinner@vuim.edu</strong>. Expect reply within <strong>2 business days</strong>. Assignment scores posted within 1 week of due date in Populi gradebook.</p>
+      <div>
+        <div class="s">Every Week — Required</div>
+        <div class="bx"><h4>📋 Weekly Homework</h4>✓ Weekly reading (Populi Lessons tab)<br>✓ Practice form daily — <strong>1 hour per day</strong><br>✓ 6 cycles per movement minimum<br>✓ Opening + Closing position each session<br>✓ Draft journal entry for that week</div>
+        <div class="bxg"><h4>📊 To Get an A (90%+)</h4>Journal: 95+ · Midterm: perfect form · Final: perfect form + smooth transitions. Daily practice is non-negotiable — 1 hour every day builds muscle memory no cramming can replace.</div>
       </div>
     </div>
   </div>
-
-  <div class="pg-foot">
-    <span>氣功 · TB300 · VUIM Summer 2026</span>
-    <span>Page 2 of 12 · 10-Week Schedule</span>
-    <span>Midterm Aug 4 · Journal Sep 1 · Final Sep 8</span>
-  </div>
+  <div class="pf"><span>TB300 · VUIM Summer 2026</span><span>Page 2 of 12 · 10-Week Schedule</span><span>Midterm Aug 4 · Journal Sep 1 · Final Sep 8</span></div>
 </div>
 
 
-<!-- ══════════════════════════════════════════════════════
+<!-- ══════════════════════════════
      PAGE 3 — MOVEMENTS 1–4
-══════════════════════════════════════════════════════ -->
-<div class="sheet">
-  <div class="pg-head">
-    <div class="ph-left">
-      <h1>Ba Duan Jin · Movements 1–4 · 八段錦</h1>
-      <p>TB300 Qi Gong · Eight Brocades · Opening through Wise Owl</p>
-    </div>
+══════════════════════════════ -->
+<div class="pg">
+  <div class="ph">
+    <div><div class="ph-title">Ba Duan Jin · Movements 1–4 · 八段錦</div><div class="ph-sub">Eight Brocades of Qigong · 6 cycles each · Opening through Wise Owl</div></div>
     <div class="ph-zh">一四</div>
-    <div class="ph-right">Page 3 of 12<br>Movements 1–4</div>
+    <div class="ph-pg">Page 3 of 12<br>Movements 1–4</div>
   </div>
+  <div class="pg-body">
+    <div class="bx" style="margin-bottom:8px"><h4>🧘 Opening Position · 開始 · Before EVERY session</h4>Feet together → step left to shoulder width. Center weight. Hands to <strong>lower dantian</strong> (one on top of other). Close eyes. Breathe naturally ~<strong>30 seconds</strong> to calm body and mind.</div>
 
-  <div class="box" style="margin-bottom:12pt">
-    <h4>🧘 Opening Position · 開始 · Before Every Session</h4>
-    <p>Feet together, arms at sides. Step left foot to shoulder width. Center weight. Bring hands to <strong>lower dantian</strong> (one hand on top of the other). Close eyes. Pause and <strong>breathe naturally for approximately 30 seconds</strong> to calm body and mind.</p>
-  </div>
+    <div class="mv">
+      <div class="mv-h"><div class="mv-n">1</div><div class="mv-t"><h3>Holding Up the Heavens</h3><div class="zh">雙手托天理三焦</div><div class="py">Shuāng Shǒu Tuō Tiān Lǐ Sān Jiāo</div></div></div>
+      <div class="mv-d">Release hands from dantian, relax arms. Clasp hands palms up. <strong>Inhale</strong> — lift to chest, rotate outward, push to sky. <strong>Exhale</strong> — release, lower each side palms down, return to dantian. <strong>6 cycles.</strong></div>
+      <div class="mv-g"><span class="tg t1">↑ Inhale: lift to chest</span><span class="tg t2">↓ Exhale: push sky, lower to dantian</span><span class="tg t3">🫁 Triple Warmer · Spine</span><span class="tg t4">Metal</span></div>
+    </div>
 
-  <div class="mv">
-    <div class="mv-head">
-      <div class="mv-num">1</div>
-      <div class="mv-title">
-        <h3>Holding Up the Heavens</h3>
-        <div class="zh">雙手托天理三焦</div>
-        <div class="pin">Shuāng Shǒu Tuō Tiān Lǐ Sān Jiāo</div>
-      </div>
+    <div class="mv">
+      <div class="mv-h"><div class="mv-n">2</div><div class="mv-t"><h3>Draw the Bow to Shoot the Eagle</h3><div class="zh">左右開弓似射雕</div><div class="py">Zuǒ Yòu Kāi Gōng Sì Shè Diāo</div></div></div>
+      <div class="mv-d">Cross left forearm in front of right at chest. Step left foot <strong>2× shoulder width</strong>, toes forward. <strong>Inhale</strong> — horse stance; pull right fist to shoulder, push left <em>Southern Palm*</em> to left; follow with eyes. <strong>Exhale</strong> — step back, lower to dantian. Alternate. <strong>6 cycles.</strong> <em style="font-size:7.5pt">*Southern Palm: index extended, other fingers curl inward.</em></div>
+      <div class="mv-g"><span class="tg t1">↑ Inhale: horse stance + draw bow</span><span class="tg t2">↓ Exhale: step back</span><span class="tg t3">🫁 Lung + Large Intestine</span><span class="tg t4">Metal</span></div>
     </div>
-    <div class="mv-desc">Release hands from lower dantian and relax arms down. Clasp hands with palms facing upward. <strong>Inhale</strong> — slowly lift to center of chest. Rotate hands outward, then push upward toward the sky. <strong>Exhale</strong> — release hands and lower them to each side with palms downward, returning to center in front of lower dantian. This completes one cycle. <strong>Repeat for a total of 6 cycles.</strong></div>
-    <div class="mv-tags">
-      <span class="tag tag-green">↑ Inhale: lift clasped hands to chest</span>
-      <span class="tag tag-gold">↓ Exhale: push to sky → lower to dantian</span>
-      <span class="tag tag-blue">🫁 Triple Warmer (San Jiao) · Stretches spine</span>
-      <span class="tag tag-red">⚙ Element: Metal</span>
-    </div>
-  </div>
 
-  <div class="mv">
-    <div class="mv-head">
-      <div class="mv-num">2</div>
-      <div class="mv-title">
-        <h3>Draw the Bow to Shoot the Eagle</h3>
-        <div class="zh">左右開弓似射雕</div>
-        <div class="pin">Zuǒ Yòu Kāi Gōng Sì Shè Diāo</div>
-      </div>
+    <div class="mv">
+      <div class="mv-h"><div class="mv-n">3</div><div class="mv-t"><h3>Separating Heaven and Earth</h3><div class="zh">調理脾胃須單臂</div><div class="py">Tiáo Lǐ Pí Wèi Xū Dān Bì</div></div></div>
+      <div class="mv-d">Feet shoulder width, hands at lower dantian (palms up). <strong>Inhale</strong> — raise both to chest, palms up; rotate left palm outward. <strong>Exhale</strong> — push left to sky, right to ground simultaneously. <strong>Inhale</strong> — lower left, raise right to chest. <strong>Exhale</strong> — right up, left down. <strong>6 cycles.</strong></div>
+      <div class="mv-g"><span class="tg t1">↑ Inhale: both to chest</span><span class="tg t2">↓ Exhale: separate sky/earth</span><span class="tg t3">🫁 Spleen + Stomach</span><span class="tg t4">Earth</span></div>
     </div>
-    <div class="mv-desc">Raise arms in front and cross left forearm in front of right directly in front of chest, palms facing you. Step left foot to the left side (<strong>twice your shoulder width</strong>), toes pointing forward. <strong>Inhale</strong> — lower into horse stance; pull right hand back to a fist in front of right shoulder while simultaneously pushing left hand in <em>Southern Palm</em>* to the left. Follow your left hand with head/eyes. <strong>Exhale</strong> — step back to shoulder width, lower both arms to lower dantian level with palms open. Alternate sides. <strong>Total: 6 cycles.</strong><br><br><em>*Southern Palm: thumb, 3rd, 4th, and 5th fingers curl inward like a tiger claw; index finger remains fully extended.</em></div>
-    <div class="mv-tags">
-      <span class="tag tag-green">↑ Inhale: horse stance + draw bow</span>
-      <span class="tag tag-gold">↓ Exhale: step back to shoulder width</span>
-      <span class="tag tag-blue">🫁 Lung + Large Intestine · Opens chest</span>
-      <span class="tag tag-red">⚙ Element: Metal</span>
-    </div>
-  </div>
 
-  <div class="mv">
-    <div class="mv-head">
-      <div class="mv-num">3</div>
-      <div class="mv-title">
-        <h3>Separating Heaven and Earth</h3>
-        <div class="zh">調理脾胃須單臂</div>
-        <div class="pin">Tiáo Lǐ Pí Wèi Xū Dān Bì</div>
-      </div>
-    </div>
-    <div class="mv-desc">Feet shoulder width, hands relaxed at lower dantian level (palms up). <strong>Inhale</strong> — raise both arms in front of torso with palms up; stop at center of chest. Rotate left palm outward until it faces upward. <strong>Exhale</strong> — push left hand toward sky with palm up while simultaneously pushing right hand toward ground with palm down. <strong>Inhale</strong> — lower left hand in front while raising right back to center of chest (both palms up). <strong>Exhale</strong> — repeat with right hand up, left hand down. <strong>Total: 6 cycles.</strong></div>
-    <div class="mv-tags">
-      <span class="tag tag-green">↑ Inhale: both hands to chest center</span>
-      <span class="tag tag-gold">↓ Exhale: separate — one sky, one earth</span>
-      <span class="tag tag-blue">🫁 Spleen + Stomach · Massages digestion</span>
-      <span class="tag tag-red">⚙ Element: Earth</span>
+    <div class="mv">
+      <div class="mv-h"><div class="mv-n">4</div><div class="mv-t"><h3>Wise Owl Gazes Backwards</h3><div class="zh">五勞七傷向後瞧</div><div class="py">Wǔ Láo Qī Shāng Xiàng Hòu Qiáo</div></div></div>
+      <div class="mv-d">Arms at sides, palms down. <strong>Inhale</strong> — rotate both arms from shoulder, palms outward, thumbs pointing backward. Simultaneously rotate head left, look as far left as possible (turn eyes too). <strong>Exhale</strong> — return head and arms to start. Repeat right. <strong>6 cycles alternating.</strong></div>
+      <div class="mv-g"><span class="tg t1">↑ Inhale: rotate arms + turn head</span><span class="tg t2">↓ Exhale: return to center</span><span class="tg t3">🫁 Heart + Cervical vessels</span><span class="tg t4">Fire</span></div>
     </div>
   </div>
-
-  <div class="mv">
-    <div class="mv-head">
-      <div class="mv-num">4</div>
-      <div class="mv-title">
-        <h3>Wise Owl Gazes Backwards</h3>
-        <div class="zh">五勞七傷向後瞧</div>
-        <div class="pin">Wǔ Láo Qī Shāng Xiàng Hòu Qiáo</div>
-      </div>
-    </div>
-    <div class="mv-desc">Arms relaxed at both sides, palms facing ground. <strong>Inhale</strong> — rotate both arms from the shoulder until both palms turn outward as far as possible with thumbs pointing backward as far as possible. Simultaneously rotate head to the left, looking across the horizon as far left as possible (even turn eyes to the side). <strong>Exhale</strong> — turn head back to center while rotating both arms back to starting position, palms down. Repeat on right side for second cycle. <strong>Total: 6 cycles alternating.</strong></div>
-    <div class="mv-tags">
-      <span class="tag tag-green">↑ Inhale: rotate arms out + turn head</span>
-      <span class="tag tag-gold">↓ Exhale: return head and arms to center</span>
-      <span class="tag tag-blue">🫁 Heart + Cervical vessels · Reduces stress</span>
-      <span class="tag tag-red">⚙ Element: Fire</span>
-    </div>
-  </div>
-
-  <div class="pg-foot">
-    <span>氣功 · TB300 · VUIM Summer 2026</span>
-    <span>Page 3 of 12 · Movements 1–4</span>
-    <span>YouTube: PL3JhIZLAcC0gRSwBh3rXHt-pQ0saM9qhC</span>
-  </div>
+  <div class="pf"><span>TB300 · VUIM Summer 2026</span><span>Page 3 of 12 · Movements 1–4</span><span>Watch: youtube.com · My Metro Medicine Qigong Playlist</span></div>
 </div>
 
 
-<!-- ══════════════════════════════════════════════════════
+<!-- ══════════════════════════════
      PAGE 4 — MOVEMENTS 5–8
-══════════════════════════════════════════════════════ -->
-<div class="sheet">
-  <div class="pg-head">
-    <div class="ph-left">
-      <h1>Ba Duan Jin · Movements 5–8 · 八段錦</h1>
-      <p>TB300 Qi Gong · Eight Brocades · Sway Head through Bouncing Feet</p>
-    </div>
+══════════════════════════════ -->
+<div class="pg">
+  <div class="ph">
+    <div><div class="ph-title">Ba Duan Jin · Movements 5–8 · 八段錦</div><div class="ph-sub">Eight Brocades of Qigong · 6 cycles each · Sway Head through Bouncing Feet</div></div>
     <div class="ph-zh">五八</div>
-    <div class="ph-right">Page 4 of 12<br>Movements 5–8</div>
+    <div class="ph-pg">Page 4 of 12<br>Movements 5–8</div>
   </div>
+  <div class="pg-body">
+    <div class="mv">
+      <div class="mv-h"><div class="mv-n">5</div><div class="mv-t"><h3>Sway the Head and Shake the Tail</h3><div class="zh">搖頭擺尾去心火</div><div class="py">Yáo Tóu Bǎi Wěi Qù Xīn Huǒ</div></div></div>
+      <div class="mv-d">Step left, horse stance, tall, toes forward. Hands on inner thighs near knees. <strong>Inhale</strong> — rotate torso in full circle (right → left). Circle again, then <strong>Exhale</strong> — twist left, look behind you, lean over left thigh, right leg extends. <strong>Inhale</strong> — swing back, horse stance. Second cycle on right side. <strong>6 total cycles.</strong> Return to standing.</div>
+      <div class="mv-g"><span class="tg t1">↑ Inhale: circle torso</span><span class="tg t2">↓ Exhale: twist, look behind, lean</span><span class="tg t3">🫁 Heart · Reduces Heart Fire (君火)</span><span class="tg t4">Fire</span></div>
+    </div>
 
-  <div class="mv">
-    <div class="mv-head">
-      <div class="mv-num">5</div>
-      <div class="mv-title">
-        <h3>Sway the Head and Shake the Tail</h3>
-        <div class="zh">搖頭擺尾去心火</div>
-        <div class="pin">Yáo Tóu Bǎi Wěi Qù Xīn Huǒ</div>
-      </div>
+    <div class="mv">
+      <div class="mv-h"><div class="mv-n">6</div><div class="mv-t"><h3>Hold the Feet to Strengthen the Kidneys</h3><div class="zh">兩手把住足根搖</div><div class="py">Liǎng Shǒu Bǎ Zhù Zú Gēn Yáo</div></div></div>
+      <div class="mv-d">Clasp hands at dantian. <strong>Inhale</strong> — raise to chest. Rotate palms forward, push front, <strong>Exhale</strong>. <strong>Inhale</strong> — raise overhead. Release, palms down, pull to chest, <strong>Exhale</strong>. <strong>Inhale</strong> — pull hands to back at solar plexus. <strong>Exhale</strong> — slide hands down entire back, buttocks, hamstrings, outside of feet; extend arms forward. <strong>Inhale</strong> — lift torso to standing. <strong>6 cycles.</strong></div>
+      <div class="mv-g"><span class="tg t1">↑ Inhale: raise / lift torso to stand</span><span class="tg t2">↓ Exhale: slide hands full length down</span><span class="tg t3">🫁 Kidney + Urinary Bladder</span><span class="tg t4">Water</span></div>
     </div>
-    <div class="mv-desc">Step left foot to left side, sit in a <strong>horse stance</strong> with body tall and toes pointing forward. Place each hand on inner thigh near the knee (fingers on inside of thigh). <strong>Inhale</strong> — rotate torso in a circle starting to the right and moving left all the way around. Circle a second time, then <strong>Exhale</strong> — twist to the left side and look behind you while leaning over your left thigh with your right leg extending behind you. <strong>Inhale</strong> — swing back to the right side, return to horse stance. Perform one more swing on the right side for the second cycle. <strong>Total: 6 cycles.</strong> Return to standing with feet shoulder width.</div>
-    <div class="mv-tags">
-      <span class="tag tag-green">↑ Inhale: circle torso in horse stance</span>
-      <span class="tag tag-gold">↓ Exhale: twist and look behind, lean over thigh</span>
-      <span class="tag tag-blue">🫁 Heart · Reduces Heart Fire (君火)</span>
-      <span class="tag tag-red">⚙ Element: Fire</span>
-    </div>
-  </div>
 
-  <div class="mv">
-    <div class="mv-head">
-      <div class="mv-num">6</div>
-      <div class="mv-title">
-        <h3>Hold the Feet to Strengthen the Kidneys</h3>
-        <div class="zh">兩手把住足根搖</div>
-        <div class="pin">Liǎng Shǒu Bǎ Zhù Zú Gēn Yáo</div>
-      </div>
+    <div class="mv">
+      <div class="mv-h"><div class="mv-n">7</div><div class="mv-t"><h3>Clench the Fists and Gaze Fiercely</h3><div class="zh">攥拳怒目增氣力</div><div class="py">Zuàn Quán Nù Mù Zēng Qì Lì</div></div></div>
+      <div class="mv-d">Step left, horse stance, tall, toes forward. Two fists at sides, palms up (thumbs on top). <strong>Exhale</strong> — punch left forward, <strong>eyes wide open fiercely.</strong> Open hand, rotate palm forward (thumb down). Twist fingers inward to fist, <strong>Inhale</strong>. <strong>Exhale</strong> — pull left fist back while punching right forward. Alternate. <strong>6 cycles.</strong> Return to shoulder width.</div>
+      <div class="mv-g"><span class="tg t1">↑ Inhale: pull fist back</span><span class="tg t2">↓ Exhale: punch + fierce eyes wide open</span><span class="tg t3">🫁 Liver + Gallbladder</span><span class="tg t4">Wood</span></div>
     </div>
-    <div class="mv-desc">Clasp hands together in front of lower dantian. <strong>Inhale</strong> — raise hands palms up to chest height. Rotate palms forward, push to front, <strong>Exhale</strong>. <strong>Inhale</strong> — raise arms above your head. Release hands and rotate to palms downward. Pull down to chest height while <strong>Exhaling</strong>. <strong>Inhale</strong> — rotate palms upward, pull hands along chest at solar plexus level until reaching your back at the same level. <strong>Exhale</strong> — slide hands down your back, leading with fingers; slide along back, buttocks, hamstrings, lower legs, outside edge of feet, and extend arms to front as far as possible with palms facing each other. <strong>Inhale</strong> — lift torso with arms extended until you return to standing. Rotate palms down, lower to chest level. <strong>Total: 6 cycles.</strong></div>
-    <div class="mv-tags">
-      <span class="tag tag-green">↑ Inhale: raise, then lift torso back to stand</span>
-      <span class="tag tag-gold">↓ Exhale: forward bend, slide hands full length</span>
-      <span class="tag tag-blue">🫁 Kidney + Urinary Bladder · Strengthens lumbar</span>
-      <span class="tag tag-red">⚙ Element: Water</span>
-    </div>
-  </div>
 
-  <div class="mv">
-    <div class="mv-head">
-      <div class="mv-num">7</div>
-      <div class="mv-title">
-        <h3>Clench the Fists and Gaze Fiercely</h3>
-        <div class="zh">攥拳怒目增氣力</div>
-        <div class="pin">Zuàn Quán Nù Mù Zēng Qì Lì</div>
-      </div>
+    <div class="mv">
+      <div class="mv-h"><div class="mv-n">8</div><div class="mv-t"><h3>Bouncing the Feet and Vibrating the Back</h3><div class="zh">背后七顛百病消</div><div class="py">Bèi Hòu Qī Diān Bǎi Bìng Xiāo</div></div></div>
+      <div class="mv-d"><strong>Inhale</strong> — raise arms to shoulder height, palms down. Simultaneously <strong>lift heels,</strong> balance on balls of feet. <strong>Exhale with extra force</strong> — heels drop to floor, arms drop beside you. Keep movement <strong>loose and natural.</strong> <strong>6 cycles.</strong></div>
+      <div class="mv-g"><span class="tg t1">↑ Inhale: raise arms + heels together</span><span class="tg t2">↓ Exhale (forceful): heels + arms drop</span><span class="tg t3">🫁 All organs · Settles Qi</span><span class="tg t4">Water/All</span></div>
     </div>
-    <div class="mv-desc">Step left foot to left side, sit in <strong>horse stance</strong> with body tall and toes forward. Make two fists and place them at your sides with palms upward (thumbs on top). <strong>Exhale</strong> — punch left hand to the front while looking forward with <strong>eyes wide open fiercely</strong>. Open left hand and rotate to push palm forward with thumb pointing down. Twist hand and fingers inward to make another fist with left hand while <strong>Inhaling</strong>. <strong>Exhale</strong> — pull left fist back to left side while punching right fist forward slowly. This completes one cycle. Repeat alternating sides. <strong>Total: 6 cycles.</strong> Return feet to shoulder width, stand tall.</div>
-    <div class="mv-tags">
-      <span class="tag tag-green">↑ Inhale: pull fist back, twist fingers in</span>
-      <span class="tag tag-gold">↓ Exhale: punch forward with fierce eyes</span>
-      <span class="tag tag-blue">🫁 Liver + Gallbladder · Releases Qi stagnation</span>
-      <span class="tag tag-red">⚙ Element: Wood</span>
-    </div>
-  </div>
 
-  <div class="mv">
-    <div class="mv-head">
-      <div class="mv-num">8</div>
-      <div class="mv-title">
-        <h3>Bouncing the Feet and Vibrating the Back</h3>
-        <div class="zh">背后七顛百病消</div>
-        <div class="pin">Bèi Hòu Qī Diān Bǎi Bìng Xiāo</div>
-      </div>
-    </div>
-    <div class="mv-desc"><strong>Inhale</strong> — raise arms to approximately shoulder height or slightly higher while keeping palms facing downward. At the same time, <strong>lift heels off the ground</strong> and balance on the balls of your feet. <strong>Exhale with a little extra force</strong> — allow heels to hit the floor while dropping arms beside you. Let the movement be <strong>loose and natural</strong>. This completes one cycle. <strong>Total: 6 cycles.</strong></div>
-    <div class="mv-tags">
-      <span class="tag tag-green">↑ Inhale: raise arms and heels simultaneously</span>
-      <span class="tag tag-gold">↓ Exhale (forceful): heels drop, arms drop</span>
-      <span class="tag tag-blue">🫁 All organs · Vibration settles Qi throughout body</span>
-      <span class="tag tag-red">⚙ Element: Water / All</span>
-    </div>
+    <div class="bx" style="margin-top:8px"><h4>🌿 Closing Position · 結束 · After EVERY session</h4><strong>Inhale</strong> — raise arms to each side, palms up, until just over head. <strong>Exhale</strong> — lower palms down to lower dantian. Repeat <strong>3 cycles total.</strong> Finish with hands on dantian, eyes closed, breathe naturally <strong>≥30 seconds.</strong> Open eyes, relax arms, return left foot to right.</div>
   </div>
-
-  <div class="box" style="margin-top:8pt">
-    <h4>🌿 Closing Position · 結束 · After Every Session</h4>
-    <p><strong>Inhale</strong> — raise arms to each side with palms upward until just in front of and over your head. <strong>Exhale</strong> — lower hands with palms downward until you reach the lower dantian level. Perform <strong>two more cycles</strong> (3 total). Finish with hands resting on lower dantian and eyes closed for at least <strong>30 seconds</strong>. Breathe naturally and relax body and mind. Open eyes, relax arms at sides, return left foot next to right foot.</p>
-  </div>
-
-  <div class="pg-foot">
-    <span>氣功 · TB300 · VUIM Summer 2026</span>
-    <span>Page 4 of 12 · Movements 5–8</span>
-    <span>All movements: 6 cycles · Opening + Closing always</span>
-  </div>
+  <div class="pf"><span>TB300 · VUIM Summer 2026</span><span>Page 4 of 12 · Movements 5–8</span><span>6 cycles each · Opening + Closing every session</span></div>
 </div>
 
 
-<!-- ══════════════════════════════════════════════════════
-     PAGE 5 — TCM THEORY + FIVE ELEMENTS
-══════════════════════════════════════════════════════ -->
-<div class="sheet">
-  <div class="pg-head">
-    <div class="ph-left">
-      <h1>TCM Theory · Five Elements · Key Terms</h1>
-      <p>TB300 Qi Gong · Traditional Chinese Medicine Foundations · CLO 1 &amp; 2</p>
-    </div>
+<!-- ══════════════════════════════
+     PAGE 5 — TCM THEORY
+══════════════════════════════ -->
+<div class="pg">
+  <div class="ph">
+    <div><div class="ph-title">TCM Theory · Five Elements · Key Terms · 理論</div><div class="ph-sub">TB300 Qi Gong · CLO 1 &amp; 2 · Traditional Chinese Medicine Foundations</div></div>
     <div class="ph-zh">理論</div>
-    <div class="ph-right">Page 5 of 12<br>TCM Theory</div>
+    <div class="ph-pg">Page 5 of 12<br>TCM Theory</div>
   </div>
-
-  <div class="col2">
-    <div>
-      <div class="sec">Key TCM Terms · 主要術語</div>
-
-      <div class="term">
-        <div class="term-zh">氣</div>
-        <div class="term-en">Qi (Chi)</div>
-        <div class="term-def">Vital energy or life force that flows through pathways (meridians) in the body. The fundamental substance underlying all TCM theory and the goal of Qigong cultivation.</div>
+  <div class="pg-body">
+    <div class="c2">
+      <div>
+        <div class="s">Key TCM Terms · 主要術語</div>
+        <div class="tm"><div class="tm-zh">氣</div><div class="tm-en">Qi (Chi)</div><div class="tm-df">Vital energy/life force flowing through meridians. The fundamental substance of TCM. Qigong cultivates smooth, abundant Qi flow.</div></div>
+        <div class="tm"><div class="tm-zh">丹田</div><div class="tm-en">Dantian</div><div class="tm-df">Energy center ~2 inches below navel. Home base for all Ba Duan Jin — hands return here between every movement.</div></div>
+        <div class="tm"><div class="tm-zh">精</div><div class="tm-en">Jing</div><div class="tm-df">Essence — one of the Three Treasures. Stored in kidneys. Related to reproductive energy and longevity. Strengthened by Movement #6.</div></div>
+        <div class="tm"><div class="tm-zh">神</div><div class="tm-en">Shen</div><div class="tm-df">Spirit/Mind — one of the Three Treasures. Housed in Heart. Governs consciousness and emotions. Calmed through daily Qigong practice.</div></div>
+        <div class="tm"><div class="tm-zh">三焦</div><div class="tm-en">San Jiao</div><div class="tm-df">Triple Warmer/Burner — governs water metabolism and thermal regulation. Targeted by Movement #1.</div></div>
+        <div class="tm"><div class="tm-zh">經絡</div><div class="tm-en">Meridians</div><div class="tm-df">Pathways through which Qi flows. 12 primary meridians correspond to organ systems. Qigong promotes smooth flow through all.</div></div>
+        <div class="tm"><div class="tm-zh">陰陽</div><div class="tm-en">Yin &amp; Yang</div><div class="tm-df">Opposing yet complementary forces. Yin: cool, dark, passive. Yang: warm, light, active. Balance = health.</div></div>
+        <div class="tm"><div class="tm-zh">衛氣</div><div class="tm-en">Wei Qi</div><div class="tm-df">Defensive Qi on body surface. Protects against external pathogens. Strengthened by immune Qigong (Week 8).</div></div>
+        <div class="tm"><div class="tm-zh">君火</div><div class="tm-en">Heart Fire</div><div class="tm-df">Excess Fire in Heart causing restlessness, insomnia, anxiety. Specifically reduced by Movement #5.</div></div>
+        <div class="tm"><div class="tm-zh">易筋經</div><div class="tm-en">Yi Jin Jing</div><div class="tm-df">Muscle/Tendon Changing Classic — more advanced Qigong introduced Week 9. Strengthens tendons and muscles.</div></div>
+        <div class="bxr" style="margin-top:8px"><h4>Three Treasures · 三寶</h4><span style="display:block;text-align:center;font-size:9.5pt;font-weight:700;letter-spacing:.08em;color:#8b1a1a;margin:3px 0">Jing 精 · Qi 氣 · Shen 神</span>Essence + Energy + Spirit — the three substances Qigong cultivates and preserves.</div>
       </div>
-      <div class="term">
-        <div class="term-zh">丹田</div>
-        <div class="term-en">Dantian</div>
-        <div class="term-def">Energy center located approximately 2 inches below the navel. The home base for all Ba Duan Jin movements — hands return here between each movement.</div>
-      </div>
-      <div class="term">
-        <div class="term-zh">精</div>
-        <div class="term-en">Jing</div>
-        <div class="term-def">Essence — one of the Three Treasures (三寶). Stored in the kidneys. Related to reproductive energy, constitutional strength, and longevity. Strengthened by Movement #6.</div>
-      </div>
-      <div class="term">
-        <div class="term-zh">神</div>
-        <div class="term-en">Shen</div>
-        <div class="term-def">Spirit or mind — one of the Three Treasures. Housed in the Heart. Governs consciousness, emotions, and mental clarity. Calmed by Qigong practice.</div>
-      </div>
-      <div class="term">
-        <div class="term-zh">三焦</div>
-        <div class="term-en">San Jiao</div>
-        <div class="term-def">Triple Warmer or Triple Burner — one of the 6 organ systems. Governs water metabolism and thermal regulation throughout the body. Targeted by Movement #1.</div>
-      </div>
-      <div class="term">
-        <div class="term-zh">經絡</div>
-        <div class="term-en">Meridians</div>
-        <div class="term-def">Pathways through which Qi flows throughout the body. 12 primary meridians correspond to organ systems. Qigong promotes smooth Qi flow through all meridians.</div>
-      </div>
-      <div class="term">
-        <div class="term-zh">陰陽</div>
-        <div class="term-en">Yin &amp; Yang</div>
-        <div class="term-def">Opposing yet complementary and interdependent forces. Yin: cool, dark, feminine, passive, descending. Yang: warm, light, masculine, active, ascending. Balance is health.</div>
-      </div>
-      <div class="term">
-        <div class="term-zh">衛氣</div>
-        <div class="term-en">Wei Qi</div>
-        <div class="term-def">Defensive or protective Qi that circulates on the body's surface and protects against external pathogenic factors. Strengthened by immune Qigong (Week 8).</div>
-      </div>
-      <div class="term">
-        <div class="term-zh">君火</div>
-        <div class="term-en">Heart Fire</div>
-        <div class="term-def">Excess Fire in the Heart causing restlessness, anxiety, insomnia, and irritability. Movement #5 (Sway Head and Shake the Tail) specifically reduces Heart Fire.</div>
-      </div>
-      <div class="term">
-        <div class="term-zh">易筋經</div>
-        <div class="term-en">Yi Jin Jing</div>
-        <div class="term-def">Muscle and Tendon Changing Classic — a more advanced Qigong system introduced in Week 9. Focuses on strengthening tendons, muscles, and internal organs through vigorous movements.</div>
-      </div>
-    </div>
-
-    <div>
-      <div class="sec">Five Elements · 五行 (Wu Xing)</div>
-      <table>
-        <tr>
-          <th style="width:70pt">Element</th>
-          <th>Yin Organ</th>
-          <th>Yang Organ</th>
-          <th>Emotion</th>
-          <th>Season</th>
-          <th style="width:38pt">B.D.J.</th>
-        </tr>
-        <tr><td>🌳 Wood 木</td><td>Liver</td><td>Gallbladder</td><td>Anger</td><td>Spring</td><td>#7</td></tr>
-        <tr><td>🔥 Fire 火</td><td>Heart</td><td>Small Int.</td><td>Joy</td><td>Summer</td><td>#4, #5</td></tr>
-        <tr><td>🌍 Earth 土</td><td>Spleen</td><td>Stomach</td><td>Worry</td><td>Late Sum.</td><td>#3</td></tr>
-        <tr><td>⚙ Metal 金</td><td>Lung</td><td>Large Int.</td><td>Grief</td><td>Autumn</td><td>#1, #2</td></tr>
-        <tr><td>💧 Water 水</td><td>Kidney</td><td>Urinary Bl.</td><td>Fear</td><td>Winter</td><td>#6, #8</td></tr>
-      </table>
-
-      <div class="box-gold" style="margin-top:4pt">
-        <h4>Generation Cycle 相生 — Each nourishes the next</h4>
-        <p style="text-align:center;font-weight:700;font-size:10pt;letter-spacing:0.05em;color:#7a5200">Wood → Fire → Earth → Metal → Water → Wood</p>
-      </div>
-      <div class="box">
-        <h4>Control Cycle 相剋 — Each restrains another</h4>
-        <p style="text-align:center;font-weight:700;font-size:10pt;letter-spacing:0.05em;color:#1a5c3a">Wood → Earth → Water → Fire → Metal → Wood</p>
-      </div>
-
-      <div class="sec-gold">Quick Organ Reference · All 8 Movements</div>
-      <table>
-        <tr><th style="width:22pt">#</th><th>English Name</th><th>Organ System</th><th style="width:50pt">Element</th></tr>
-        <tr><td>1</td><td>Holding Up the Heavens</td><td>Triple Warmer (San Jiao)</td><td>Metal</td></tr>
-        <tr><td>2</td><td>Draw the Bow to Shoot Eagle</td><td>Lung + Large Intestine</td><td>Metal</td></tr>
-        <tr><td>3</td><td>Separating Heaven and Earth</td><td>Spleen + Stomach</td><td>Earth</td></tr>
-        <tr><td>4</td><td>Wise Owl Gazes Backwards</td><td>Heart + Cervical vessels</td><td>Fire</td></tr>
-        <tr><td>5</td><td>Sway Head and Shake the Tail</td><td>Heart Fire (君火)</td><td>Fire</td></tr>
-        <tr><td>6</td><td>Hold Feet to Strengthen Kidneys</td><td>Kidney + Urinary Bladder</td><td>Water</td></tr>
-        <tr><td>7</td><td>Clench Fists and Gaze Fiercely</td><td>Liver + Gallbladder</td><td>Wood</td></tr>
-        <tr><td>8</td><td>Bouncing Feet, Vibrating Back</td><td>All organs — settles Qi</td><td>All</td></tr>
-      </table>
-
-      <div class="box-red" style="margin-top:4pt">
-        <h4>Three Treasures · 三寶</h4>
-        <p><strong>Jing 精</strong> (Essence) + <strong>Qi 氣</strong> (Energy) + <strong>Shen 神</strong> (Spirit)<br>The three fundamental substances that Qigong cultivates and preserves.</p>
+      <div>
+        <div class="s">Five Elements · 五行 (Wu Xing)</div>
+        <table>
+          <tr><th>Element</th><th>Yin Organ</th><th>Yang Organ</th><th>Emotion</th><th>BDJ</th></tr>
+          <tr><td>🌳 Wood 木</td><td>Liver</td><td>Gallbladder</td><td>Anger</td><td>#7</td></tr>
+          <tr><td>🔥 Fire 火</td><td>Heart</td><td>Small Int.</td><td>Joy</td><td>#4,5</td></tr>
+          <tr><td>🌍 Earth 土</td><td>Spleen</td><td>Stomach</td><td>Worry</td><td>#3</td></tr>
+          <tr><td>⚙ Metal 金</td><td>Lung</td><td>Large Int.</td><td>Grief</td><td>#1,2</td></tr>
+          <tr><td>💧 Water 水</td><td>Kidney</td><td>Bladder</td><td>Fear</td><td>#6,8</td></tr>
+        </table>
+        <div class="bxg"><h4>Generation 相生 — each nourishes next</h4><span style="display:block;text-align:center;font-weight:700;font-size:9pt;color:#7a5200">Wood→Fire→Earth→Metal→Water→Wood</span></div>
+        <div class="bx"><h4>Control 相剋 — each restrains another</h4><span style="display:block;text-align:center;font-weight:700;font-size:9pt;color:#1a5c3a">Wood→Earth→Water→Fire→Metal→Wood</span></div>
+        <div class="sg">All 8 Movements · Organ Quick Reference</div>
+        <table>
+          <tr><th style="width:18pt">#</th><th>Movement</th><th>Organ System</th><th>Element</th></tr>
+          <tr><td>1</td><td>Holding Up the Heavens</td><td>Triple Warmer</td><td>Metal</td></tr>
+          <tr><td>2</td><td>Draw the Bow</td><td>Lung + Large Int.</td><td>Metal</td></tr>
+          <tr><td>3</td><td>Separating Heaven &amp; Earth</td><td>Spleen + Stomach</td><td>Earth</td></tr>
+          <tr><td>4</td><td>Wise Owl Gazes Backwards</td><td>Heart + vessels</td><td>Fire</td></tr>
+          <tr><td>5</td><td>Sway Head &amp; Shake Tail</td><td>Heart Fire (君火)</td><td>Fire</td></tr>
+          <tr><td>6</td><td>Hold Feet / Kidneys</td><td>Kidney + Bladder</td><td>Water</td></tr>
+          <tr><td>7</td><td>Clench Fists &amp; Gaze</td><td>Liver + Gallbladder</td><td>Wood</td></tr>
+          <tr><td>8</td><td>Bouncing Feet / Vibrate Back</td><td>All organs</td><td>All</td></tr>
+        </table>
       </div>
     </div>
   </div>
-
-  <div class="pg-foot">
-    <span>氣功 · TB300 · VUIM Summer 2026</span>
-    <span>Page 5 of 12 · TCM Theory &amp; Five Elements</span>
-    <span>CLO 1: Therapeutic principles of Qi Gong and TCM</span>
-  </div>
+  <div class="pf"><span>TB300 · VUIM Summer 2026</span><span>Page 5 of 12 · TCM Theory &amp; Five Elements</span><span>CLO 1 &amp; 2: Therapeutic principles of Qi Gong and TCM</span></div>
 </div>
 
 
-<!-- ══════════════════════════════════════════════════════
-     PAGE 6 — PATIENT ADAPTATION (CLO 3)
-══════════════════════════════════════════════════════ -->
-<div class="sheet">
-  <div class="pg-head">
-    <div class="ph-left">
-      <h1>Patient Adaptation Guide · CLO 3</h1>
-      <p>TB300 Qi Gong · Adapting Ba Duan Jin for patients with movement disabilities</p>
-    </div>
+<!-- ══════════════════════════════
+     PAGE 6 — PATIENT ADAPTATION
+══════════════════════════════ -->
+<div class="pg">
+  <div class="ph">
+    <div><div class="ph-title">Patient Adaptation Guide · CLO 3 · 適應</div><div class="ph-sub">TB300 Qi Gong · Adapting Ba Duan Jin for patients with movement disabilities</div></div>
     <div class="ph-zh">適應</div>
-    <div class="ph-right">Page 6 of 12<br>CLO 3 Adaptation</div>
+    <div class="ph-pg">Page 6 of 12<br>CLO 3 Adaptation</div>
   </div>
-
-  <div class="box-gold" style="margin-bottom:12pt">
-    <h4>CLO 3: Adapt and teach Qi Gong exercises to patients with movement disabilities</h4>
-    <p>The goal is to preserve the therapeutic intention of each movement while making it accessible. When adapting, always maintain: breath coordination, mental focus, and the essential action of the targeted organ/meridian system. Chair-based and standing modifications are both acceptable.</p>
+  <div class="pg-body">
+    <div class="bxg" style="margin-bottom:8px"><h4>CLO 3: Adapt and teach Qi Gong to patients with movement disabilities</h4>Always preserve: breath coordination, mental focus, and the essential organ-targeting action of each movement. Seated and modified-standing versions are both fully acceptable.</div>
+    <table>
+      <tr><th style="width:18pt">#</th><th style="width:95pt">Movement</th><th style="width:110pt">Condition</th><th>Modification</th></tr>
+      <tr><td>1</td><td>Holding Up Heavens</td><td>Shoulder injury</td><td>Reduce arm raise; clasp hands at chest only; skip overhead push</td></tr>
+      <tr><td>1</td><td>Holding Up Heavens</td><td>Balance / fall risk</td><td>Fully seated — same breath and hand movements apply</td></tr>
+      <tr><td>2</td><td>Draw the Bow</td><td>Knee / hip arthritis</td><td>No horse stance — stand tall; perform all arm/shoulder movements upright</td></tr>
+      <tr><td>2</td><td>Draw the Bow</td><td>Wheelchair user</td><td>Upper body only; no stepping; rotate torso in chair</td></tr>
+      <tr><td>3</td><td>Separating Heaven &amp; Earth</td><td>Shoulder injury</td><td>Stop at shoulder level; do not force overhead reach</td></tr>
+      <tr><td>3</td><td>Separating Heaven &amp; Earth</td><td>Low BP / dizziness</td><td>Slow movement; pause at chest; sit down if dizzy</td></tr>
+      <tr><td>4</td><td>Wise Owl</td><td>Cervical disc herniation</td><td>Limit head rotation to comfortable range; never force; arm-only if needed</td></tr>
+      <tr><td>4</td><td>Wise Owl</td><td>Vertigo / BPPV</td><td>Avoid or greatly reduce head rotation; arm external rotation only</td></tr>
+      <tr><td>5</td><td>Sway Head &amp; Tail</td><td>Knee injury</td><td>No horse stance — stand tall; torso rotation standing</td></tr>
+      <tr><td>5</td><td>Sway Head &amp; Tail</td><td>Lumbar disc herniation</td><td>Greatly reduce twist range; never aggressively lean over thigh</td></tr>
+      <tr><td>6</td><td>Hold Feet / Kidneys</td><td>Lumbar disc disease</td><td>Limit forward bend; bend at hips with knees bent; never fully fold</td></tr>
+      <tr><td>6</td><td>Hold Feet / Kidneys</td><td>High blood pressure</td><td>Avoid head-below-heart; limit to 45° forward bend maximum</td></tr>
+      <tr><td>6</td><td>Hold Feet / Kidneys</td><td>Osteoporosis</td><td>Skip full forward bend; substitute gentle waist rotation instead</td></tr>
+      <tr><td>7</td><td>Clench Fists</td><td>Hand / wrist arthritis</td><td>Soften grip; partial fist acceptable; stop before pain</td></tr>
+      <tr><td>7</td><td>Clench Fists</td><td>Glaucoma / eye condition</td><td>Avoid fiercely widening eyes; keep eyes soft and relaxed</td></tr>
+      <tr style="background:#fdf0ee"><td><strong>8</strong></td><td><strong>Bouncing Feet</strong></td><td><strong>Osteoporosis — CRITICAL</strong></td><td><strong>SKIP heel drop entirely.</strong> Gentle heel raise + very slow controlled lowering. No impact at all.</td></tr>
+      <tr><td>8</td><td>Bouncing Feet</td><td>Hip / knee replacement</td><td>Skip all impact; gentle raise and lower only; or skip entirely</td></tr>
+      <tr><td>All</td><td>All movements</td><td>Full wheelchair / mobility limit</td><td>All 8 adaptable to seated; emphasize upper body, breath, and mental intention</td></tr>
+      <tr><td>All</td><td>All movements</td><td>Pregnancy 2nd/3rd trimester</td><td>Avoid deep bends and extreme ROM; slow all movements; prioritize breath</td></tr>
+    </table>
   </div>
-
-  <table>
-    <tr>
-      <th style="width:22pt">#</th>
-      <th style="width:110pt">Movement</th>
-      <th style="width:115pt">Condition / Limitation</th>
-      <th>Adaptation / Modification</th>
-    </tr>
-    <tr><td>1</td><td>Holding Up the Heavens</td><td>Shoulder injury / limited ROM</td><td>Reduce arm raise height; clasp hands at chest level only; skip overhead push entirely</td></tr>
-    <tr><td>1</td><td>Holding Up the Heavens</td><td>Balance impairment / fall risk</td><td>Perform fully seated; same breath and hand movements apply</td></tr>
-    <tr><td>2</td><td>Draw the Bow</td><td>Knee / hip osteoarthritis</td><td>Remain standing tall — no horse stance; perform all arm and shoulder movements at standing height</td></tr>
-    <tr><td>2</td><td>Draw the Bow</td><td>Wheelchair user</td><td>Upper body only; no stepping or stance; rotate torso in chair for added benefit</td></tr>
-    <tr><td>3</td><td>Separating Heaven &amp; Earth</td><td>Shoulder injury</td><td>Reduce extension height; stop at shoulder level; do not force overhead reach</td></tr>
-    <tr><td>3</td><td>Separating Heaven &amp; Earth</td><td>Low blood pressure / dizziness</td><td>Slow the movement significantly; pause at chest before separating; sit if dizzy</td></tr>
-    <tr><td>4</td><td>Wise Owl Gazes Backwards</td><td>Cervical disc herniation</td><td>Limit head rotation to a comfortable range; never force; can perform arm rotation only without head turn</td></tr>
-    <tr><td>4</td><td>Wise Owl Gazes Backwards</td><td>Vertigo / BPPV</td><td>Avoid or greatly reduce head rotation; perform arm external rotation only without head movement</td></tr>
-    <tr><td>5</td><td>Sway Head &amp; Shake Tail</td><td>Knee injury / pain</td><td>Stand tall — no horse stance; perform torso rotation in standing position</td></tr>
-    <tr><td>5</td><td>Sway Head &amp; Shake Tail</td><td>Lumbar disc herniation</td><td>Greatly reduce torso twist range; never aggressively lean over thigh; keep spine supported</td></tr>
-    <tr><td>6</td><td>Hold Feet / Strengthen Kidneys</td><td>Lumbar disc disease</td><td>Significantly limit forward bend; bend at hips with knees generously bent; never fully fold</td></tr>
-    <tr><td>6</td><td>Hold Feet / Strengthen Kidneys</td><td>High blood pressure</td><td>Avoid full forward bend (head below heart); limit to 45-degree bend maximum</td></tr>
-    <tr><td>6</td><td>Hold Feet / Strengthen Kidneys</td><td>Osteoporosis</td><td>Skip full forward bend entirely; substitute gentle standing waist rotation or seated version</td></tr>
-    <tr><td>7</td><td>Clench Fists &amp; Gaze Fiercely</td><td>Hand / wrist arthritis</td><td>Soften fist grip; partial fist is acceptable; do not fully clench to the point of pain</td></tr>
-    <tr><td>7</td><td>Clench Fists &amp; Gaze Fiercely</td><td>Glaucoma / eye condition</td><td>Avoid fiercely widening eyes; keep eyes soft and relaxed; rest of movement proceeds normally</td></tr>
-    <tr><td>8</td><td>Bouncing Feet / Vibrating Back</td><td><strong>Osteoporosis — CRITICAL</strong></td><td><strong>SKIP heel drop impact entirely.</strong> Replace with gentle heel raise and very slow controlled lowering — no forceful drop to floor</td></tr>
-    <tr><td>8</td><td>Bouncing Feet / Vibrating Back</td><td>Hip / knee joint replacement</td><td>Skip all impact; gentle heel raise and lower only; no dropping; or skip movement entirely</td></tr>
-    <tr><td>All</td><td>All movements</td><td>Wheelchair / full mobility limitation</td><td>All 8 movements can be adapted to seated performance; emphasize upper body, breath, and mental intention</td></tr>
-    <tr><td>All</td><td>All movements</td><td>Pregnancy (2nd / 3rd trimester)</td><td>Avoid deep forward bends and extreme range of motion; slow all movements; prioritize comfort and breath</td></tr>
-  </table>
-
-  <div class="pg-foot">
-    <span>氣功 · TB300 · VUIM Summer 2026</span>
-    <span>Page 6 of 12 · Patient Adaptation · CLO 3</span>
-    <span>Always preserve: breath, intention, and organ benefit</span>
-  </div>
+  <div class="pf"><span>TB300 · VUIM Summer 2026</span><span>Page 6 of 12 · Patient Adaptation · CLO 3</span><span>Preserve: breath coordination, intention, and organ benefit</span></div>
 </div>
 
 
-<!-- ══════════════════════════════════════════════════════
-     PAGE 7 — PRE-EXAM CHECKLIST
-══════════════════════════════════════════════════════ -->
-<div class="sheet">
-  <div class="pg-head">
-    <div class="ph-left">
-      <h1>Pre-Exam Readiness Checklist · 考試準備</h1>
-      <p>TB300 Qi Gong · Midterm (Aug 4) and Final (Sep 8) Practical Exam Preparation</p>
-    </div>
+<!-- ══════════════════════════════
+     PAGE 7 — EXAM CHECKLIST
+══════════════════════════════ -->
+<div class="pg">
+  <div class="ph">
+    <div><div class="ph-title">Pre-Exam Readiness Checklist · 考試準備</div><div class="ph-sub">TB300 Qi Gong · Midterm Aug 4 (Wk 5) · Final Sep 8 (Wk 10) · Check off when fully confident</div></div>
     <div class="ph-zh">考試</div>
-    <div class="ph-right">Page 7 of 12<br>Exam Checklist</div>
+    <div class="ph-pg">Page 7 of 12<br>Exam Checklist</div>
   </div>
-
-  <div class="col2">
-    <div>
-      <div class="sec">Form Execution · Can I perform…</div>
-      <div class="cl">
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">Opening Position — step left, hands to lower dantian, one on top of other<span class="cl-sub">Eyes closed, breathing naturally for ~30 seconds</span></div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">M1: Clasp hands palms up, lift to chest on inhale, rotate outward<span class="cl-sub">Push to sky, exhale, lower each side, return to dantian · 6 cycles</span></div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">M2: Cross arms, step to horse stance (2× shoulder width)<span class="cl-sub">Southern Palm correct — index extended, others curl in · follow hand with eyes · 6 cycles</span></div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">M3: Both palms to chest, separate — one sky, one earth on exhale<span class="cl-sub">Alternate which arm rises · 6 cycles total</span></div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">M4: Rotate arms from shoulder, thumbs pointing backward, head turns far<span class="cl-sub">Eyes look as far to side as possible · 6 cycles alternating</span></div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">M5: Horse stance, torso circle, exhale twisting and looking behind<span class="cl-sub">Lean over thigh, opposite leg extends · 6 cycles</span></div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">M6: Slide hands all the way down back, hamstrings, outside of feet<span class="cl-sub">Extend arms to front; lift torso to stand · 6 cycles</span></div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">M7: Horse stance, fierce eyes wide open, alternating punches<span class="cl-sub">Open hand → push palm → twist to fist → pull back · 6 cycles</span></div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">M8: Raise arms and heels together on inhale<span class="cl-sub">Exhale with extra force — heels and arms drop loosely · 6 cycles</span></div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">Closing Position — raise arms to each side overhead, 3 full cycles<span class="cl-sub">Finish hands on dantian, eyes closed, 30+ seconds · return left foot</span></div></div>
+  <div class="pg-body">
+    <div class="c2">
+      <div>
+        <div class="s">Form Execution</div>
+        <div class="ci"><div class="cb"></div><div class="ct">Opening Position — step left, hands to lower dantian, one on top<span class="cs">Eyes closed, breathe naturally ~30 seconds</span></div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">M1: Clasp palms up, inhale to chest, push to sky, exhale lower to dantian<span class="cs">6 cycles</span></div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">M2: Cross arms, horse stance (2× width), Southern Palm correct<span class="cs">Follow hand with eyes · 6 cycles</span></div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">M3: Both to chest, separate one sky one earth on exhale<span class="cs">Alternate which arm rises · 6 cycles</span></div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">M4: Rotate arms from shoulder, thumbs back, head turns far as possible<span class="cs">Eyes look to side too · 6 cycles alternating</span></div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">M5: Horse stance, torso circle, exhale twisting + looking behind<span class="cs">Lean over thigh, opposite leg extends · 6 cycles</span></div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">M6: Slide hands down entire back, hamstrings, outside of feet<span class="cs">Extend arms forward · lift torso to stand · 6 cycles</span></div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">M7: Horse stance, fierce eyes wide open, alternating punches<span class="cs">Open → push palm → twist to fist → pull back · 6 cycles</span></div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">M8: Raise arms + heels on inhale, forceful exhale — heels drop<span class="cs">Loose and natural · 6 cycles</span></div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">Closing Position — raise arms overhead 3 cycles<span class="cs">Finish hands on dantian, eyes closed 30+ sec · return left foot</span></div></div>
+        <div class="s">Breath</div>
+        <div class="ci"><div class="cb"></div><div class="ct">Breath coordinated with movement throughout entire form</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">Smooth and unhurried — not holding breath unintentionally</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">M8 exhale is slightly forceful to let heels drop naturally</div></div>
       </div>
-
-      <div class="sec" style="margin-top:14pt">Breath Coordination · Is my breath…</div>
-      <div class="cl">
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">Coordinated with movement throughout the entire form<span class="cl-sub">Inhale on lifting/expanding; exhale on pushing/releasing/descending</span></div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">Smooth and unhurried — not holding breath unintentionally</div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">M8 exhale is slightly forceful to let heels drop naturally</div></div>
-      </div>
-    </div>
-
-    <div>
-      <div class="sec">Knowledge · Can I name and explain…</div>
-      <div class="cl">
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">All 8 movements in English without hesitation</div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">Chinese characters for all 8 movements (recognition level)</div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">The organ system targeted by each movement</div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">Five Elements + which movements correspond to each element</div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">Three Treasures: Jing (精), Qi (氣), Shen (神)</div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">What the lower dantian is and where it's located</div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">What Heart Fire (君火) is and which movement reduces it</div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">At least 3 patient adaptations (CLO 3 — wheelchair, osteoporosis, knee injury)</div></div>
-      </div>
-
-      <div class="sec" style="margin-top:14pt">Quality of Movement · My form…</div>
-      <div class="cl">
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">Flows without pausing to recall the next movement</div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">Posture maintained: back straight, knees soft, shoulders relaxed and down</div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">Meditative pace throughout — not rushed</div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">Horse stance correct: feet 2× shoulder width, toes pointing forward</div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">Southern Palm (M2) hand shape is correct</div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">All 6 cycles completed for each movement</div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">Wearing loose clothing and comfortable sneakers</div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">Phone off and put away before class begins</div></div>
-      </div>
-
-      <div class="box-red" style="margin-top:14pt">
-        <h4>Day-of-Exam Reminders</h4>
-        <p>• Arrive early — practice the Opening Position quietly before class starts<br>
-        • No cell phones during the exam — strict policy<br>
-        • If you lose your place: return to lower dantian, breathe, continue<br>
-        • <strong>Smooth and mindful beats fast and sloppy every time</strong><br>
-        • Trust your daily practice. 加油!</p>
+      <div>
+        <div class="s">Knowledge</div>
+        <div class="ci"><div class="cb"></div><div class="ct">Name all 8 movements in English without hesitation</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">Recognize Chinese characters for all 8 movements</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">State the organ system targeted by each movement</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">Five Elements + which movements correspond to each</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">Three Treasures: Jing (精), Qi (氣), Shen (神)</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">Lower dantian: what it is + where it's located</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">Heart Fire (君火): what it is + which movement reduces it (M5)</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">At least 3 patient adaptations (CLO 3)</div></div>
+        <div class="s">Quality</div>
+        <div class="ci"><div class="cb"></div><div class="ct">Flow without pausing to recall next movement</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">Back straight, knees soft, shoulders relaxed throughout</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">Meditative pace — not rushed at any point</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">Horse stance: feet 2× shoulder width, toes forward</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">Southern Palm hand shape correct (M2)</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">All 6 cycles completed for every movement</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">Loose exercise clothes + comfortable sneakers on</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">Phone off and put away before class starts</div></div>
+        <div class="bxr" style="margin-top:8px"><h4>Day-of-Exam</h4>Arrive early · practice Opening quietly · if you lose your place return to dantian and breathe · <strong>smooth and mindful beats fast and sloppy</strong> · trust your daily practice · 加油!</div>
       </div>
     </div>
   </div>
-
-  <div class="pg-foot">
-    <span>氣功 · TB300 · VUIM Summer 2026</span>
-    <span>Page 7 of 12 · Pre-Exam Checklist</span>
-    <span>Midterm: Aug 4 · Final: Sep 8 · Full form for final</span>
-  </div>
+  <div class="pf"><span>TB300 · VUIM Summer 2026</span><span>Page 7 of 12 · Pre-Exam Checklist</span><span>Midterm: Aug 4 · Final: Sep 8 · Full form for final</span></div>
 </div>
 
 
-<!-- ══════════════════════════════════════════════════════
+<!-- ══════════════════════════════
      PAGE 8 — WEEKLY PRACTICE TRACKER
-══════════════════════════════════════════════════════ -->
-<div class="sheet">
-  <div class="pg-head">
-    <div class="ph-left">
-      <h1>Weekly Practice Tracker</h1>
-      <p>TB300 Qi Gong · Print one copy per week · Goal: 1 hour daily practice</p>
-    </div>
+══════════════════════════════ -->
+<div class="pg">
+  <div class="ph">
+    <div><div class="ph-title">Weekly Practice Tracker · 練習記錄</div><div class="ph-sub">TB300 Qi Gong · Print one per week · Goal: 1 hour of daily practice every day</div></div>
     <div class="ph-zh">練習</div>
-    <div class="ph-right">Week: _____ &nbsp; Date: _________<br>Page 8 of 12</div>
+    <div class="ph-pg">Week: _____ Date: _______<br>Page 8 · Print many</div>
   </div>
-
-  <div class="col2">
-    <div>
-      <div class="sec">Daily Session Log</div>
-      <table>
-        <tr>
-          <th style="width:38pt">Day</th>
-          <th style="width:68pt">Date</th>
-          <th style="width:52pt">Minutes</th>
-          <th>Movements / Focus</th>
-        </tr>
-        <tr><td>Monday</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-        <tr><td style="color:#1a5c3a;font-weight:700">Tuesday</td><td></td><td style="color:#1a5c3a;font-size:7.5pt">CLASS DAY</td><td style="color:#1a5c3a;font-size:8pt">In-class practice</td></tr>
-        <tr><td>Wednesday</td><td></td><td></td><td></td></tr>
-        <tr><td>Thursday</td><td></td><td></td><td></td></tr>
-        <tr><td>Friday</td><td></td><td></td><td></td></tr>
-        <tr><td>Saturday</td><td></td><td></td><td></td></tr>
-        <tr><td>Sunday</td><td></td><td></td><td></td></tr>
-        <tr><td colspan="2" style="font-weight:700;background:#f5faf8;color:#1a5c3a">TOTAL</td><td style="font-weight:700;background:#f5faf8"></td><td style="background:#f5faf8;font-size:8pt">Goal: 420 min (60/day)</td></tr>
-      </table>
-
-      <div class="sec">Cycle Counter · Target: 6 Each</div>
-      <table>
-        <tr><th style="width:90pt">Movement</th><th>M1</th><th>M2</th><th>M3</th><th>M4</th><th>M5</th><th>M6</th><th>M7</th><th>M8</th></tr>
-        <tr><td style="font-weight:600">Today's cycles</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-        <tr><td style="color:#1a5c3a;font-weight:600">Target</td><td style="color:#1a5c3a">6</td><td style="color:#1a5c3a">6</td><td style="color:#1a5c3a">6</td><td style="color:#1a5c3a">6</td><td style="color:#1a5c3a">6</td><td style="color:#1a5c3a">6</td><td style="color:#1a5c3a">6</td><td style="color:#1a5c3a">6</td></tr>
-      </table>
-
-      <div class="sec">Breath Coordination Check</div>
-      <div class="cl">
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">M1: Inhale on lift · Exhale on push up and lower down</div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">M2: Inhale into horse stance · Exhale back to shoulder width</div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">M3: Inhale both to chest · Exhale on separation</div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">M4: Inhale rotate out + turn head · Exhale return to center</div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">M5: Inhale circle torso · Exhale on twist and look behind</div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">M6: Exhale on forward bend and slide down</div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">M7: Exhale on punch · Inhale pulling fist back</div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">M8: Inhale raise arms + heels · Exhale forceful heel drop</div></div>
+  <div class="pg-body">
+    <div class="c2">
+      <div>
+        <div class="s">Daily Session Log</div>
+        <table>
+          <tr><th style="width:52pt">Day</th><th style="width:60pt">Date</th><th style="width:48pt">Minutes</th><th>Focus / Movements</th></tr>
+          <tr style="height:20pt"><td>Monday</td><td></td><td></td><td></td></tr>
+          <tr style="height:20pt"><td style="color:#1a5c3a;font-weight:700">Tuesday</td><td></td><td style="font-size:7pt;color:#1a5c3a">CLASS</td><td style="font-size:7.5pt;color:#1a5c3a">In-class</td></tr>
+          <tr style="height:20pt"><td>Wednesday</td><td></td><td></td><td></td></tr>
+          <tr style="height:20pt"><td>Thursday</td><td></td><td></td><td></td></tr>
+          <tr style="height:20pt"><td>Friday</td><td></td><td></td><td></td></tr>
+          <tr style="height:20pt"><td>Saturday</td><td></td><td></td><td></td></tr>
+          <tr style="height:20pt"><td>Sunday</td><td></td><td></td><td></td></tr>
+          <tr><td colspan="2" style="font-weight:700;color:#1a5c3a;background:#f5faf8">TOTAL</td><td style="font-weight:700;background:#f5faf8"></td><td style="background:#f5faf8;font-size:7.5pt">Goal: 420 min</td></tr>
+        </table>
+        <div class="s">Cycle Counter · Target: 6 Each</div>
+        <table>
+          <tr><th style="width:70pt">Movement</th><th>M1</th><th>M2</th><th>M3</th><th>M4</th><th>M5</th><th>M6</th><th>M7</th><th>M8</th></tr>
+          <tr style="height:20pt"><td style="font-weight:600">Cycles done</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        </table>
+        <div class="s">Breath Check</div>
+        <div class="ci"><div class="cb"></div><div class="ct">M1: Inhale lift · Exhale push sky + lower</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">M2: Inhale horse stance · Exhale step back</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">M3: Inhale both to chest · Exhale separate</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">M4: Inhale rotate + turn head · Exhale return</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">M5: Inhale circle · Exhale twist + look behind</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">M6: Exhale on forward bend + slide down</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">M7: Exhale punch · Inhale pull fist back</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">M8: Inhale raise · Exhale forceful heel drop</div></div>
+      </div>
+      <div>
+        <div class="s">Before Practice</div>
+        <span class="lnlbl">Energy level, tension, mood today</span>
+        <div class="ln"></div><div class="ln"></div>
+        <div class="s">After Practice</div>
+        <span class="lnlbl">Qi sensations, warmth, release, clarity</span>
+        <div class="ln"></div><div class="ln"></div>
+        <div class="s">What Needs Work</div>
+        <span class="lnlbl">Specific movements or cues to focus on</span>
+        <div class="ln"></div><div class="ln"></div>
+        <div class="s">Instructor Feedback</div>
+        <span class="lnlbl">Corrections from Dr. Flinner this week</span>
+        <div class="ln"></div><div class="ln"></div>
+        <div class="s">Emotional / Mental Observations</div>
+        <span class="lnlbl">Stress, mood, mental changes through the week</span>
+        <div class="ln"></div><div class="ln"></div>
+        <div class="s">Goal for Next Session</div>
+        <div class="ln"></div>
       </div>
     </div>
-
-    <div>
-      <div class="sec">Physical Observations · Before Practice</div>
-      <span class="line-label">How does your body feel today?</span>
-      <div class="line"></div><div class="line"></div><div class="line"></div>
-
-      <div class="sec">Physical Observations · After Practice</div>
-      <span class="line-label">What changed? Any qi sensations, warmth, tingling, release?</span>
-      <div class="line"></div><div class="line"></div><div class="line"></div>
-
-      <div class="sec">Movement Notes · What Needs Work</div>
-      <span class="line-label">Specific movements or breath cues to focus on next session</span>
-      <div class="line"></div><div class="line"></div><div class="line"></div>
-
-      <div class="sec">Instructor Feedback from Class</div>
-      <span class="line-label">Corrections or cues given by Dr. Flinner this week</span>
-      <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
-
-      <div class="sec">Mind / Emotional Observations</div>
-      <span class="line-label">Stress level, mood, mental clarity before vs. after</span>
-      <div class="line"></div><div class="line"></div><div class="line"></div>
-
-      <div class="sec">Goal for Next Session</div>
-      <div class="line"></div><div class="line"></div>
-    </div>
   </div>
-
-  <div class="pg-foot">
-    <span>氣功 · TB300 · VUIM Summer 2026</span>
-    <span>Page 8 of 12 · Weekly Practice Tracker · Print one per week</span>
-    <span>1 hour daily practice · 6 cycles per movement</span>
-  </div>
+  <div class="pf"><span>TB300 · VUIM Summer 2026</span><span>Page 8 of 12 · Weekly Practice Tracker · Print one per week</span><span>1 hour daily · 6 cycles per movement</span></div>
 </div>
 
 
-<!-- ══════════════════════════════════════════════════════
-     PAGE 9 — JOURNAL DRAFT (WEEKS 1–5)
-══════════════════════════════════════════════════════ -->
-<div class="sheet">
-  <div class="pg-head">
-    <div class="ph-left">
-      <h1>Journal Draft Pages · Weeks 1–5</h1>
-      <p>TB300 Qi Gong · 20% of grade · Due Week 9 (Sep 1) · APA format · −5pts/day late</p>
-    </div>
+<!-- ══════════════════════════════
+     PAGE 9 — JOURNAL DRAFT WK 1–5
+══════════════════════════════ -->
+<div class="pg">
+  <div class="ph">
+    <div><div class="ph-title">Journal Draft · Weeks 1–5 · 日記</div><div class="ph-sub">TB300 Qi Gong · 20% of grade · Due Week 9 Sep 1 · APA format · −5 pts/day late · Zero after 1 week</div></div>
     <div class="ph-zh">日記</div>
-    <div class="ph-right">Page 9 of 12<br>Journal Wks 1–5</div>
+    <div class="ph-pg">Page 9 of 12<br>Journal Wks 1–5</div>
   </div>
+  <div class="pg-body">
+    <div class="bxr" style="margin-bottom:8px"><h4>Journal Instructions</h4>Write in <strong>first person.</strong> Reference physical, mental, and energetic observations. Connect to TCM theory. Use <strong>APA citations</strong> (Author, Year, p. X). Draft here → type final into Populi. Due <strong>Sep 1.</strong></div>
 
-  <div class="box-red" style="margin-bottom:12pt">
-    <h4>Journal Reminders</h4>
-    <p>Write in <strong>first person</strong>. Reference physical, mental, and energetic observations. Connect to TCM theory. Cite readings in <strong>APA format</strong> (Author, Year, p. X). Due <strong>Sep 1</strong>. −5 pts/day late. Zero if more than 1 week late. Write your final version in Populi — use these pages to draft and organize your thoughts.</p>
-  </div>
+    <div class="bx" style="margin-bottom:4px"><h4>Week 1 · Jul 7 · Opening + Qigong Basics (CLO 1–5)</h4><em style="font-size:7.5pt;color:#555">Describe your first experience with the Opening Position and qi. What did you notice physically and mentally? How does the lower dantian relate to TCM theory from your readings?</em></div>
+    <div class="ln"></div><div class="ln"></div><div class="ln"></div>
 
-  <!-- Week 1 -->
-  <div class="box" style="margin-bottom:8pt">
-    <h4>Week 1 · Jul 7 · Opening Movement + Basics of Qigong (CLO 1–5)</h4>
-    <p style="font-size:8pt;font-style:italic">Prompt: Describe your first experience with the Opening Position and the concept of qi. What did you notice physically and mentally? How does the lower dantian concept relate to TCM theory?</p>
-  </div>
-  <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
+    <div class="bx" style="margin-top:6px;margin-bottom:4px"><h4>Week 2 · Jul 14 · Continued Ba Duan Jin (CLO 3–5)</h4><em style="font-size:7.5pt;color:#555">Describe your daily home practice. What improvements are you noticing? How does breath coordination in Ba Duan Jin differ from everyday breathing?</em></div>
+    <div class="ln"></div><div class="ln"></div><div class="ln"></div>
 
-  <!-- Week 2 -->
-  <div class="box" style="margin-top:10pt;margin-bottom:8pt">
-    <h4>Week 2 · Jul 14 · Continued Ba Duan Jin (CLO 3–5)</h4>
-    <p style="font-size:8pt;font-style:italic">Prompt: Describe your daily home practice this week. What improvements are you noticing? How does breath coordination in Ba Duan Jin differ from your everyday breathing?</p>
-  </div>
-  <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
+    <div class="bx" style="margin-top:6px;margin-bottom:4px"><h4>Week 3 · Jul 21 · Continued Ba Duan Jin (CLO 3–5)</h4><em style="font-size:7.5pt;color:#555">Which movements feel most natural? Which need more practice? Connect one movement to a Five Elements concept from your reading. Cite the source in APA format.</em></div>
+    <div class="ln"></div><div class="ln"></div><div class="ln"></div>
 
-  <!-- Week 3 -->
-  <div class="box" style="margin-top:10pt;margin-bottom:8pt">
-    <h4>Week 3 · Jul 21 · Continued Ba Duan Jin (CLO 3–5)</h4>
-    <p style="font-size:8pt;font-style:italic">Prompt: Which movements feel most natural? Which require more practice? Connect one movement to a Five Elements concept from your readings.</p>
-  </div>
-  <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
+    <div class="bx" style="margin-top:6px;margin-bottom:4px"><h4>Week 4 · Jul 28 · Pre-Midterm Review (CLO 3–5)</h4><em style="font-size:7.5pt;color:#555">What areas still need attention before the midterm? How have 4 weeks of daily practice affected you physically? How might Qigong apply to future patient care?</em></div>
+    <div class="ln"></div><div class="ln"></div><div class="ln"></div>
 
-  <!-- Week 4 -->
-  <div class="box" style="margin-top:10pt;margin-bottom:8pt">
-    <h4>Week 4 · Jul 28 · Pre-Midterm Review (CLO 3–5)</h4>
-    <p style="font-size:8pt;font-style:italic">Prompt: Prepare for your Week 5 midterm. What areas need the most attention? How have 4 weeks of daily practice affected you physically? How might Qigong apply to your future patient care?</p>
+    <div class="bx" style="margin-top:6px;margin-bottom:4px"><h4>Week 5 · Aug 4 · Midterm Practical Exam (CLO 1–5)</h4><em style="font-size:7.5pt;color:#555">Reflect on your midterm exam. What went well? What areas will you focus on in the second half? How does a physical/practical exam differ from written testing?</em></div>
+    <div class="ln"></div><div class="ln"></div><div class="ln"></div>
   </div>
-  <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
-
-  <!-- Week 5 -->
-  <div class="box" style="margin-top:10pt;margin-bottom:8pt">
-    <h4>Week 5 · Aug 4 · Midterm Practical Exam Week (CLO 1–5)</h4>
-    <p style="font-size:8pt;font-style:italic">Prompt: Reflect on your midterm exam performance. What went well? What areas will you focus on in the second half of the course? How does a physical/practical exam differ from written testing for this subject?</p>
-  </div>
-  <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
-
-  <div class="pg-foot">
-    <span>氣功 · TB300 · VUIM Summer 2026</span>
-    <span>Page 9 of 12 · Journal Draft · Weeks 1–5</span>
-    <span>Journal due Sep 1 (Week 9) · APA format required</span>
-  </div>
+  <div class="pf"><span>TB300 · VUIM Summer 2026</span><span>Page 9 of 12 · Journal Draft Weeks 1–5</span><span>Due Sep 1 · APA format · Transfer final to Populi</span></div>
 </div>
 
 
-<!-- ══════════════════════════════════════════════════════
-     PAGE 10 — JOURNAL DRAFT (WEEKS 6–10)
-══════════════════════════════════════════════════════ -->
-<div class="sheet">
-  <div class="pg-head">
-    <div class="ph-left">
-      <h1>Journal Draft Pages · Weeks 6–10</h1>
-      <p>TB300 Qi Gong · 20% of grade · Due Week 9 (Sep 1) · APA format · −5pts/day late</p>
-    </div>
+<!-- ══════════════════════════════
+     PAGE 10 — JOURNAL DRAFT WK 6–10
+══════════════════════════════ -->
+<div class="pg">
+  <div class="ph">
+    <div><div class="ph-title">Journal Draft · Weeks 6–10 · 日記</div><div class="ph-sub">TB300 Qi Gong · 20% of grade · Due Week 9 Sep 1 · APA format · −5 pts/day late · Zero after 1 week</div></div>
     <div class="ph-zh">日記</div>
-    <div class="ph-right">Page 10 of 12<br>Journal Wks 6–10</div>
+    <div class="ph-pg">Page 10 of 12<br>Journal Wks 6–10</div>
   </div>
+  <div class="pg-body">
+    <div class="bx" style="margin-bottom:4px"><h4>Week 6 · Aug 11 · Medical Qigong Introduction (CLO 1–5)</h4><em style="font-size:7.5pt;color:#555">How does Medical Qigong differ from Ba Duan Jin (CLO 2)? How might you use Medical Qigong with a patient in clinical practice (CLO 5)? What new TCM connections emerged?</em></div>
+    <div class="ln"></div><div class="ln"></div><div class="ln"></div>
 
-  <!-- Week 6 -->
-  <div class="box" style="margin-bottom:8pt">
-    <h4>Week 6 · Aug 11 · Medical Qigong Introduction (CLO 1–5)</h4>
-    <p style="font-size:8pt;font-style:italic">Prompt: How does Medical Qigong differ from Ba Duan Jin in purpose and approach? Describe how you might use Medical Qigong principles with a patient (CLO 5). What new connections to TCM theory did this week reveal?</p>
-  </div>
-  <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
+    <div class="bx" style="margin-top:6px;margin-bottom:4px"><h4>Week 7 · Aug 18 · Organ-Specific Qigong (CLO 3–5)</h4><em style="font-size:7.5pt;color:#555">Describe the organ-specific Qigong practiced. Which organ system resonated most and why? How do Five Elements connect to these practices? How would you adapt them for a patient (CLO 3)?</em></div>
+    <div class="ln"></div><div class="ln"></div><div class="ln"></div>
 
-  <!-- Week 7 -->
-  <div class="box" style="margin-top:10pt;margin-bottom:8pt">
-    <h4>Week 7 · Aug 18 · Organ-Specific Qigong (CLO 3–5)</h4>
-    <p style="font-size:8pt;font-style:italic">Prompt: Describe the organ-specific Qigong exercises practiced. Which organ system resonated most with you and why? How do the Five Elements connect to these organ-specific practices?</p>
-  </div>
-  <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
+    <div class="bx" style="margin-top:6px;margin-bottom:4px"><h4>Week 8 · Aug 25 · Immune Strengthening Qigong (CLO 3–5)</h4><em style="font-size:7.5pt;color:#555">How does immune Qigong relate to wei qi (衛氣)? Describe integrating Ba Duan Jin with newer forms. How has your personal practice evolved through this course (CLO 4)?</em></div>
+    <div class="ln"></div><div class="ln"></div><div class="ln"></div>
 
-  <!-- Week 8 -->
-  <div class="box" style="margin-top:10pt;margin-bottom:8pt">
-    <h4>Week 8 · Aug 25 · Immune Strengthening Qigong (CLO 3–5)</h4>
-    <p style="font-size:8pt;font-style:italic">Prompt: How does immune-strengthening Qigong relate to wei qi (衛氣 — defensive qi) in TCM theory? Describe how you are integrating Ba Duan Jin with the newer forms. How has your personal practice evolved this course (CLO 4)?</p>
-  </div>
-  <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
+    <div class="bxg" style="margin-top:6px;margin-bottom:4px"><h4>Week 9 · Sep 1 · Yi Jin Jing · 📓 JOURNAL DUE THIS WEEK</h4><em style="font-size:7.5pt;color:#7a5200">Describe Yi Jin Jing and how it differs from Ba Duan Jin (CLO 2). How has your relationship to qi cultivation changed over 9 weeks? What insights will you carry forward?</em></div>
+    <div class="ln"></div><div class="ln"></div><div class="ln"></div>
 
-  <!-- Week 9 -->
-  <div class="box-gold" style="margin-top:10pt;margin-bottom:8pt">
-    <h4>Week 9 · Sep 1 · Yi Jin Jing Qigong · 📓 JOURNAL DUE THIS WEEK</h4>
-    <p style="font-size:8pt;font-style:italic">Prompt: Describe Yi Jin Jing and how it differs from Ba Duan Jin in principle and practice (CLO 2). As the course nears its end, how has your relationship to qi cultivation changed? What insights have you gained that will stay with you?</p>
-  </div>
-  <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
+    <div class="bx" style="margin-top:6px;margin-bottom:4px"><h4>Week 10 · Sep 8 · Final Practical Exam (CLO 1–5)</h4><em style="font-size:7.5pt;color:#555">Reflect on your final exam. How did 10 weeks of daily practice manifest in your performance? What is your ongoing Qigong practice plan? Most important clinical insight (CLO 5)?</em></div>
+    <div class="ln"></div><div class="ln"></div><div class="ln"></div>
 
-  <!-- Week 10 -->
-  <div class="box" style="margin-top:10pt;margin-bottom:8pt">
-    <h4>Week 10 · Sep 8 · Final Practical Exam Week (CLO 1–5)</h4>
-    <p style="font-size:8pt;font-style:italic">Prompt: Reflect on your final practical exam. How did 10 weeks of consistent daily practice manifest in your performance? What is your personal Qigong practice plan going forward? Summarize the most important clinical insight from this course (CLO 5).</p>
-  </div>
-  <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
-
-  <div style="margin-top:12pt">
-    <div class="sec-gold">APA Citation Reminder</div>
-    <div class="col2">
-      <div class="box-gold">
-        <h4>Book Citation Format</h4>
-        <p style="font-size:8.5pt">Author, A. A., &amp; Author, B. B. (Year). <em>Title of work: Capital letter also for subtitle.</em> Publisher.<br><br>
-        <strong>Example:</strong><br>
-        Yang, J. M. (2014). <em>The root of Chinese qigong: Secrets for health, longevity, and enlightenment</em> (3rd ed.). YMAA Publication Center.</p>
-      </div>
-      <div class="box-gold">
-        <h4>In-Text Citation Format</h4>
-        <p style="font-size:8.5pt">Paraphrase: (Author, Year)<br>
-        Direct quote: (Author, Year, p. #)<br><br>
-        <strong>Example:</strong><br>
-        Qigong cultivates the three treasures of essence, energy, and spirit (Yang, 2014, p. 42).<br><br>
-        Resources: <em>owl.purdue.edu/owl/section/2/10/</em></p>
-      </div>
+    <div class="c2" style="margin-top:8px">
+      <div class="bxg"><h4>APA Book Citation</h4>Author, A. A. (Year). <em>Title of work.</em> Publisher.<br><strong>Ex:</strong> Yang, J. M. (2014). <em>The root of Chinese qigong</em> (3rd ed.). YMAA.</div>
+      <div class="bxg"><h4>APA In-Text Citation</h4>Paraphrase: (Author, Year)<br>Quote: (Author, Year, p. #)<br><strong>Ex:</strong> …the three treasures (Yang, 2014, p. 42).</div>
     </div>
   </div>
-
-  <div class="pg-foot">
-    <span>氣功 · TB300 · VUIM Summer 2026</span>
-    <span>Page 10 of 12 · Journal Draft · Weeks 6–10</span>
-    <span>Transfer final entries to Populi — this is your draft space</span>
-  </div>
+  <div class="pf"><span>TB300 · VUIM Summer 2026</span><span>Page 10 of 12 · Journal Draft Weeks 6–10</span><span>Transfer final entries to Populi — this is your draft space</span></div>
 </div>
 
 
-<!-- ══════════════════════════════════════════════════════
+<!-- ══════════════════════════════
      PAGE 11 — CLASS NOTES
-══════════════════════════════════════════════════════ -->
-<div class="sheet">
-  <div class="pg-head">
-    <div class="ph-left">
-      <h1>Class Notes · 課堂筆記</h1>
-      <p>TB300 Qi Gong · Print multiple copies · One per class session</p>
-    </div>
+══════════════════════════════ -->
+<div class="pg">
+  <div class="ph">
+    <div><div class="ph-title">Class Notes · 課堂筆記</div><div class="ph-sub">TB300 Qi Gong · Print one per class session · Tuesdays 6:30–8:00pm</div></div>
     <div class="ph-zh">筆記</div>
-    <div class="ph-right">Week: _____ &nbsp; Date: _________<br>Page 11 of 12</div>
+    <div class="ph-pg">Week: _____ Date: _______<br>Page 11 · Print many</div>
   </div>
-
-  <div class="col2">
-    <div>
-      <div class="sec">Today's Lecture / Demonstration</div>
-      <span class="line-label">Topic / Focus this week</span>
-      <div class="line"></div>
-      <span class="line-label">Main concepts covered</span>
-      <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
-      <div class="line"></div><div class="line"></div><div class="line"></div>
-
-      <div class="sec">Movement Corrections from Dr. Flinner</div>
-      <span class="line-label">Specific corrections given in class today</span>
-      <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
-      <div class="line"></div><div class="line"></div>
-
-      <div class="sec">TCM Theory Connections</div>
-      <span class="line-label">New concepts, organs, or elements discussed</span>
-      <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
-      <div class="line"></div><div class="line"></div>
-
-      <div class="sec">Reading Assignment Notes</div>
-      <span class="line-label">Key points from this week's required reading</span>
-      <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
-    </div>
-
-    <div>
-      <div class="sec">Questions I Want to Ask</div>
-      <span class="line-label">Write questions during class — ask Dr. Flinner or research later</span>
-      <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
-      <div class="line"></div><div class="line"></div>
-
-      <div class="sec">Clinical Application Thoughts (CLO 5)</div>
-      <span class="line-label">How could this apply to your future TCM patient practice?</span>
-      <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
-      <div class="line"></div><div class="line"></div>
-
-      <div class="sec">New Vocabulary / Chinese Terms</div>
-      <span class="line-label">Write the term, pinyin, and meaning</span>
-      <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
-      <div class="line"></div><div class="line"></div>
-
-      <div class="sec">Personal Insights</div>
-      <span class="line-label">What resonated with you most today?</span>
-      <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
-
-      <div class="sec">Action Items Before Next Class</div>
-      <div class="cl">
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">Complete weekly reading assignment</div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text">Practice form daily — 1 hour each day</div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text"><div class="line-sm"></div></div></div>
-        <div class="cl-item"><div class="cl-box"></div><div class="cl-text"><div class="line-sm"></div></div></div>
+  <div class="pg-body">
+    <div class="c2">
+      <div>
+        <div class="s">Today's Topic / Focus</div>
+        <div class="ln"></div>
+        <div class="s">Lecture Notes</div>
+        <span class="lnlbl">Main concepts and TCM theory covered</span>
+        <div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div>
+        <div class="s">Movement Corrections from Dr. Flinner</div>
+        <span class="lnlbl">Specific corrections given to me or the class</span>
+        <div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div>
+        <div class="s">New Chinese Terms</div>
+        <span class="lnlbl">Term · Pinyin · Meaning</span>
+        <div class="ln"></div><div class="ln"></div><div class="ln"></div>
+        <div class="s">Reading Notes</div>
+        <span class="lnlbl">Key points from this week's required reading</span>
+        <div class="ln"></div><div class="ln"></div>
+      </div>
+      <div>
+        <div class="s">Questions for Dr. Flinner</div>
+        <span class="lnlbl">Ask now or follow up by email</span>
+        <div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div>
+        <div class="s">Clinical Application (CLO 5)</div>
+        <span class="lnlbl">How could today's content apply to future patient practice?</span>
+        <div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div>
+        <div class="s">Personal Insights</div>
+        <span class="lnlbl">What resonated most with you today?</span>
+        <div class="ln"></div><div class="ln"></div><div class="ln"></div>
+        <div class="s">Journal Prompt Ideas</div>
+        <span class="lnlbl">Observations from today to use in weekly journal entry</span>
+        <div class="ln"></div><div class="ln"></div>
+        <div class="s">Action Items Before Next Class</div>
+        <div class="ci"><div class="cb"></div><div class="ct">Complete weekly reading assignment</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct">Practice form daily — 1 hour minimum</div></div>
+        <div class="ci"><div class="cb"></div><div class="ct"><span style="display:block;border-bottom:.75pt solid #ddd;height:18pt"></span></div></div>
+        <div class="ci"><div class="cb"></div><div class="ct"><span style="display:block;border-bottom:.75pt solid #ddd;height:18pt"></span></div></div>
       </div>
     </div>
   </div>
-
-  <div class="pg-foot">
-    <span>氣功 · TB300 · VUIM Summer 2026</span>
-    <span>Page 11 of 12 · Class Notes · Print one per session</span>
-    <span>jflinner@vuim.edu · reply within 2 business days</span>
-  </div>
+  <div class="pf"><span>TB300 · VUIM Summer 2026</span><span>Page 11 of 12 · Class Notes · Print one per session</span><span>jflinner@vuim.edu · reply within 2 business days</span></div>
 </div>
 
 
-<!-- ══════════════════════════════════════════════════════
+<!-- ══════════════════════════════
      PAGE 12 — FREE NOTES
-══════════════════════════════════════════════════════ -->
-<div class="sheet">
-  <div class="pg-head">
-    <div class="ph-left">
-      <h1>Free Notes · 自由筆記</h1>
-      <p>TB300 Qi Gong · Open writing space · Use your S Pen freely</p>
-    </div>
+══════════════════════════════ -->
+<div class="pg">
+  <div class="ph">
+    <div><div class="ph-title">Free Notes · 自由筆記</div><div class="ph-sub">TB300 Qi Gong · Open writing space · S Pen ready · Print as many as you need</div></div>
     <div class="ph-zh">自由</div>
-    <div class="ph-right">Topic: _______________<br>Page 12 of 12</div>
+    <div class="ph-pg">Topic: ___________<br>Page 12 of 12</div>
   </div>
-
-  <div class="sec">Notes</div>
-
-  <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
-  <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
-  <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
-  <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
-  <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
-  <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
-  <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
-  <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
-  <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
-  <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
-  <div class="line"></div><div class="line"></div><div class="line"></div>
-
-  <div class="pg-foot">
-    <span>氣功 · TB300 · VUIM Summer 2026</span>
-    <span>Page 12 of 12 · Free Notes</span>
-    <span>加油! Keep going!</span>
+  <div class="pg-body">
+    <div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div>
+    <div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div>
+    <div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div>
+    <div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div>
+    <div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div>
   </div>
+  <div class="pf"><span>TB300 · VUIM Summer 2026</span><span>Page 12 of 12 · Free Notes</span><span>加油! Keep going!</span></div>
 </div>
 
 </body>
