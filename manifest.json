@@ -1,5 +1,5 @@
 {
-  "name": "氣功 · TB300 Qi Gong",
+  "name": "氣功 · TB300 · VUIM",
   "short_name": "氣功",
   "description": "VUIM TB300 Qigong Study App — Ba Duan Jin, Journal, Timer, Flashcards",
   "start_url": "./index.html",
@@ -9,15 +9,15 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "icon-192.svg",
+      "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "icon-512.svg",
+      "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ]

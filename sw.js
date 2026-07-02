@@ -1,9 +1,10 @@
-const CACHE = 'qigong-tb300-v2';
+const CACHE = 'qigong-tb300-v3';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
-  './icon-192.svg',
+  './icon-192.png',
+  './icon-512.png',
   'https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Inter:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400&display=swap'
 ];
 
