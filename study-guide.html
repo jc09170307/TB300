@@ -54,6 +54,16 @@ body {
 }
 
 /* ── screen preview ── */
+/* fab always visible on screen */
+.fab {
+  position: fixed; bottom: 18px; right: 18px; z-index: 999;
+  background: #1a5c3a; color: white; border: none;
+  border-radius: 28px; padding: 13px 26px;
+  font-size: 14px; font-weight: 700;
+  cursor: pointer; font-family: 'Inter', sans-serif;
+  box-shadow: 0 4px 16px rgba(0,0,0,.3);
+}
+
 @media screen {
   body { background: #ccc; padding: 0.25in; }
   .pg {
@@ -62,16 +72,8 @@ body {
     margin: 0 auto 0.35in;
     box-shadow: 0 2px 14px rgba(0,0,0,.22);
   }
-  .fab {
-    position: fixed; bottom: 18px; right: 18px; z-index: 999;
-    background: #1a5c3a; color: white; border: none;
-    border-radius: 28px; padding: 13px 26px;
-    font-size: 14px; font-weight: 700;
-    cursor: pointer; font-family: 'Inter', sans-serif;
-    box-shadow: 0 4px 16px rgba(0,0,0,.3);
-  }
 }
-@media print { .fab { display: none; } }
+@media print { .fab { display: none !important; } }
 
 /* ══════════════
    HEADER / FOOTER
