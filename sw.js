@@ -1,5 +1,5 @@
 // TB300 Qigong PWA Service Worker v8 - Network First
-const CACHE = 'qigong-tb300-v9';
+const CACHE = 'qigong-tb300-v10';
 
 self.addEventListener('install', e => {
   self.skipWaiting();
