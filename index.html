@@ -2518,79 +2518,166 @@ function renderReading() {
 // ══════════════════════════════
 const READING_CONTEXTS = {
   1: {
-    articles: "Article 1: NCCIH Qigong overview - covers Qigong as a mind-body-spirit practice combining movement, breathing, and meditation rooted in TCM, used to cultivate qi, generally safe, research shows benefits for blood pressure immune function stress and quality of life. Article 2: Everyday Health Qigong guide - covers 5000 year history, qi means energy plus gong means cultivation, three core elements of posture/movement/breathing/mental focus, styles include Medical Martial and Spiritual Qigong, benefits include stress reduction balance flexibility energy.",
+    articles: "Article 1 (NCCIH): Qigong is a mind-body-spirit practice combining movement, breathing, and meditation rooted in TCM, used to cultivate qi (vital energy), generally safe, research shows benefits for blood pressure, immune function, stress, and quality of life. Article 2 (Everyday Health): Qigong has 5000 year history, qi means energy plus gong means cultivation, three core elements are posture/movement, breathing, and mental focus, styles include Medical, Martial and Spiritual Qigong.",
     prompt: "Summarize the key therapeutic principles of Qigong described in both articles. How do these principles connect to TCM theory (CLO 1)?"
   },
   2: {
-    articles: "Article: YMAA Publication Center 2016 - What is Qi and Qigong. Qi is vital energy circulating through meridians. Three types: Original Qi (Yuan Qi), Food Qi (Gu Qi), Air Qi (Kong Qi). Qigong means study and practice of Qi. Goal is to understand and control Qi flow for health and longevity. Three fundamental adjustments: body, breath, mind. Smooth Qi flow equals health, blocked Qi equals disease.",
+    articles: "Article (YMAA Publication Center, 2016): Qi is vital energy circulating through meridians. Three types: Original Qi (Yuan Qi), Food Qi (Gu Qi), Air Qi (Kong Qi). Qigong means study and practice of Qi. Goal is to understand and control Qi flow for health and longevity. Three fundamental adjustments: body, breath, mind. Smooth Qi flow equals health, blocked Qi equals disease.",
     prompt: "Define Qi and explain the three types described in the article. How does this TCM framework relate to Ba Duan Jin movements? Use APA in-text citation (YMAA Publication Center, 2016)."
   },
   3: {
-    articles: "Article: Zhang et al. 2020 bibliometric analysis in Complementary Therapies in Medicine vol 50. 886 clinical studies identified: 47 systematic reviews, 705 RCTs, 116 non-randomized. Ba Duan Jin most researched at 55.5% of studies. Top conditions: diabetes COPD hypertension stroke lumbar disc insomnia. 96.5% positive results. China 95.3% of research. Best protocol: 5x/week 1hr for 3 months. Calls for standardized reporting.",
-    prompt: "Summarize the key findings of the bibliometric analysis. What does Ba Duan Jin dominance in clinical research tell us? Connect to CLO 2 - differentiate Qigong systems. Cite as (Zhang et al., 2020)."
+    articles: "Article (Zhang et al., 2020, Complementary Therapies in Medicine, vol 50, 102392): 886 clinical studies identified: 47 systematic reviews, 705 RCTs, 116 non-randomized. Ba Duan Jin most researched at 55.5% of all studies. Top conditions: diabetes, COPD, hypertension, stroke, lumbar disc, insomnia. 96.5% positive results. China produced 95.3% of research. Best protocol: 5x per week, 1 hour, for 3 months. Calls for standardized reporting.",
+    prompt: "Summarize the key findings of the bibliometric analysis. What does Ba Duan Jin dominance in clinical research tell us? Connect to CLO 2. Cite as (Zhang et al., 2020)."
   },
   4: {
-    articles: "Article 1: Qigong stress-reducing intervention systematic review. 4 core components: Physical Exercise (dynamic movement reduces stress hormones), Active Relaxation (tense-release muscles, anxious mind cannot exist in relaxed body - Jacobson), Focused Attention (mindfulness/meditation in motion), Controlled Breathing (synchronized inhale on rise exhale on lower). Reduces cortisol adrenaline noradrenaline. Improves sleep anxiety depression cognition. 30-60min 2-3x/week 8-16 weeks. Article 2: Cheng 2015 JBMT 19(1) 138-149. 28 publications on Baduanjin mental health. College students middle-aged elderly chronic illness. Consistent improvement in quality of life and psychological wellbeing. 4 weeks to 6 months interventions.",
-    prompt: "Explain the four core components of Qigong and how they produce therapeutic effects. Connect Cheng 2015 findings on mental health to Baduanjin clinical value (CLO 1 and 2). Cite both sources in APA format."
+    articles: "Article 1 (Week 4 PDF systematic review): 4 core components: Physical Exercise, Active Relaxation (tense-release muscles, Jacobson quote: an anxious mind cannot exist in a relaxed body), Focused Attention (mindfulness, meditation in motion), Controlled Breathing (inhale on rise, exhale on lower). Reduces cortisol, adrenaline, noradrenaline. Improves sleep, anxiety, depression, cognition. Effective: 30-60min, 2-3x per week, 8-16 weeks. Article 2 (Cheng, F.K., 2015, Journal of Bodywork and Movement Therapies, 19(1), 138-149, doi:10.1016/j.jbmt.2014.11.001): 28 publications on Baduanjin mental health. College students, middle-aged, elderly, chronic illness patients. Consistent improvement in quality of life and psychological wellbeing.",
+    prompt: "Explain the four core components of Qigong and how they produce therapeutic effects. Connect Cheng (2015) findings on mental health to Baduanjin clinical value (CLO 1 and 2). Cite both sources in APA format."
   }
 };
 
-function generateReadingResponse(week) {
-  const ctx = READING_CONTEXTS[week];
-  if (!ctx) { showToast("No data for this week yet"); return; }
-  
-  const prompt = "I am a doctoral student in a TB300 Qi Gong course at Virginia University of Integrative Medicine (VUIM) studying under Dr. Justin Flinner. I need a 500-word reading response draft based on the following assigned readings and prompt. THIS IS FOR STUDY REFERENCE ONLY — I will rewrite it completely in my own words before submitting.\n\nREADINGS: " + ctx.articles + "\n\nRESPONSE PROMPT: " + ctx.prompt + "\n\nPlease write a 500-word academic response that: (1) directly addresses the prompt, (2) references specific content from the readings with proper APA in-text citations, (3) connects to TCM theory and clinical practice, (4) is written in first person as a student reflection, (5) ends with a full APA reference list. Format it professionally with an introduction, body paragraphs, and conclusion.";
+const READING_JOURNAL_PROMPTS = {
+  1: "Describe your first experience with the Opening Position and the concept of qi. What did you notice physically and mentally? How does the lower dantian concept relate to TCM theory from your readings?",
+  2: "Describe your daily home practice this week. What improvements are you noticing? How does breath coordination in Ba Duan Jin differ from everyday breathing?",
+  3: "Which Ba Duan Jin movements feel most natural? Which require more practice? Connect one movement to a Five Elements concept from your reading with APA citation.",
+  4: "Which of the 4 Qigong mechanisms do you feel most strongly during daily practice? How does this connect to managing your own stress as a doctoral student (CLO 4)?"
+};
 
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(prompt).then(function() {
-      showToast("Prompt copied! Opening Claude...");
-    }).catch(function() {
-      showToast("Opening Claude...");
-    });
-  } else {
-    const ta = document.createElement("textarea");
-    ta.value = prompt;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand("copy");
-    document.body.removeChild(ta);
-    showToast("Prompt copied! Opening Claude...");
+function getApiKey() {
+  let key = sessionStorage.getItem("tb300_api_key");
+  if (!key) {
+    key = prompt("Enter your Claude API key (sk-ant-...) to generate responses inside the app:");
+    if (key && key.startsWith("sk-ant")) {
+      sessionStorage.setItem("tb300_api_key", key);
+    } else {
+      showToast("Invalid or cancelled — no key entered");
+      return null;
+    }
   }
-  setTimeout(function() { window.open("https://claude.ai", "_blank"); }, 600);
+  return key;
 }
 
-function generateJournalDraft(week) {
+async function callClaude(systemPrompt, userPrompt) {
+  const key = getApiKey();
+  if (!key) return null;
+  const resp = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": key,
+      "anthropic-version": "2023-06-01",
+      "anthropic-dangerous-direct-browser-access": "true"
+    },
+    body: JSON.stringify({
+      model: "claude-haiku-4-5-20251001",
+      max_tokens: 1500,
+      system: systemPrompt,
+      messages: [{role: "user", content: userPrompt}]
+    })
+  });
+  const data = await resp.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.content[0].text;
+}
+
+function downloadAsPDF(title, content, week, type) {
+  const html = "<!DOCTYPE html><html><head><meta charset=UTF-8><title>" + title + "</title><style>body{font-family:Times New Roman,serif;font-size:12pt;line-height:2;margin:1in;color:#000}h1{font-size:12pt;text-align:center;font-weight:bold}h2{font-size:12pt;font-weight:bold}.meta{text-align:center;margin-bottom:24pt}p{margin-bottom:12pt;text-indent:0.5in}p:first-of-type{text-indent:0.5in}.references{margin-top:24pt}@media print{body{margin:1in}}</style></head><body>" +
+    "<div class=meta><h1>" + title + "</h1>" +
+    "<p>Virginia University of Integrative Medicine<br>TB300 Qi Gong — Dr. Justin Flinner, DAc, LAc, DiplAc<br>Week " + week + " — Summer 2026</p></div>" +
+    content.split("\n").filter(function(l){return l.trim();}).map(function(l){
+      if(l.match(/^References$/i)||l.match(/^Reference List$/i)) return "<div class=references><h2>References</h2>";
+      if(l.match(/^[A-Z][a-z]+,/) && l.includes("(20")) return "<p style=padding-left:0.5in;text-indent:-0.5in>" + l + "</p>";
+      return "<p>" + l + "</p>";
+    }).join("") +
+    "</body></html>";
+  const win = window.open("", "_blank");
+  win.document.write(html);
+  win.document.close();
+  setTimeout(function(){ win.print(); }, 500);
+}
+
+async function generateReadingResponse(week) {
+  const ctx = READING_CONTEXTS[week];
+  if (!ctx) { showToast("No reading data for this week yet"); return; }
+
+  // Show loading state
+  const btn = document.querySelector("[onclick=\"generateReadingResponse(" + week + ")\"]");
+  if (btn) { btn.textContent = "Generating..."; btn.disabled = true; }
+  showToast("Generating your draft response...");
+
+  const system = "You are helping a doctoral student at Virginia University of Integrative Medicine write a reading response for TB300 Qi Gong. Write in first person as the student. Be academically rigorous, use proper APA in-text citations, and connect content to TCM theory and clinical practice. This is a study draft only.";
+  const user = "Write a 500-600 word academic reading response for Week " + week + " of my TB300 Qi Gong course at VUIM.\n\nREADING CONTENT: " + ctx.articles + "\n\nRESPONSE PROMPT: " + ctx.prompt + "\n\nRequirements: written in first person, 500-600 words, proper APA in-text citations, introduction + body paragraphs + conclusion structure, connect to CLO learning outcomes, end with full APA References section. Format with clear paragraph breaks.";
+
+  try {
+    const result = await callClaude(system, user);
+    if (!result) { if(btn){btn.textContent="✨ Generate 500-Word Draft Response";btn.disabled=false;} return; }
+    
+    if (btn) { btn.textContent = "✨ Generate 500-Word Draft Response"; btn.disabled = false; }
+    
+    // Show result in modal-style overlay inside app
+    showGeneratedContent("Week " + week + " Reading Response Draft", result, week, "reading");
+  } catch(e) {
+    if (btn) { btn.textContent = "✨ Generate 500-Word Draft Response"; btn.disabled = false; }
+    showToast("Error: " + (e.message || "Check your API key and connection"));
+    sessionStorage.removeItem("tb300_api_key");
+  }
+}
+
+async function generateJournalDraft(week) {
   const ctx = READING_CONTEXTS[week];
   if (!ctx) { showToast("No data for this week yet"); return; }
 
-  const journalPrompts = {
-    1: "Describe your first experience with the Opening Position and the concept of qi. What did you notice physically and mentally? How does the lower dantian concept relate to TCM theory from your readings?",
-    2: "Describe your daily home practice this week. What improvements are you noticing? How does breath coordination in Ba Duan Jin differ from everyday breathing? What challenges came up?",
-    3: "Which Ba Duan Jin movements feel most natural? Which require more practice? Connect one movement to a Five Elements concept from your reading. Cite the source in APA format.",
-    4: "Which of the 4 Qigong mechanisms (physical exercise, active relaxation, focused attention, controlled breathing) do you feel most strongly during daily practice? How does this connect to managing your own stress as a doctoral student (CLO 4)?"
-  };
+  const btn = document.querySelector("[onclick=\"generateJournalDraft(" + week + ")\"]");
+  if (btn) { btn.textContent = "Generating..."; btn.disabled = true; }
+  showToast("Generating your journal draft...");
 
-  const jp = journalPrompts[week] || ctx.prompt;
-  const prompt = "I am a doctoral student in TB300 Qi Gong at VUIM. I need a 400-word journal entry draft for Week " + week + " of my course. THIS IS FOR STUDY REFERENCE ONLY — I will completely rewrite it in my own authentic voice and personal experience before submitting.\n\nCOURSE READING CONTEXT: " + ctx.articles + "\n\nJOURNAL PROMPT: " + jp + "\n\nPlease write a 400-word personal reflective journal entry that: (1) is written in first person as a doctoral TCM student, (2) reflects genuine physical and mental observations from practice, (3) connects personal experience to TCM theory from the readings with APA citations, (4) addresses the CLO learning outcomes, (5) feels authentic and personal not academic. Include an APA reference at the end.";
+  const system = "You are helping a doctoral student at Virginia University of Integrative Medicine write a personal reflective journal entry for TB300 Qi Gong. Write in first person as a student who has been practicing Ba Duan Jin daily. Be personal, reflective, and connect physical/mental observations to TCM theory. This is a study draft only — the student will rewrite it in their own words.";
+  const user = "Write a 400-word personal reflective journal entry for Week " + week + " of my TB300 Qi Gong course at VUIM.\n\nCOURSE READING CONTEXT: " + ctx.articles + "\n\nJOURNAL PROMPT: " + READING_JOURNAL_PROMPTS[week] + "\n\nRequirements: first person, personal and reflective tone, references physical sensations and observations from practice, connects to TCM theory with APA citations, 400 words, ends with APA references.";
 
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(prompt).then(function() {
-      showToast("Journal prompt copied! Opening Claude...");
-    }).catch(function() {
-      showToast("Opening Claude...");
-    });
-  } else {
-    const ta = document.createElement("textarea");
-    ta.value = prompt;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand("copy");
-    document.body.removeChild(ta);
-    showToast("Journal prompt copied! Opening Claude...");
+  try {
+    const result = await callClaude(system, user);
+    if (!result) { if(btn){btn.textContent="📓 Generate Journal Draft";btn.disabled=false;} return; }
+    if (btn) { btn.textContent = "📓 Generate Journal Draft"; btn.disabled = false; }
+    showGeneratedContent("Week " + week + " Journal Entry Draft", result, week, "journal");
+  } catch(e) {
+    if (btn) { btn.textContent = "📓 Generate Journal Draft"; btn.disabled = false; }
+    showToast("Error: " + (e.message || "Check your API key and connection"));
+    sessionStorage.removeItem("tb300_api_key");
   }
-  setTimeout(function() { window.open("https://claude.ai", "_blank"); }, 600);
 }
 
+function showGeneratedContent(title, text, week, type) {
+  // Remove any existing overlay
+  const existing = document.getElementById("gen-overlay");
+  if (existing) existing.remove();
+
+  const overlay = document.createElement("div");
+  overlay.id = "gen-overlay";
+  overlay.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;display:flex;flex-direction:column;";
+
+  const formatted = text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n\n/g,"</p><p style=margin-top:12px>").replace(/\n/g,"<br>");
+
+  overlay.innerHTML = "<div style=\"background:var(--ink2);flex:1;overflow-y:auto;padding:20px 16px;display:flex;flex-direction:column;gap:12px\">" +
+    "<div style=\"display:flex;align-items:center;justify-content:space-between;flex-shrink:0\">" +
+    "<div style=\"font-weight:700;font-size:14px;color:var(--jade-light)\">" + title + "</div>" +
+    "<button onclick=\"document.getElementById('gen-overlay').remove()\" style=\"background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text2);padding:6px 12px;font-size:12px;cursor:pointer\">✕ Close</button>" +
+    "</div>" +
+    "<div class=\"box-red\" style=\"flex-shrink:0\"><strong>Study Draft Only</strong> — rewrite completely in your own words and voice before submitting. Never submit AI-generated content as your own work.</div>" +
+    "<div style=\"background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;font-size:13px;color:var(--text2);line-height:1.7;flex:1\"><p style=margin-top:0>" + formatted + "</p></div>" +
+    "<div style=\"display:flex;gap:8px;flex-shrink:0;padding-bottom:env(safe-area-inset-bottom)\">" +
+    "<button onclick=\"downloadAsPDF('" + title + "',document.getElementById('gen-text').textContent," + week + ",'" + type + "')\" class=\"btn btn-primary\" style=\"flex:1\">🖨 Print / Save as PDF</button>" +
+    "<button onclick=\"document.getElementById('gen-overlay').remove()\" class=\"btn btn-ghost\" style=\"flex:1\">Close</button>" +
+    "</div>" +
+    "</div>";
+
+  // Add hidden text element for PDF
+  const hidden = document.createElement("div");
+  hidden.id = "gen-text";
+  hidden.style.display = "none";
+  hidden.textContent = text;
+  overlay.appendChild(hidden);
+
+  document.body.appendChild(overlay);
+}
 
 // ══════════════════════════════
 // AI TUTOR
