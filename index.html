@@ -322,7 +322,7 @@ textarea:focus{border-color:var(--jade)}
     <div class="page active" id="page-today">
       <div class="hero">
         <div class="hero-zh">氣功</div>
-        <div class="hero-badge">TB300 · VUIM · Summer 2026 · v9</div>
+        <div class="hero-badge">TB300 · VUIM · Summer 2026 · v10</div>
         <h1>今日 · Today</h1>
         <p>Dr. Justin Flinner · Tuesdays 6:30–8:00pm</p>
       </div>
@@ -2515,168 +2515,254 @@ function renderReading() {
 
 // ══════════════════════════════
 // READING RESPONSE GENERATORS
+// Template-based, no API needed
 // ══════════════════════════════
-const READING_CONTEXTS = {
+
+const RESPONSE_TEMPLATES = {
   1: {
-    articles: "Article 1 (NCCIH): Qigong is a mind-body-spirit practice combining movement, breathing, and meditation rooted in TCM, used to cultivate qi (vital energy), generally safe, research shows benefits for blood pressure, immune function, stress, and quality of life. Article 2 (Everyday Health): Qigong has 5000 year history, qi means energy plus gong means cultivation, three core elements are posture/movement, breathing, and mental focus, styles include Medical, Martial and Spiritual Qigong.",
-    prompt: "Summarize the key therapeutic principles of Qigong described in both articles. How do these principles connect to TCM theory (CLO 1)?"
+    responseTitle: "Week 1 Reading Response: Therapeutic Principles of Qigong",
+    responseBody: `Introduction
+
+    Qigong, a traditional Chinese mind-body practice with over 5,000 years of history, has emerged as a significant therapeutic modality within integrative medicine. This reading response examines the therapeutic principles of Qigong as described in two foundational sources: the National Center for Complementary and Integrative Health (NCCIH) overview and the Everyday Health beginner guide, connecting these principles to Traditional Chinese Medicine (TCM) theory as outlined in Course Learning Outcome 1 (CLO 1).
+
+    Core Therapeutic Principles
+
+    According to the NCCIH, Qigong functions as a mind-body-spirit practice that integrates three essential components: deliberate physical movement, regulated breathing, and focused meditation. This tripartite structure reflects the foundational TCM principle that health requires harmonious interaction among body, breath, and mind. The NCCIH notes that Qigong is used specifically to cultivate and balance the flow of qi — the vital energy that circulates through the meridian system — which aligns directly with TCM pathophysiology, wherein disrupted qi flow is understood as the root cause of disease.
+
+    The Everyday Health source further elaborates that the word "Qigong" itself encodes its therapeutic intent: qi (energy or life force) combined with gong (skill or cultivation) indicates a disciplined practice of energy development. This etymological foundation reinforces the TCM view that health is not a static condition but an ongoing cultivation of vital resources. The article identifies three core elements — posture and movement, breathing techniques, and mental focus — which correspond directly to the "three regulations" (san tiao) that form the basis of all Qigong practice.
+
+    Connection to TCM Theory
+
+    From a TCM perspective, these principles operate within a coherent theoretical framework. Physical movement in Qigong promotes the smooth flow of qi and blood through the meridians, preventing stagnation that leads to pain and dysfunction. The NCCIH reports that research supports benefits for blood pressure, immune function, and stress reduction — outcomes that TCM would attribute to strengthened wei qi (defensive energy) and balanced organ function. The meditative component directly nourishes shen (spirit), one of the Three Treasures alongside jing (essence) and qi (energy), which governs mental clarity and emotional stability.
+
+    Conclusion
+
+    Both sources establish Qigong as a therapeutically coherent practice grounded in TCM principles. The integration of movement, breath, and mental focus reflects the foundational TCM understanding that health emerges from the harmonious cultivation of qi across the body's meridian system. As future TCM practitioners, understanding these principles is essential for both personal cultivation and effective patient education.
+
+    References
+
+    Everyday Health. (n.d.). What is Qigong? A beginner's guide to this energetic movement practice. https://www.everydayhealth.com/wellness/what-is-qigong-a-beginners-guide-to-this-energetic-movement-practice/
+
+    National Center for Complementary and Integrative Health. (n.d.). Qigong: What you need to know. U.S. Department of Health and Human Services. https://www.nccih.nih.gov/health/qigong-what-you-need-to-know`,
+
+    journalTitle: "Week 1 Practice Journal",
+    journalBody: `Week 1 Reflection: First Encounter with Qi
+
+    Stepping onto the practice floor for the first time, I was uncertain what to expect from Qigong. I had read about qi as a concept, but experiencing the Opening Position — feet shoulder-width apart, hands resting at the lower dantian, eyes closed — brought something unexpected: stillness. Not the restless stillness of waiting, but an active, attentive quiet that I had not felt before.
+
+    As I held the position and breathed naturally for thirty seconds, I noticed a subtle warmth gathering at the point just below my navel — the lower dantian, which the NCCIH describes as the center of qi cultivation in Qigong practice. Whether this was physiological awareness or the beginning of genuine qi sensation, I cannot say with certainty. What I can say is that the simple act of placing my attention there changed how I inhabited my body.
+
+    The concept of qi initially felt abstract to me — a philosophical idea rather than a clinical reality. However, Movement 1, Holding Up the Heavens, began to shift this perception. As I inhaled and lifted my clasped hands toward my chest, then exhaled while pushing upward toward the sky, I felt a longitudinal stretch through my torso that seemed to do exactly what the name implies: create space. The NCCIH notes that Qigong integrates movement, breathing, and meditation into a unified therapeutic practice, and in that first movement, I began to understand what integration means experientially rather than intellectually.
+
+    What struck me most was the relationship between breath and movement. In ordinary life, I breathe reactively — in response to exertion or emotion. In Qigong, breath leads movement, and movement follows breath. This reversal of priority felt significant from a TCM perspective, where the Lung governs the descending and dispersing of qi throughout the body. By consciously coordinating breath with movement, I was actively participating in the regulation of my own qi flow.
+
+    I look forward to deepening this practice and observing how sustained daily engagement changes my physical awareness and clinical understanding.
+
+    References
+
+    National Center for Complementary and Integrative Health. (n.d.). Qigong: What you need to know. https://www.nccih.nih.gov/health/qigong-what-you-need-to-know`
   },
   2: {
-    articles: "Article (YMAA Publication Center, 2016): Qi is vital energy circulating through meridians. Three types: Original Qi (Yuan Qi), Food Qi (Gu Qi), Air Qi (Kong Qi). Qigong means study and practice of Qi. Goal is to understand and control Qi flow for health and longevity. Three fundamental adjustments: body, breath, mind. Smooth Qi flow equals health, blocked Qi equals disease.",
-    prompt: "Define Qi and explain the three types described in the article. How does this TCM framework relate to Ba Duan Jin movements? Use APA in-text citation (YMAA Publication Center, 2016)."
+    responseTitle: "Week 2 Reading Response: Understanding Qi and Qigong Theory",
+    responseBody: `Introduction
+
+    A foundational understanding of qi is essential for any practitioner of Traditional Chinese Medicine. This response examines the nature of qi and Qigong as described by the YMAA Publication Center (2016), analyzing the three types of qi identified in the text and connecting this framework to the therapeutic structure of Ba Duan Jin practice.
+
+    Defining Qi
+
+    The YMAA Publication Center (2016) defines qi as the vital energy or natural force that fills the universe and, within the human body, circulates through a network of pathways known as meridians. This definition positions qi not as a metaphysical abstraction but as a functional biological phenomenon — the energetic substrate that underlies all physiological processes. From a TCM perspective, qi serves as the animating force that enables organ function, metabolic transformation, and the body's capacity for self-regulation and healing.
+
+    The Three Types of Qi
+
+    The YMAA Publication Center (2016) identifies three primary types of qi that are particularly relevant to Qigong practice. First, Original Qi (Yuan Qi) represents the constitutional energy inherited from one's parents and stored in the Kidneys. It forms the foundational vitality upon which all other qi depends and is gradually consumed throughout life. Second, Food Qi (Gu Qi) is derived from the transformation of nutrients by the Spleen and Stomach. This post-natal qi replenishes the body's energy reserves through digestion and is directly influenced by dietary habits. Third, Air Qi (Kong Qi) is extracted from the breath by the Lungs and combined with Food Qi to form the basis of Gathering Qi (Zong Qi), which circulates through the chest and supports cardiac and respiratory function.
+
+    Connection to Ba Duan Jin
+
+    This three-part framework illuminates the therapeutic logic of Ba Duan Jin. Movement 1, Holding Up the Heavens, specifically targets the Triple Warmer (San Jiao) — the organ system responsible for the transformation and circulation of all three types of qi throughout the body's three energy centers. Movement 6, Hold the Feet to Strengthen the Kidneys, directly nurtures Original Qi by stimulating the Kidney meridian through the physical action of sliding hands along the posterior body. The controlled breathing that characterizes every Ba Duan Jin movement actively cultivates Air Qi through the Lungs. As the YMAA Publication Center (2016) emphasizes, the goal of Qigong is to understand and consciously direct qi flow — Ba Duan Jin achieves this through eight systematically designed movements, each targeting specific organ systems and their associated qi.
+
+    Conclusion
+
+    The three types of qi described by the YMAA Publication Center (2016) provide a coherent framework for understanding how Ba Duan Jin functions as a therapeutic intervention. By simultaneously cultivating Original, Food, and Air Qi through movement, breath, and mental focus, this form of Qigong supports comprehensive vitality and organ health.
+
+    References
+
+    YMAA Publication Center. (2016). What is Qi and what is Qigong? https://ymaa.com/articles/2016/what-is-qi-and-what-is-qigong`,
+
+    journalTitle: "Week 2 Practice Journal",
+    journalBody: `Week 2 Reflection: The Language of Breath
+
+    One week of daily practice has already begun to change something in me — not dramatically, but perceptibly. The most significant shift has been in my relationship with breathing.
+
+    Before this course, breath was something that happened to me. This week, reading the YMAA Publication Center's (2016) explanation of Air Qi (Kong Qi) — the vital energy extracted from breath by the Lungs — reframed everything. Each inhale is not merely oxygen intake. It is an active cultivation of Kong Qi, which combines with Food Qi to form the gathering qi that circulates through the chest. This understanding made every breath during practice feel purposeful in a way it had not before.
+
+    The breath coordination in Ba Duan Jin is demanding in its precision. In Movement 3, Separating Heaven and Earth, I must inhale to bring both hands to chest level, then exhale as I simultaneously push one hand skyward and press the other earthward. The coordination requires complete attention — the moment I let my mind wander, the breath and movement fall out of sync, and the movement loses its quality. I have begun to understand experientially what the YMAA source means when it states that smooth, unobstructed qi flow equals health. When my breath and movement are perfectly coordinated, there is a sense of ease and expansion in the movement. When they are not, the movement feels effortful and incomplete.
+
+    My home practice has been consistent at one hour daily. I have noticed that the first ten minutes feel effortful, but somewhere around the third or fourth movement, something releases — muscle tension, mental chatter — and the form begins to flow. I suspect this is the transition from ordinary physical movement into genuine Qigong practice, where the three regulations of body, breath, and mind begin to unify.
+
+    References
+
+    YMAA Publication Center. (2016). What is Qi and what is Qigong? https://ymaa.com/articles/2016/what-is-qi-and-what-is-qigong`
   },
   3: {
-    articles: "Article (Zhang et al., 2020, Complementary Therapies in Medicine, vol 50, 102392): 886 clinical studies identified: 47 systematic reviews, 705 RCTs, 116 non-randomized. Ba Duan Jin most researched at 55.5% of all studies. Top conditions: diabetes, COPD, hypertension, stroke, lumbar disc, insomnia. 96.5% positive results. China produced 95.3% of research. Best protocol: 5x per week, 1 hour, for 3 months. Calls for standardized reporting.",
-    prompt: "Summarize the key findings of the bibliometric analysis. What does Ba Duan Jin dominance in clinical research tell us? Connect to CLO 2. Cite as (Zhang et al., 2020)."
+    responseTitle: "Week 3 Reading Response: Clinical Evidence Base for Qigong",
+    responseBody: `Introduction
+
+    The integration of Qigong into clinical practice requires an understanding of the available research evidence. Zhang et al. (2020) conducted a comprehensive bibliometric analysis of 886 clinical studies on Qigong, providing the most thorough examination of this evidence base to date. This response summarizes the key findings and explores their implications for understanding Qigong as a differentiated therapeutic system (CLO 2).
+
+    Key Findings of the Bibliometric Analysis
+
+    Zhang et al. (2020) identified 886 clinical studies on Qigong published through December 2018, comprising 47 systematic reviews, 705 randomized controlled trials (RCTs), and 116 non-randomized controlled studies. This substantial body of research spans 134 disease types across 17 body systems, demonstrating the breadth of Qigong's potential clinical applications. Notably, 96.5% of included studies reported positive results for Qigong interventions, a finding that suggests consistent therapeutic benefit across diverse populations and conditions.
+
+    The top ten conditions studied included diabetes, chronic obstructive pulmonary disease (COPD), hypertension, stroke, cervical spondylosis, lumbar disc herniation, insomnia, knee osteoarthritis, low back pain, and osteoporosis — conditions that represent a significant portion of the chronic disease burden in both Eastern and Western clinical settings. The analysis found that the most effective protocol involved five sessions per week at one hour per session sustained over three months, which aligns with the daily one-hour practice requirement of this course.
+
+    Ba Duan Jin Dominance and CLO 2 Implications
+
+    Perhaps the most significant finding for this course is that Ba Duan Jin was the most frequently researched Qigong form, appearing in 492 of 886 studies (55.5%). This dominance reflects the form's unique combination of accessibility, systematic structure, and evidence of therapeutic efficacy. Zhang et al. (2020) note that China produced 95.3% of all Qigong clinical research, suggesting that the global evidence base remains heavily weighted toward Chinese-language literature — an important consideration for practitioners seeking to evaluate interventions for diverse patient populations.
+
+    From the perspective of CLO 2, which requires differentiation of Qigong systems, this analysis illustrates that Ba Duan Jin occupies a distinct position within the broader Qigong landscape: it is the most standardized, most studied, and most clinically validated form, making it the logical foundation for a course in therapeutic Qigong application.
+
+    Conclusion
+
+    The bibliometric analysis by Zhang et al. (2020) establishes a robust evidence base for Qigong as a therapeutic modality, with Ba Duan Jin at its evidential center. As TCM practitioners, familiarity with this research enables us to communicate Qigong's clinical value to patients and colleagues within evidence-based healthcare frameworks.
+
+    References
+
+    Zhang, Y.-P., et al. (2020). Evidence base of clinical studies on Qi Gong: A bibliometric analysis. Complementary Therapies in Medicine, 50, 102392. https://doi.org/10.1016/j.ctim.2020.102392`,
+
+    journalTitle: "Week 3 Practice Journal",
+    journalBody: `Week 3 Reflection: Evidence and Experience
+
+    Three weeks into daily practice, I find myself straddling two modes of knowing: the empirical and the experiential. This week's reading — Zhang et al.'s (2020) bibliometric analysis of 886 clinical Qigong studies — anchored my personal experience in a framework of evidence that I can bring into future clinical conversations.
+
+    What struck me most was that Ba Duan Jin appeared in 55.5% of all clinical Qigong studies. The form I practice daily is not merely a cultural artifact or a wellness trend — it is the most clinically validated Qigong intervention in the research literature. This knowledge changed how I approached my practice this week. Each movement felt less like exercise and more like a clinical intervention I was conducting on myself.
+
+    Movement 6, Hold the Feet to Strengthen the Kidneys, has become a particular focus for me. The slow slide of hands down the entire posterior body — from the low back through the hamstrings to the outside of the feet — activates the Kidney and Urinary Bladder meridians through sustained contact and gentle stimulation. Zhang et al. (2020) note that low back pain and lumbar disc herniation are among the top conditions studied in Qigong research, and I can feel directly why: the movement creates both decompression of the lumbar spine and activation of the Kidney qi that TCM associates with structural vitality and bone health.
+
+    I have also begun connecting the Five Elements framework more explicitly to my practice. Movement 7, Clench the Fists and Gaze Fiercely, targets the Liver and Gallbladder — the Wood element associated with the emotion of anger. As someone who carries tension in my jaw and shoulders, this movement provides a sanctioned outlet for that Wood energy. The fierce eyes and powerful punch feel cathartic in a way that is difficult to articulate but immediately recognizable.
+
+    References
+
+    Zhang, Y.-P., et al. (2020). Evidence base of clinical studies on Qi Gong: A bibliometric analysis. Complementary Therapies in Medicine, 50, 102392. https://doi.org/10.1016/j.ctim.2020.102392`
   },
   4: {
-    articles: "Article 1 (Week 4 PDF systematic review): 4 core components: Physical Exercise, Active Relaxation (tense-release muscles, Jacobson quote: an anxious mind cannot exist in a relaxed body), Focused Attention (mindfulness, meditation in motion), Controlled Breathing (inhale on rise, exhale on lower). Reduces cortisol, adrenaline, noradrenaline. Improves sleep, anxiety, depression, cognition. Effective: 30-60min, 2-3x per week, 8-16 weeks. Article 2 (Cheng, F.K., 2015, Journal of Bodywork and Movement Therapies, 19(1), 138-149, doi:10.1016/j.jbmt.2014.11.001): 28 publications on Baduanjin mental health. College students, middle-aged, elderly, chronic illness patients. Consistent improvement in quality of life and psychological wellbeing.",
-    prompt: "Explain the four core components of Qigong and how they produce therapeutic effects. Connect Cheng (2015) findings on mental health to Baduanjin clinical value (CLO 1 and 2). Cite both sources in APA format."
+    responseTitle: "Week 4 Reading Response: Mechanisms of Qigong and Mental Health Benefits",
+    responseBody: `Introduction
+
+    Understanding the mechanisms through which Qigong produces its therapeutic effects is essential for both clinical application and patient education. This response examines the four core components identified in the Week 4 systematic review and connects them to Cheng's (2015) findings on Baduanjin's mental health benefits, addressing CLO 1 and CLO 2.
+
+    The Four Core Components
+
+    The Week 4 systematic review identifies four interrelated mechanisms through which Qigong produces therapeutic effects. The first component, physical exercise, involves dynamic movement of large muscle groups that reduces stress hormones including cortisol, adrenaline, and noradrenaline, improves cardiovascular function, and enhances cognitive performance — particularly executive functions related to attention and working memory. The second component, active relaxation, involves the systematic tensing and releasing of muscle groups during practice. This process resembles Jacobson's progressive muscle relaxation technique, which demonstrated that "an anxious mind cannot exist in a relaxed body." By actively releasing muscular tension, Qigong practitioners reduce both physiological activation and psychological stress.
+
+    The third component, focused attention, creates a state of present-moment awareness that the review characterizes as "meditation in motion" — a form of mindfulness in which past concerns and future anxieties are suspended in favor of complete engagement with the current movement and breath. This focused attention has been associated with reduced stress sensitization, meaning that practitioners become less reactive to stressors over time. The fourth component, controlled breathing, involves the conscious synchronization of breath with movement — inhaling during expansive or upward actions and exhaling during contractive or downward ones. This breathing pattern activates the parasympathetic nervous system, reducing heart rate and blood pressure while promoting a state of physiological calm.
+
+    Baduanjin and Mental Health
+
+    Cheng (2015) provides specific evidence for Baduanjin's efficacy in the domain of mental health, reviewing 28 publications across diverse populations including college students, middle-aged adults, elderly individuals, and patients with chronic illness. Across these varied groups, Baduanjin interventions consistently demonstrated enhancement of quality of life and psychological wellbeing. Cheng (2015) notes that interventions ranged from four weeks to six months in duration, with frequencies of two to seven sessions per week, suggesting that Baduanjin produces mental health benefits across a wide range of practice intensities.
+
+    Conclusion
+
+    The convergence of the four-component mechanistic model with Cheng's (2015) empirical findings establishes a coherent explanation for Baduanjin's mental health effects. The combination of physical exercise, active relaxation, focused attention, and controlled breathing creates a comprehensive intervention that simultaneously addresses the physiological, psychological, and attentional dimensions of mental health. As TCM practitioners, this mechanistic understanding enables us to recommend Baduanjin with clinical confidence.
+
+    References
+
+    Cheng, F. K. (2015). Effects of Baduanjin on mental health: A comprehensive review. Journal of Bodywork and Movement Therapies, 19(1), 138-149. https://doi.org/10.1016/j.jbmt.2014.11.001`,
+
+    journalTitle: "Week 4 Practice Journal",
+    journalBody: `Week 4 Reflection: The Mechanism of Stillness
+
+    Four weeks before the midterm practical examination, I find myself reflecting on what has changed in my daily practice — and what this week's readings reveal about why those changes are happening.
+
+    The systematic review's identification of four core Qigong mechanisms has given me a language for experiences I had not previously known how to describe. Of the four components — physical exercise, active relaxation, focused attention, and controlled breathing — it is focused attention that I feel most profoundly. During my practice sessions, somewhere around the third or fourth movement, I enter a state that I can only describe as alert stillness. External thoughts do not disappear, but they lose their urgency. The review characterizes this as "meditation in motion," and that phrase captures it precisely.
+
+    As a doctoral student, I carry a significant cognitive and emotional load. The demands of graduate study, clinical preparation, and coursework create a baseline activation level that I had come to accept as normal. Cheng (2015) found that Baduanjin consistently enhanced quality of life and psychological wellbeing across diverse populations, and I am beginning to understand this finding experientially. After one hour of daily practice, I consistently feel less reactive — what the review calls reduced stress sensitization. Minor frustrations that would previously have lingered now release more readily.
+
+    The controlled breathing component has been particularly revealing this week as I prepare for the midterm. Movement 5, Sway the Head and Shake the Tail, specifically targets Heart Fire — the TCM concept of excess yang energy in the Heart that manifests as restlessness, anxiety, and insomnia. The Jacobson quote from the reading — "an anxious mind cannot exist in a relaxed body" — has become a touchstone for my pre-exam preparation. When I feel examination anxiety arising, I return to the breath pattern of this movement, and the physiological calming effect is immediate and measurable.
+
+    References
+
+    Cheng, F. K. (2015). Effects of Baduanjin on mental health: A comprehensive review. Journal of Bodywork and Movement Therapies, 19(1), 138-149. https://doi.org/10.1016/j.jbmt.2014.11.001`
   }
 };
 
-const READING_JOURNAL_PROMPTS = {
-  1: "Describe your first experience with the Opening Position and the concept of qi. What did you notice physically and mentally? How does the lower dantian concept relate to TCM theory from your readings?",
-  2: "Describe your daily home practice this week. What improvements are you noticing? How does breath coordination in Ba Duan Jin differ from everyday breathing?",
-  3: "Which Ba Duan Jin movements feel most natural? Which require more practice? Connect one movement to a Five Elements concept from your reading with APA citation.",
-  4: "Which of the 4 Qigong mechanisms do you feel most strongly during daily practice? How does this connect to managing your own stress as a doctoral student (CLO 4)?"
-};
-
-function getApiKey() {
-  let key = sessionStorage.getItem("tb300_api_key");
-  if (!key) {
-    key = prompt("Enter your Claude API key (sk-ant-...) to generate responses inside the app:");
-    if (key && key.startsWith("sk-ant")) {
-      sessionStorage.setItem("tb300_api_key", key);
-    } else {
-      showToast("Invalid or cancelled — no key entered");
-      return null;
-    }
-  }
-  return key;
+function generateReadingResponse(week) {
+  const t = RESPONSE_TEMPLATES[week];
+  if (!t) { showToast("No template for this week yet"); return; }
+  showGeneratedContent(t.responseTitle, t.responseBody, week, "response");
 }
 
-async function callClaude(systemPrompt, userPrompt) {
-  const key = getApiKey();
-  if (!key) return null;
-  const resp = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-api-key": key,
-      "anthropic-version": "2023-06-01",
-      "anthropic-dangerous-direct-browser-access": "true"
-    },
-    body: JSON.stringify({
-      model: "claude-haiku-4-5-20251001",
-      max_tokens: 1500,
-      system: systemPrompt,
-      messages: [{role: "user", content: userPrompt}]
-    })
-  });
-  const data = await resp.json();
-  if (data.error) throw new Error(data.error.message);
-  return data.content[0].text;
-}
-
-function downloadAsPDF(title, content, week, type) {
-  const html = "<!DOCTYPE html><html><head><meta charset=UTF-8><title>" + title + "</title><style>body{font-family:Times New Roman,serif;font-size:12pt;line-height:2;margin:1in;color:#000}h1{font-size:12pt;text-align:center;font-weight:bold}h2{font-size:12pt;font-weight:bold}.meta{text-align:center;margin-bottom:24pt}p{margin-bottom:12pt;text-indent:0.5in}p:first-of-type{text-indent:0.5in}.references{margin-top:24pt}@media print{body{margin:1in}}</style></head><body>" +
-    "<div class=meta><h1>" + title + "</h1>" +
-    "<p>Virginia University of Integrative Medicine<br>TB300 Qi Gong — Dr. Justin Flinner, DAc, LAc, DiplAc<br>Week " + week + " — Summer 2026</p></div>" +
-    content.split("\n").filter(function(l){return l.trim();}).map(function(l){
-      if(l.match(/^References$/i)||l.match(/^Reference List$/i)) return "<div class=references><h2>References</h2>";
-      if(l.match(/^[A-Z][a-z]+,/) && l.includes("(20")) return "<p style=padding-left:0.5in;text-indent:-0.5in>" + l + "</p>";
-      return "<p>" + l + "</p>";
-    }).join("") +
-    "</body></html>";
-  const win = window.open("", "_blank");
-  win.document.write(html);
-  win.document.close();
-  setTimeout(function(){ win.print(); }, 500);
-}
-
-async function generateReadingResponse(week) {
-  const ctx = READING_CONTEXTS[week];
-  if (!ctx) { showToast("No reading data for this week yet"); return; }
-
-  // Show loading state
-  const btn = document.querySelector("[onclick=\"generateReadingResponse(" + week + ")\"]");
-  if (btn) { btn.textContent = "Generating..."; btn.disabled = true; }
-  showToast("Generating your draft response...");
-
-  const system = "You are helping a doctoral student at Virginia University of Integrative Medicine write a reading response for TB300 Qi Gong. Write in first person as the student. Be academically rigorous, use proper APA in-text citations, and connect content to TCM theory and clinical practice. This is a study draft only.";
-  const user = "Write a 500-600 word academic reading response for Week " + week + " of my TB300 Qi Gong course at VUIM.\n\nREADING CONTENT: " + ctx.articles + "\n\nRESPONSE PROMPT: " + ctx.prompt + "\n\nRequirements: written in first person, 500-600 words, proper APA in-text citations, introduction + body paragraphs + conclusion structure, connect to CLO learning outcomes, end with full APA References section. Format with clear paragraph breaks.";
-
-  try {
-    const result = await callClaude(system, user);
-    if (!result) { if(btn){btn.textContent="✨ Generate 500-Word Draft Response";btn.disabled=false;} return; }
-    
-    if (btn) { btn.textContent = "✨ Generate 500-Word Draft Response"; btn.disabled = false; }
-    
-    // Show result in modal-style overlay inside app
-    showGeneratedContent("Week " + week + " Reading Response Draft", result, week, "reading");
-  } catch(e) {
-    if (btn) { btn.textContent = "✨ Generate 500-Word Draft Response"; btn.disabled = false; }
-    showToast("Error: " + (e.message || "Check your API key and connection"));
-    sessionStorage.removeItem("tb300_api_key");
-  }
-}
-
-async function generateJournalDraft(week) {
-  const ctx = READING_CONTEXTS[week];
-  if (!ctx) { showToast("No data for this week yet"); return; }
-
-  const btn = document.querySelector("[onclick=\"generateJournalDraft(" + week + ")\"]");
-  if (btn) { btn.textContent = "Generating..."; btn.disabled = true; }
-  showToast("Generating your journal draft...");
-
-  const system = "You are helping a doctoral student at Virginia University of Integrative Medicine write a personal reflective journal entry for TB300 Qi Gong. Write in first person as a student who has been practicing Ba Duan Jin daily. Be personal, reflective, and connect physical/mental observations to TCM theory. This is a study draft only — the student will rewrite it in their own words.";
-  const user = "Write a 400-word personal reflective journal entry for Week " + week + " of my TB300 Qi Gong course at VUIM.\n\nCOURSE READING CONTEXT: " + ctx.articles + "\n\nJOURNAL PROMPT: " + READING_JOURNAL_PROMPTS[week] + "\n\nRequirements: first person, personal and reflective tone, references physical sensations and observations from practice, connects to TCM theory with APA citations, 400 words, ends with APA references.";
-
-  try {
-    const result = await callClaude(system, user);
-    if (!result) { if(btn){btn.textContent="📓 Generate Journal Draft";btn.disabled=false;} return; }
-    if (btn) { btn.textContent = "📓 Generate Journal Draft"; btn.disabled = false; }
-    showGeneratedContent("Week " + week + " Journal Entry Draft", result, week, "journal");
-  } catch(e) {
-    if (btn) { btn.textContent = "📓 Generate Journal Draft"; btn.disabled = false; }
-    showToast("Error: " + (e.message || "Check your API key and connection"));
-    sessionStorage.removeItem("tb300_api_key");
-  }
+function generateJournalDraft(week) {
+  const t = RESPONSE_TEMPLATES[week];
+  if (!t) { showToast("No template for this week yet"); return; }
+  showGeneratedContent(t.journalTitle, t.journalBody, week, "journal");
 }
 
 function showGeneratedContent(title, text, week, type) {
-  // Remove any existing overlay
   const existing = document.getElementById("gen-overlay");
   if (existing) existing.remove();
 
   const overlay = document.createElement("div");
   overlay.id = "gen-overlay";
-  overlay.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;display:flex;flex-direction:column;";
+  overlay.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:500;display:flex;flex-direction:column;";
 
-  const formatted = text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n\n/g,"</p><p style=margin-top:12px>").replace(/\n/g,"<br>");
+  const paras = text.trim().split("\n").map(function(l) {
+    const t = l.trim();
+    if (!t) return "";
+    return "<p style=\"margin:0 0 10px 0;text-indent:" + (t.match(/^[A-Z]/) && !t.match(/^(Introduction|Conclusion|References|Week |The |A |An |From |One |Three |Four |Five )/) ? "0" : "0") + "\">" + t + "</p>";
+  }).join("");
 
-  overlay.innerHTML = "<div style=\"background:var(--ink2);flex:1;overflow-y:auto;padding:20px 16px;display:flex;flex-direction:column;gap:12px\">" +
-    "<div style=\"display:flex;align-items:center;justify-content:space-between;flex-shrink:0\">" +
-    "<div style=\"font-weight:700;font-size:14px;color:var(--jade-light)\">" + title + "</div>" +
-    "<button onclick=\"document.getElementById('gen-overlay').remove()\" style=\"background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text2);padding:6px 12px;font-size:12px;cursor:pointer\">✕ Close</button>" +
+  overlay.innerHTML =
+    "<div style=\"background:var(--ink2);border-bottom:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;\">" +
+      "<div style=\"font-weight:700;font-size:13px;color:var(--jade-light);flex:1;margin-right:10px;\">" + title + "</div>" +
+      "<button onclick=\"document.getElementById('gen-overlay').remove()\" style=\"background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--text2);padding:6px 12px;font-size:12px;cursor:pointer;flex-shrink:0\">✕ Close</button>" +
     "</div>" +
-    "<div class=\"box-red\" style=\"flex-shrink:0\"><strong>Study Draft Only</strong> — rewrite completely in your own words and voice before submitting. Never submit AI-generated content as your own work.</div>" +
-    "<div style=\"background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;font-size:13px;color:var(--text2);line-height:1.7;flex:1\"><p style=margin-top:0>" + formatted + "</p></div>" +
-    "<div style=\"display:flex;gap:8px;flex-shrink:0;padding-bottom:env(safe-area-inset-bottom)\">" +
-    "<button onclick=\"downloadAsPDF('" + title + "',document.getElementById('gen-text').textContent," + week + ",'" + type + "')\" class=\"btn btn-primary\" style=\"flex:1\">🖨 Print / Save as PDF</button>" +
-    "<button onclick=\"document.getElementById('gen-overlay').remove()\" class=\"btn btn-ghost\" style=\"flex:1\">Close</button>" +
+    "<div style=\"flex:1;overflow-y:auto;padding:16px;\">" +
+      "<div style=\"background:rgba(192,57,43,0.15);border:1px solid rgba(192,57,43,0.3);border-radius:8px;padding:10px 12px;font-size:11px;color:#e07070;line-height:1.6;margin-bottom:14px;\">" +
+        "⚠ <strong>Study Draft Only</strong> — Use this as a starting point. Rewrite completely in your own words before submitting. Never submit AI or template content as your own work." +
+      "</div>" +
+      "<div style=\"background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;font-size:13px;color:var(--text2);line-height:1.75;\">" +
+        paras +
+      "</div>" +
     "</div>" +
-    "</div>";
-
-  // Add hidden text element for PDF
-  const hidden = document.createElement("div");
-  hidden.id = "gen-text";
-  hidden.style.display = "none";
-  hidden.textContent = text;
-  overlay.appendChild(hidden);
+    "<div style=\"padding:12px 16px;background:var(--ink2);border-top:1px solid var(--border);display:flex;gap:8px;flex-shrink:0;padding-bottom:calc(12px + env(safe-area-inset-bottom));\">" +
+      "<button onclick=\"printContent('" + title.replace(/'/g,"\'") + "',document.getElementById('gen-text-' + " + week + " + '-" + type + "').textContent)\" class=\"btn btn-primary\" style=\"flex:2\">🖨 Print / Save as PDF</button>" +
+      "<button onclick=\"document.getElementById('gen-overlay').remove()\" class=\"btn btn-ghost\" style=\"flex:1\">Close</button>" +
+    "</div>" +
+    "<div id=\"gen-text-" + week + "-" + type + "\" style=\"display:none;\">" + text + "</div>";
 
   document.body.appendChild(overlay);
+}
+
+function printContent(title, text) {
+  const win = window.open("", "_blank");
+  const paras = text.trim().split("\n").map(function(l) {
+    const t = l.trim();
+    if (!t) return "";
+    if (t === "References" || t === "Reference List") return "<h3 style=margin-top:24pt;margin-bottom:6pt>" + t + "</h3>";
+    if (t.match(/^[A-Z][a-z]+,.*\(20[0-9][0-9]\)/)) return "<p style=padding-left:0.5in;text-indent:-0.5in;margin:0 0 6pt 0>" + t + "</p>";
+    return "<p style=margin:0 0 10pt 0;text-indent:0.5in>" + t + "</p>";
+  }).join("");
+
+  win.document.write(
+    "<!DOCTYPE html><html><head><meta charset=UTF-8><title>" + title + "</title>" +
+    "<style>body{font-family:Times New Roman,serif;font-size:12pt;line-height:2;margin:1in 1in 1in 1in;color:#000}" +
+    "h1{font-size:12pt;font-weight:bold;text-align:center;margin-bottom:0}" +
+    "h2{font-size:12pt;font-weight:normal;text-align:center;margin:0}" +
+    "h3{font-size:12pt;font-weight:bold;margin-bottom:0}" +
+    ".header{text-align:center;margin-bottom:24pt}" +
+    "@media print{body{margin:1in}button{display:none}}" +
+    "</style></head><body>" +
+    "<div class=header>" +
+    "<h1>" + title + "</h1>" +
+    "<h2>Virginia University of Integrative Medicine</h2>" +
+    "<h2>TB300 Qi Gong &mdash; Dr. Justin Flinner, DAc, LAc, DiplAc</h2>" +
+    "<h2>Summer 2026</h2>" +
+    "</div>" +
+    paras +
+    "<br><button onclick=window.print() style=padding:10px 20px;background:#1a5c3a;color:white;border:none;border-radius:6px;font-size:14px;cursor:pointer>Print / Save as PDF</button>" +
+    "</body></html>"
+  );
+  win.document.close();
 }
 
 // ══════════════════════════════
