@@ -187,9 +187,9 @@ html,body{height:100%;overflow:hidden;background:var(--ink);color:var(--text);fo
 @keyframes vizAnim{from{height:4px;opacity:0.3}to{height:24px;opacity:1}}
 
 /* ── JOURNAL ── */
-.journal-week-sel{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px}
+.journal-week-sel{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;-webkit-overflow-scrolling:touch;scroll-snap-type:x none;touch-action:pan-x}
 .journal-week-sel::-webkit-scrollbar{display:none}
-.week-chip{flex-shrink:0;padding:6px 12px;border-radius:20px;font-size:11px;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--text3);transition:all 0.15s;white-space:nowrap}
+.week-chip{flex-shrink:0;padding:6px 12px;border-radius:20px;font-size:11px;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--text3);transition:all 0.15s;white-space:nowrap;-webkit-tap-highlight-color:rgba(46,125,90,0.3);user-select:none;touch-action:manipulation}
 .week-chip.active{background:var(--jade);border-color:var(--jade);color:white}
 .week-chip.exam{border-color:rgba(192,57,43,0.4);color:#e74c3c}
 .week-chip.journal-due{border-color:rgba(201,168,76,0.4);color:var(--gold)}
@@ -1871,7 +1871,9 @@ function initJournal() {
     const btn=document.createElement('div');
     btn.className='week-chip'+(s.type==='exam'?' exam':s.type==='journal'?' journal-due':'')+(s.wk===state.currentJournalWeek?' active':'');
     btn.textContent=`Wk ${s.wk} · ${s.date}`;
-    btn.onclick=()=>{state.currentJournalWeek=s.wk;initJournal();};
+    const action=()=>{state.currentJournalWeek=s.wk;initJournal();};
+    btn.onclick=action;
+    btn.addEventListener('touchend',(e)=>{e.preventDefault();action();},{passive:false});
     sel.appendChild(btn);
   });
   const sch=SCHEDULE[state.currentJournalWeek-1];
@@ -2405,16 +2407,19 @@ function initReading() {
     const btn = document.createElement('div');
     btn.className = 'week-chip' + (w === currentReadingWeek ? ' active' : '');
     btn.textContent = `Wk ${w} · ${READINGS[w].date}`;
-    btn.onclick = () => { currentReadingWeek = w; initReading(); };
+    const action = () => { currentReadingWeek = w; initReading(); };
+    btn.onclick = action;
+    btn.addEventListener('touchend', (e) => { e.preventDefault(); action(); }, {passive:false});
     sel.appendChild(btn);
   });
-  // Weeks 5-10 placeholder chips
   [5,6,7,8,9,10].forEach(w => {
     const btn = document.createElement('div');
     btn.className = 'week-chip';
     btn.style.opacity = '0.4';
     btn.textContent = `Wk ${w}`;
-    btn.onclick = () => showToast('Reading coming soon for Week ' + w);
+    const action = () => showToast('Reading coming soon for Week ' + w);
+    btn.onclick = action;
+    btn.addEventListener('touchend', (e) => { e.preventDefault(); action(); }, {passive:false});
     sel.appendChild(btn);
   });
   renderReading();
