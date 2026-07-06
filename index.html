@@ -2266,133 +2266,124 @@ function showToast(msg) {
 // ══════════════════════════════
 const READINGS = {
   1: {
-    week: 1,
-    date: 'Jul 7',
-    focus: 'Introduction to Qigong',
+    week: 1, date: 'Jul 7', focus: 'Introduction to Qigong',
     articles: [
       {
         title: 'Qigong: What You Need to Know',
         source: 'National Center for Complementary and Integrative Health (NCCIH)',
         url: 'https://www.nccih.nih.gov/health/qigong-what-you-need-to-know',
-        apa: 'National Center for Complementary and Integrative Health. (n.d.). Qigong: What you need to know. U.S. Department of Health and Human Services. https://www.nccih.nih.gov/health/qigong-what-you-need-to-know',
+        apa: `National Center for Complementary and Integrative Health. (n.d.). Qigong: What you need to know. https://www.nccih.nih.gov/health/qigong-what-you-need-to-know`,
         keyPoints: [
-          'Qigong is a mind-body-spirit practice that combines movement, breathing, and meditation',
-          'Used in traditional Chinese medicine (TCM) to cultivate and balance the flow of qi (vital energy)',
-          'Generally considered safe for most people; low-impact and adaptable',
-          'Research suggests potential benefits for blood pressure, immune function, stress, and quality of life',
-          'Qigong and Tai Chi share similar roots and therapeutic mechanisms'
+          `Qigong is a mind-body-spirit practice combining movement, breathing, and meditation`,
+          `Used in TCM to cultivate and balance the flow of qi (vital energy)`,
+          `Generally considered safe and low-impact — adaptable for all populations`,
+          `Research suggests benefits for blood pressure, immune function, stress, and quality of life`,
+          `Qigong and Tai Chi share similar roots and therapeutic mechanisms`
         ],
-        summary: 'This NCCIH overview introduces Qigong as a mind-body practice rooted in TCM. It covers the basic principles of qi cultivation, safety considerations, and an overview of current research evidence. The article is an excellent starting point for understanding how Western medicine views Qigong and its potential clinical applications.'
+        summary: `This NCCIH overview introduces Qigong as a mind-body practice rooted in TCM. It covers basic principles of qi cultivation, safety considerations, and current research evidence. An excellent starting point for understanding how Western medicine views Qigong and its clinical applications.`
       },
       {
-        title: "What Is Qigong? A Beginner\'s Guide to This Energetic Movement Practice",
+        title: `What Is Qigong? A Beginner's Guide to This Energetic Movement Practice`,
         source: 'Everyday Health',
         url: 'https://www.everydayhealth.com/wellness/what-is-qigong-a-beginners-guide-to-this-energetic-movement-practice/',
-        apa: "Everyday Health. (n.d.). What is Qigong? A beginner\'s guide to this energetic movement practice. https://www.everydayhealth.com/wellness/what-is-qigong-a-beginners-guide-to-this-energetic-movement-practice/",
+        apa: `Everyday Health. (n.d.). What is Qigong? A beginner's guide. https://www.everydayhealth.com/wellness/what-is-qigong-a-beginners-guide-to-this-energetic-movement-practice/`,
         keyPoints: [
-          'Qigong has over 5,000 years of history rooted in Chinese philosophy and medicine',
-          'The word "Qigong" combines qi (energy/life force) and gong (skill/cultivation)',
-          'Consists of three core elements: posture/movement, breathing techniques, and mental focus',
-          'Different styles include Medical Qigong, Martial Qigong, and Spiritual Qigong',
-          'Benefits include stress reduction, improved balance, flexibility, and energy levels'
+          `Qigong has over 5,000 years of history rooted in Chinese philosophy and medicine`,
+          `The word Qigong combines qi (energy/life force) and gong (skill/cultivation)`,
+          `Three core elements: posture/movement, breathing techniques, and mental focus`,
+          `Styles include Medical Qigong, Martial Qigong, and Spiritual Qigong`,
+          `Benefits include stress reduction, improved balance, flexibility, and energy levels`
         ],
-        summary: "A beginner-friendly introduction covering the history, philosophy, and types of Qigong practice. Explains the meaning of qi and how the three elements — movement, breath, and intention — work together. Good foundation for understanding why Ba Duan Jin is structured the way it is."
+        summary: `A beginner-friendly introduction covering the history, philosophy, and types of Qigong. Explains the meaning of qi and how the three elements — movement, breath, and intention — work together. Good foundation for understanding why Ba Duan Jin is structured the way it is.`
       }
     ],
-    journalConnection: 'Week 1 journal: Describe your first experience with Qigong. How do these articles' descriptions of qi and mind-body connection relate to what you felt during the Opening Position?',
-    responsePrompt: 'Summarize the key therapeutic principles of Qigong described in both articles. How do these principles connect to TCM theory (CLO 1)?'
+    journalConnection: `Week 1 journal: Describe your first experience with Qigong. How do these articles describe qi and mind-body connection? How does it relate to what you felt during the Opening Position?`,
+    responsePrompt: `Summarize the key therapeutic principles of Qigong described in both articles. How do these principles connect to TCM theory (CLO 1)?`
   },
   2: {
-    week: 2,
-    date: 'Jul 14',
-    focus: 'What is Qi and What is Qigong?',
+    week: 2, date: 'Jul 14', focus: 'What is Qi and What is Qigong?',
     articles: [
       {
         title: 'What is Qi and What is Qigong?',
         source: 'YMAA Publication Center',
         url: 'https://ymaa.com/articles/2016/what-is-qi-and-what-is-qigong',
-        apa: 'YMAA Publication Center. (2016). What is Qi and what is Qigong? https://ymaa.com/articles/2016/what-is-qi-and-what-is-qigong',
+        apa: `YMAA Publication Center. (2016). What is Qi and what is Qigong? https://ymaa.com/articles/2016/what-is-qi-and-what-is-qigong`,
         keyPoints: [
-          'Qi is the energy or natural force that fills the universe — in the human body it is the vital energy that circulates through meridians',
-          'Three main types of Qi in the body: Original Qi (Yuan Qi), Food Qi (Gu Qi), and Air Qi (Kong Qi)',
-          'Qigong means "Qi Kung" — the study, research, and practices related to Qi',
-          'The goal of Qigong is to understand Qi and learn to control its flow to improve health and longevity',
-          'Regulating the body, breath, and mind are the three fundamental adjustments of Qigong practice',
-          'Smooth, unobstructed Qi flow = health; blocked or stagnant Qi = disease'
+          `Qi is the energy or natural force that fills the universe — in the body it circulates through meridians`,
+          `Three main types of Qi: Original Qi (Yuan Qi), Food Qi (Gu Qi), and Air Qi (Kong Qi)`,
+          `Qigong means the study, research, and practices related to Qi`,
+          `The goal of Qigong is to understand Qi and control its flow to improve health and longevity`,
+          `Regulating the body, breath, and mind are the three fundamental adjustments of Qigong`,
+          `Smooth unobstructed Qi flow equals health; blocked or stagnant Qi equals disease`
         ],
-        summary: 'A deep dive into the TCM concept of Qi from YMAA, one of the leading Qigong education publishers. Explains the different types of Qi, how they relate to the organs and meridians, and what Qigong practice aims to achieve. Essential reading for understanding the theoretical foundation beneath every Ba Duan Jin movement.'
+        summary: `A deep dive into the TCM concept of Qi from YMAA, one of the leading Qigong education publishers. Explains the different types of Qi, how they relate to organs and meridians, and what Qigong aims to achieve. Essential reading for understanding the theoretical foundation beneath every Ba Duan Jin movement.`
       }
     ],
-    journalConnection: 'Week 2 journal: How does your understanding of Qi from this reading change how you experience the breath coordination during practice? Can you feel Qi moving during specific movements?',
-    responsePrompt: 'Define Qi and explain the three types of Qi described in the article. How does this TCM framework relate to the movements practiced in Ba Duan Jin? Use APA in-text citation (YMAA Publication Center, 2016).'
+    journalConnection: `Week 2 journal: How does your understanding of Qi from this reading change how you experience breath coordination during practice? Can you feel Qi moving during specific movements?`,
+    responsePrompt: `Define Qi and explain the three types described in the article. How does this TCM framework relate to Ba Duan Jin movements? Use APA in-text citation (YMAA Publication Center, 2016).`
   },
   3: {
-    week: 3,
-    date: 'Jul 21',
-    focus: 'Clinical Evidence Base for Qigong',
+    week: 3, date: 'Jul 21', focus: 'Clinical Evidence Base for Qigong',
     articles: [
       {
         title: 'Evidence Base of Clinical Studies on Qi Gong: A Bibliometric Analysis',
         source: 'Complementary Therapies in Medicine (Zhang et al., 2020)',
         url: '',
-        apa: 'Zhang, Y.-P., et al. (2020). Evidence base of clinical studies on Qi Gong: A bibliometric analysis. Complementary Therapies in Medicine, 50, 102392. https://doi.org/10.1016/j.ctim.2020.102392',
+        apa: `Zhang, Y.-P., et al. (2020). Evidence base of clinical studies on Qi Gong: A bibliometric analysis. Complementary Therapies in Medicine, 50, 102392. https://doi.org/10.1016/j.ctim.2020.102392`,
         keyPoints: [
-          '886 clinical studies on Qigong were identified — 47 systematic reviews, 705 RCTs, 116 non-randomized studies',
-          'Ba Duan Jin was the MOST frequently researched Qigong form — 492 of 886 studies (55.5%)',
-          'Top 10 conditions studied: diabetes, COPD, hypertension, stroke, cervical spondylosis, lumbar disc herniation, insomnia, knee osteoarthritis, low back pain, osteoporosis',
-          '96.5% of studies reported positive results for Qigong interventions',
-          'China produced 95.3% of all Qigong clinical research',
-          'Most effective protocol: 5 sessions/week, 1 hour each, for 3 months',
-          'Call for standardized reporting and higher-quality study designs'
+          `886 clinical studies identified: 47 systematic reviews, 705 RCTs, 116 non-randomized studies`,
+          `Ba Duan Jin was the MOST researched Qigong form — 492 of 886 studies (55.5%)`,
+          `Top conditions studied: diabetes, COPD, hypertension, stroke, lumbar disc herniation, insomnia`,
+          `96.5% of studies reported positive results for Qigong interventions`,
+          `China produced 95.3% of all Qigong clinical research`,
+          `Most effective protocol: 5 sessions per week, 1 hour each, for 3 months`,
+          `Authors call for standardized reporting and higher-quality study designs`
         ],
-        summary: 'A landmark bibliometric analysis of the entire published clinical evidence base for Qigong. Reviewed 886 studies spanning 134 disease types across 17 body systems. The finding that Ba Duan Jin is the most researched Qigong form validates why it is central to this course. The overwhelmingly positive results across diverse populations support Qigong\'s role in integrative medicine.'
+        summary: `A landmark bibliometric analysis of the entire published clinical evidence base for Qigong. Reviewed 886 studies spanning 134 disease types across 17 body systems. The finding that Ba Duan Jin is the most researched Qigong form validates why it is central to this course. Overwhelmingly positive results support Qigong's use in integrative medicine.`
       }
     ],
-    journalConnection: 'Week 3 journal: Given that 96.5% of Qigong studies showed positive results, which conditions from the top 10 list do you see most frequently in TCM clinical practice? How might Ba Duan Jin serve those patients?',
-    responsePrompt: 'Summarize the key findings of the bibliometric analysis. What does the dominance of Ba Duan Jin in clinical research tell us about its importance? Connect to CLO 2 (differentiate Qigong systems). Cite as (Zhang et al., 2020).'
+    journalConnection: `Week 3 journal: Given that 96.5% of Qigong studies showed positive results, which conditions from the top 10 list do you see most frequently in TCM practice? How might Ba Duan Jin serve those patients?`,
+    responsePrompt: `Summarize the key findings of the bibliometric analysis. What does Ba Duan Jin's dominance in clinical research tell us about its importance? Connect to CLO 2. Cite as (Zhang et al., 2020).`
   },
   4: {
-    week: 4,
-    date: 'Jul 28',
-    focus: 'Qigong Mechanisms & Mental Health',
+    week: 4, date: 'Jul 28', focus: 'Qigong Mechanisms and Mental Health',
     articles: [
       {
-        title: 'Qigong as a Stress-Reducing and Health-Promoting Intervention: A Systematic Review of Mechanisms',
+        title: 'Qigong as a Stress-Reducing and Health-Promoting Intervention',
         source: 'Journal of Bodywork and Movement Therapies (Week 4 Reading)',
         url: '',
-        apa: 'Author(s). (Year). Qigong as a stress-reducing and health-promoting intervention. Journal of Bodywork and Movement Therapies.',
+        apa: `See Week 4 PDF uploaded to Populi course portal.`,
         keyPoints: [
-          '4 core components of Qigong: Physical Exercise, Active Relaxation, Focused Attention, Controlled Breathing',
-          'Active relaxation: muscles tense then release — resembles progressive muscle relaxation (Jacobson). "An anxious mind cannot exist in a relaxed body"',
-          'Focused attention creates mindfulness — Qigong is "meditation in motion" and "meditative movement"',
-          'Controlled breathing: synchronized with movement — inhale raising, exhale lowering',
-          'Qigong reduces cortisol, adrenaline, and noradrenaline — inhibits the stress response',
-          'Improves sleep quality and reduces fatigue — effects maintained 3 months post-intervention',
-          'Reduces both state anxiety (immediate) and trait anxiety (chronic)',
-          'Alleviates depression — attributed to reduced cortisol and parasympathetic nervous system activation',
-          'Improves cognitive functioning — attention, working memory, executive function',
-          'Effective protocol: 30–60 min, 2–3×/week, 8–16 weeks'
+          `4 core components: Physical Exercise, Active Relaxation, Focused Attention, Controlled Breathing`,
+          `Active relaxation: muscles tense then release — resembles progressive muscle relaxation. "An anxious mind cannot exist in a relaxed body"`,
+          `Focused attention creates mindfulness — Qigong is meditation in motion`,
+          `Controlled breathing is synchronized with movement — inhale raising, exhale lowering`,
+          `Qigong reduces cortisol, adrenaline, and noradrenaline — inhibits the stress response`,
+          `Improves sleep quality and reduces fatigue — effects maintained 3 months post-intervention`,
+          `Reduces both state anxiety (immediate) and trait anxiety (chronic)`,
+          `Alleviates depression — attributed to reduced cortisol and parasympathetic activation`,
+          `Effective protocol: 30-60 min, 2-3 times per week, 8-16 weeks`
         ],
-        summary: 'A systematic review examining the biological and psychological mechanisms behind Qigong\'s health benefits. Breaks down how each of the four components — physical exercise, active relaxation, focused attention, and controlled breathing — individually and collectively produce therapeutic effects. The stress-reduction outcomes table is particularly useful for clinical practice.'
+        summary: `A systematic review examining the biological and psychological mechanisms behind Qigong's health benefits. Breaks down how each of the four components individually and collectively produce therapeutic effects. The stress-reduction outcomes table is particularly useful for understanding Qigong's clinical value.`
       },
       {
-        title: 'Effects of Baduanjin on Mental Health: A Comprehensive Review',
+        title: `Effects of Baduanjin on Mental Health: A Comprehensive Review`,
         source: 'Journal of Bodywork and Movement Therapies (Cheng, 2015)',
         url: 'https://doi.org/10.1016/j.jbmt.2014.11.001',
-        apa: 'Cheng, F. K. (2015). Effects of Baduanjin on mental health: A comprehensive review. Journal of Bodywork and Movement Therapies, 19(1), 138–149. https://doi.org/10.1016/j.jbmt.2014.11.001',
+        apa: `Cheng, F. K. (2015). Effects of Baduanjin on mental health: A comprehensive review. Journal of Bodywork and Movement Therapies, 19(1), 138-149. https://doi.org/10.1016/j.jbmt.2014.11.001`,
         keyPoints: [
-          'Reviewed 28 publications (3 English, 25 Chinese) on Baduanjin and mental health',
-          'Participants: college students, middle-aged individuals, elderly, and patients with chronic illness',
-          'Results consistently showed enhancement in quality of life and psychological wellbeing',
-          'Intervention duration ranged from 4 weeks to 6 months; 2–7 sessions/week; 10–90 min/session',
-          'Baduanjin serves as a viable complementary/alternative intervention for mental health conditions',
-          'Benefits extend across diverse populations regardless of age, health status, or setting'
+          `Reviewed 28 publications (3 English, 25 Chinese) on Baduanjin and mental health`,
+          `Participants: college students, middle-aged individuals, elderly, and patients with chronic illness`,
+          `Results consistently showed enhancement in quality of life and psychological wellbeing`,
+          `Intervention duration ranged from 4 weeks to 6 months; 2-7 sessions per week`,
+          `Baduanjin is a viable complementary intervention for mental health conditions`,
+          `Benefits extend across diverse populations regardless of age or health status`
         ],
-        summary: 'The first comprehensive review specifically focused on Baduanjin\'s health effects. Synthesizes Chinese and English literature to show consistent improvements in psychological wellbeing across a wide range of populations. Directly relevant to CLO 4 (personal growth) and CLO 5 (clinical practice) — Baduanjin is a research-backed tool for your future patients.'
+        summary: `The first comprehensive review specifically focused on Baduanjin's effects on mental health. Synthesizes Chinese and English literature showing consistent improvements in psychological wellbeing across a wide range of populations. Directly relevant to CLO 4 and CLO 5 — Baduanjin is a research-backed tool for future clinical practice.`
       }
     ],
-    journalConnection: 'Week 4 journal: Which of the 4 mechanisms (physical exercise, active relaxation, focused attention, controlled breathing) do you feel most strongly during your daily practice? How does this connect to managing your own stress as a doctoral student (CLO 4)?',
-    responsePrompt: 'Explain the four core components of Qigong identified in the first article and how they produce therapeutic effects. Then connect Cheng\'s (2015) findings on mental health to your understanding of Baduanjin\'s clinical value (CLO 1 & 2). Cite both sources in APA format.'
+    journalConnection: `Week 4 journal: Which of the 4 mechanisms — physical exercise, active relaxation, focused attention, or controlled breathing — do you feel most strongly during daily practice? How does this connect to managing your own stress as a doctoral student (CLO 4)?`,
+    responsePrompt: `Explain the four core components of Qigong and how they produce therapeutic effects. Then connect Cheng's (2015) findings on mental health to Baduanjin's clinical value (CLO 1 and 2). Cite both sources in APA format.`
   }
 };
 
