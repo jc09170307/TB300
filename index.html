@@ -845,24 +845,47 @@ textarea:focus{border-color:var(--jade)}
     </div>
 
 
-    <!-- ═══════════ READING ═══════════ -->
-    <div class="page" id="page-reading">
+    <!-- ═══════════ AI TUTOR ═══════════ -->
+    <div class="page" id="page-ai">
       <div class="hero">
-        <div class="hero-zh">讀書</div>
-        <div class="hero-badge">Weekly Readings · APA Citations Included</div>
-        <h1>Required Readings</h1>
-        <p>Key concepts · Response prompts · Journal connections</p>
+        <div class="hero-zh">師</div>
+        <div class="hero-badge">AI Study Tutor · Powered by Claude</div>
+        <h1>AI Tutor · 導師</h1>
+        <p>Ask anything about your course · CLOs · Ba Duan Jin · TCM theory</p>
       </div>
       <div style="padding:16px 16px 80px">
 
-        <!-- WEEK SELECTOR -->
-        <div class="journal-week-sel" id="reading-week-sel"></div>
+        <div class="ai-warning">
+          <span>⚠</span>
+          <span><strong>Personal study tool only.</strong> Never submit AI-generated content as coursework. All assignments must be your own original work per VUIM AI policy.</span>
+        </div>
 
-        <!-- READING CONTENT -->
-        <div id="reading-content"></div>
+        <div class="section-title">Suggested Questions</div>
+        <div id="ai-suggestions" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
+          <div class="pill pill-jade" style="cursor:pointer" onclick="aiAsk(this.textContent)">Quiz me on Movement sequences</div>
+          <div class="pill pill-jade" style="cursor:pointer" onclick="aiAsk(this.textContent)">Explain Heart Fire and which movement fixes it</div>
+          <div class="pill pill-jade" style="cursor:pointer" onclick="aiAsk(this.textContent)">What are the Five Elements and their emotions?</div>
+          <div class="pill pill-jade" style="cursor:pointer" onclick="aiAsk(this.textContent)">Help me understand the Three Treasures</div>
+          <div class="pill pill-jade" style="cursor:pointer" onclick="aiAsk(this.textContent)">What is the difference between Ba Duan Jin and Yi Jin Jing?</div>
+          <div class="pill pill-jade" style="cursor:pointer" onclick="aiAsk(this.textContent)">How do I adapt Movement 8 for a patient with osteoporosis?</div>
+          <div class="pill pill-gold" style="cursor:pointer" onclick="aiAsk(this.textContent)">Give me 5 exam questions on organ systems</div>
+          <div class="pill pill-gold" style="cursor:pointer" onclick="aiAsk(this.textContent)">What should I focus on for my Week 3 journal entry?</div>
+        </div>
 
+        <div id="ai-chat" style="margin-bottom:14px;display:flex;flex-direction:column;gap:10px;min-height:60px"></div>
+
+        <div style="position:sticky;bottom:0;background:rgba(13,31,26,0.97);padding:12px 0;backdrop-filter:blur(20px)">
+          <div style="display:flex;gap:8px">
+            <textarea id="ai-input" placeholder="Ask anything about TB300, Ba Duan Jin, TCM theory, exam prep..." rows="2"
+              style="flex:1;font-size:13px;resize:none"
+              onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAI()}"></textarea>
+            <button class="btn btn-primary" onclick="sendAI()" style="align-self:flex-end;padding:10px 16px" id="ai-send-btn">Send</button>
+          </div>
+          <div class="text-xs text-muted" style="margin-top:6px;text-align:center">Shift+Enter for new line · Enter to send</div>
+        </div>
       </div>
     </div>
+
 
     <!-- ═══════════ TOOLS ═══════════ -->
     <div class="page" id="page-tools">
@@ -1015,8 +1038,8 @@ textarea:focus{border-color:var(--jade)}
     <button class="nav-btn" onclick="switchPage('exam')" ontouchend="event.preventDefault();switchPage('exam')" id="nav-exam">
       <span class="icon">🎯</span>Exam
     </button>
-    <button class="nav-btn" onclick="switchPage('reading')" ontouchend="event.preventDefault();switchPage('reading')" id="nav-reading">
-      <span class="icon">📖</span>Reading
+<button class="nav-btn" onclick="switchPage('ai')" ontouchend="event.preventDefault();switchPage('ai')" id="nav-ai">
+      <span class="icon">🤖</span>AI Tutor
     </button>
     <button class="nav-btn" onclick="switchPage('tools')" ontouchend="event.preventDefault();switchPage('tools')" id="nav-tools">
       <span class="icon">🛠</span>Tools
@@ -2262,210 +2285,90 @@ function showToast(msg) {
 
 
 // ══════════════════════════════
-// READING DATA
+// AI TUTOR
 // ══════════════════════════════
-const READINGS = {
-  1: {
-    week: 1, date: 'Jul 7', focus: 'Introduction to Qigong',
-    articles: [
-      {
-        title: 'Qigong: What You Need to Know',
-        source: 'National Center for Complementary and Integrative Health (NCCIH)',
-        url: 'https://www.nccih.nih.gov/health/qigong-what-you-need-to-know',
-        apa: `National Center for Complementary and Integrative Health. (n.d.). Qigong: What you need to know. https://www.nccih.nih.gov/health/qigong-what-you-need-to-know`,
-        keyPoints: [
-          `Qigong is a mind-body-spirit practice combining movement, breathing, and meditation`,
-          `Used in TCM to cultivate and balance the flow of qi (vital energy)`,
-          `Generally considered safe and low-impact — adaptable for all populations`,
-          `Research suggests benefits for blood pressure, immune function, stress, and quality of life`,
-          `Qigong and Tai Chi share similar roots and therapeutic mechanisms`
-        ],
-        summary: `This NCCIH overview introduces Qigong as a mind-body practice rooted in TCM. It covers basic principles of qi cultivation, safety considerations, and current research evidence. An excellent starting point for understanding how Western medicine views Qigong and its clinical applications.`
-      },
-      {
-        title: `What Is Qigong? A Beginner's Guide to This Energetic Movement Practice`,
-        source: 'Everyday Health',
-        url: 'https://www.everydayhealth.com/wellness/what-is-qigong-a-beginners-guide-to-this-energetic-movement-practice/',
-        apa: `Everyday Health. (n.d.). What is Qigong? A beginner's guide. https://www.everydayhealth.com/wellness/what-is-qigong-a-beginners-guide-to-this-energetic-movement-practice/`,
-        keyPoints: [
-          `Qigong has over 5,000 years of history rooted in Chinese philosophy and medicine`,
-          `The word Qigong combines qi (energy/life force) and gong (skill/cultivation)`,
-          `Three core elements: posture/movement, breathing techniques, and mental focus`,
-          `Styles include Medical Qigong, Martial Qigong, and Spiritual Qigong`,
-          `Benefits include stress reduction, improved balance, flexibility, and energy levels`
-        ],
-        summary: `A beginner-friendly introduction covering the history, philosophy, and types of Qigong. Explains the meaning of qi and how the three elements — movement, breath, and intention — work together. Good foundation for understanding why Ba Duan Jin is structured the way it is.`
-      }
-    ],
-    journalConnection: `Week 1 journal: Describe your first experience with Qigong. How do these articles describe qi and mind-body connection? How does it relate to what you felt during the Opening Position?`,
-    responsePrompt: `Summarize the key therapeutic principles of Qigong described in both articles. How do these principles connect to TCM theory (CLO 1)?`
-  },
-  2: {
-    week: 2, date: 'Jul 14', focus: 'What is Qi and What is Qigong?',
-    articles: [
-      {
-        title: 'What is Qi and What is Qigong?',
-        source: 'YMAA Publication Center',
-        url: 'https://ymaa.com/articles/2016/what-is-qi-and-what-is-qigong',
-        apa: `YMAA Publication Center. (2016). What is Qi and what is Qigong? https://ymaa.com/articles/2016/what-is-qi-and-what-is-qigong`,
-        keyPoints: [
-          `Qi is the energy or natural force that fills the universe — in the body it circulates through meridians`,
-          `Three main types of Qi: Original Qi (Yuan Qi), Food Qi (Gu Qi), and Air Qi (Kong Qi)`,
-          `Qigong means the study, research, and practices related to Qi`,
-          `The goal of Qigong is to understand Qi and control its flow to improve health and longevity`,
-          `Regulating the body, breath, and mind are the three fundamental adjustments of Qigong`,
-          `Smooth unobstructed Qi flow equals health; blocked or stagnant Qi equals disease`
-        ],
-        summary: `A deep dive into the TCM concept of Qi from YMAA, one of the leading Qigong education publishers. Explains the different types of Qi, how they relate to organs and meridians, and what Qigong aims to achieve. Essential reading for understanding the theoretical foundation beneath every Ba Duan Jin movement.`
-      }
-    ],
-    journalConnection: `Week 2 journal: How does your understanding of Qi from this reading change how you experience breath coordination during practice? Can you feel Qi moving during specific movements?`,
-    responsePrompt: `Define Qi and explain the three types described in the article. How does this TCM framework relate to Ba Duan Jin movements? Use APA in-text citation (YMAA Publication Center, 2016).`
-  },
-  3: {
-    week: 3, date: 'Jul 21', focus: 'Clinical Evidence Base for Qigong',
-    articles: [
-      {
-        title: 'Evidence Base of Clinical Studies on Qi Gong: A Bibliometric Analysis',
-        source: 'Complementary Therapies in Medicine (Zhang et al., 2020)',
-        url: '',
-        apa: `Zhang, Y.-P., et al. (2020). Evidence base of clinical studies on Qi Gong: A bibliometric analysis. Complementary Therapies in Medicine, 50, 102392. https://doi.org/10.1016/j.ctim.2020.102392`,
-        keyPoints: [
-          `886 clinical studies identified: 47 systematic reviews, 705 RCTs, 116 non-randomized studies`,
-          `Ba Duan Jin was the MOST researched Qigong form — 492 of 886 studies (55.5%)`,
-          `Top conditions studied: diabetes, COPD, hypertension, stroke, lumbar disc herniation, insomnia`,
-          `96.5% of studies reported positive results for Qigong interventions`,
-          `China produced 95.3% of all Qigong clinical research`,
-          `Most effective protocol: 5 sessions per week, 1 hour each, for 3 months`,
-          `Authors call for standardized reporting and higher-quality study designs`
-        ],
-        summary: `A landmark bibliometric analysis of the entire published clinical evidence base for Qigong. Reviewed 886 studies spanning 134 disease types across 17 body systems. The finding that Ba Duan Jin is the most researched Qigong form validates why it is central to this course. Overwhelmingly positive results support Qigong's use in integrative medicine.`
-      }
-    ],
-    journalConnection: `Week 3 journal: Given that 96.5% of Qigong studies showed positive results, which conditions from the top 10 list do you see most frequently in TCM practice? How might Ba Duan Jin serve those patients?`,
-    responsePrompt: `Summarize the key findings of the bibliometric analysis. What does Ba Duan Jin's dominance in clinical research tell us about its importance? Connect to CLO 2. Cite as (Zhang et al., 2020).`
-  },
-  4: {
-    week: 4, date: 'Jul 28', focus: 'Qigong Mechanisms and Mental Health',
-    articles: [
-      {
-        title: 'Qigong as a Stress-Reducing and Health-Promoting Intervention',
-        source: 'Journal of Bodywork and Movement Therapies (Week 4 Reading)',
-        url: '',
-        apa: `See Week 4 PDF uploaded to Populi course portal.`,
-        keyPoints: [
-          `4 core components: Physical Exercise, Active Relaxation, Focused Attention, Controlled Breathing`,
-          `Active relaxation: muscles tense then release — resembles progressive muscle relaxation. "An anxious mind cannot exist in a relaxed body"`,
-          `Focused attention creates mindfulness — Qigong is meditation in motion`,
-          `Controlled breathing is synchronized with movement — inhale raising, exhale lowering`,
-          `Qigong reduces cortisol, adrenaline, and noradrenaline — inhibits the stress response`,
-          `Improves sleep quality and reduces fatigue — effects maintained 3 months post-intervention`,
-          `Reduces both state anxiety (immediate) and trait anxiety (chronic)`,
-          `Alleviates depression — attributed to reduced cortisol and parasympathetic activation`,
-          `Effective protocol: 30-60 min, 2-3 times per week, 8-16 weeks`
-        ],
-        summary: `A systematic review examining the biological and psychological mechanisms behind Qigong's health benefits. Breaks down how each of the four components individually and collectively produce therapeutic effects. The stress-reduction outcomes table is particularly useful for understanding Qigong's clinical value.`
-      },
-      {
-        title: `Effects of Baduanjin on Mental Health: A Comprehensive Review`,
-        source: 'Journal of Bodywork and Movement Therapies (Cheng, 2015)',
-        url: 'https://doi.org/10.1016/j.jbmt.2014.11.001',
-        apa: `Cheng, F. K. (2015). Effects of Baduanjin on mental health: A comprehensive review. Journal of Bodywork and Movement Therapies, 19(1), 138-149. https://doi.org/10.1016/j.jbmt.2014.11.001`,
-        keyPoints: [
-          `Reviewed 28 publications (3 English, 25 Chinese) on Baduanjin and mental health`,
-          `Participants: college students, middle-aged individuals, elderly, and patients with chronic illness`,
-          `Results consistently showed enhancement in quality of life and psychological wellbeing`,
-          `Intervention duration ranged from 4 weeks to 6 months; 2-7 sessions per week`,
-          `Baduanjin is a viable complementary intervention for mental health conditions`,
-          `Benefits extend across diverse populations regardless of age or health status`
-        ],
-        summary: `The first comprehensive review specifically focused on Baduanjin's effects on mental health. Synthesizes Chinese and English literature showing consistent improvements in psychological wellbeing across a wide range of populations. Directly relevant to CLO 4 and CLO 5 — Baduanjin is a research-backed tool for future clinical practice.`
-      }
-    ],
-    journalConnection: `Week 4 journal: Which of the 4 mechanisms — physical exercise, active relaxation, focused attention, or controlled breathing — do you feel most strongly during daily practice? How does this connect to managing your own stress as a doctoral student (CLO 4)?`,
-    responsePrompt: `Explain the four core components of Qigong and how they produce therapeutic effects. Then connect Cheng's (2015) findings on mental health to Baduanjin's clinical value (CLO 1 and 2). Cite both sources in APA format.`
+const AI_API_KEY = sessionStorage.getItem("tb300_api_key") || "";
+const AI_SYSTEM = `You are a knowledgeable study tutor for a VUIM doctoral student taking TB300/TB320 Qi Gong with Dr. Justin Flinner. You know the following course details:
+
+COURSE: TB300 Qi Gong, Summer 2026, VUIM. Tuesdays 6:30-8pm. Grading: Journal 20% (due Sep 1), Midterm practical exam 40% (Aug 4), Final practical exam 40% (Sep 8). Pass = 70%+. Must attend 80% of hours.
+
+BA DUAN JIN - 8 MOVEMENTS (6 cycles each):
+Opening: feet shoulder width, hands on lower dantian, eyes closed, 30 seconds natural breath.
+1. Holding Up the Heavens (双手托天理三焦) - Triple Warmer, Metal. Inhale: lift clasped hands to chest. Exhale: push to sky, lower to dantian.
+2. Draw the Bow to Shoot the Eagle (左右开弓似射雕) - Lung/Large Intestine, Metal. Inhale: horse stance + draw bow with Southern Palm. Exhale: step back.
+3. Separating Heaven and Earth (调理脾胃须单臂) - Spleen/Stomach, Earth. Inhale: both hands to chest. Exhale: one hand sky, one earth.
+4. Wise Owl Gazes Backwards (五劳七伤向后瞧) - Heart/vessels, Fire. Inhale: rotate arms out + turn head. Exhale: return.
+5. Sway Head and Shake Tail (摇头摆尾去心火) - Heart Fire, Fire. Inhale: circle torso. Exhale: twist and look behind.
+6. Hold Feet to Strengthen Kidneys (两手把住足根摇) - Kidney/Bladder, Water. Exhale: slide hands down back and forward bend.
+7. Clench Fists and Gaze Fiercely (攥拳怒目增气力) - Liver/Gallbladder, Wood. Exhale: punch with fierce eyes wide open.
+8. Bouncing Feet and Vibrating Back (背后七颠百病消) - All organs, All. Inhale: raise arms and heels. Exhale forceful: heels drop.
+Closing: raise arms overhead 3 cycles, hands on dantian, 30+ seconds.
+
+FIVE ELEMENTS: Wood (Liver/GB, Anger, Spring, M7), Fire (Heart/SI, Joy, Summer, M4,5), Earth (Spleen/ST, Worry, Late Summer, M3), Metal (Lung/LI, Grief, Autumn, M1,2), Water (Kidney/UB, Fear, Winter, M6,8). Generation: Wood>Fire>Earth>Metal>Water. Control: Wood>Earth>Water>Fire>Metal.
+
+THREE TREASURES: Jing (Essence, stored in Kidneys), Qi (Energy, flows through meridians), Shen (Spirit, housed in Heart).
+
+KEY TERMS: Dantian = energy center 2 inches below navel. San Jiao = Triple Warmer. Wei Qi = defensive qi. Heart Fire (君火) = excess fire causing restlessness, reduced by M5. Yi Jin Jing = Muscle/Tendon Changing Classic (Week 9).
+
+CLOs: 1=Explain TCM/Qigong principles, 2=Differentiate Qigong systems, 3=Adapt for disabilities, 4=Personal growth, 5=Clinical practice.
+
+ADAPTATION (CLO 3): M8 osteoporosis = NO heel drop, gentle raise only. Wheelchair = upper body adaptations. Knee issues = no horse stance.
+
+Be concise, warm, and encouraging. Use Chinese characters when relevant. Always remind the student that AI cannot be used for actual coursework submissions.`;
+
+let aiMessages = [];
+
+async function sendAI() {
+  const input = document.getElementById("ai-input");
+  const text = input.value.trim();
+  if (!text) return;
+  aiAsk(text);
+  input.value = "";
+}
+
+async function aiAsk(text) {
+  if (!sessionStorage.getItem("tb300_api_key")) {
+    const key = prompt("Enter your Claude API key to use the AI Tutor:");
+    if (!key) return;
+    sessionStorage.setItem("tb300_api_key", key);
   }
-};
+  const chat = document.getElementById("ai-chat");
+  const btn = document.getElementById("ai-send-btn");
 
-// ══════════════════════════════
-// READING PAGE
-// ══════════════════════════════
-let currentReadingWeek = 1;
+  // Add user message
+  aiMessages.push({role: "user", content: text});
+  chat.innerHTML += "<div style='background:var(--card2);border:1px solid var(--border);border-radius:12px 12px 4px 12px;padding:10px 14px;font-size:13px;color:var(--text);line-height:1.6;align-self:flex-end;max-width:85%'>" + text + "</div>";
+  chat.innerHTML += "<div id='ai-thinking' style='color:var(--text3);font-size:12px;padding:4px 0'>Thinking...</div>";
+  chat.scrollTop = chat.scrollHeight;
+  btn.disabled = true;
+  btn.textContent = "...";
 
-function initReading() {
-  const sel = document.getElementById('reading-week-sel');
-  sel.innerHTML = '';
-  [1,2,3,4].forEach(w => {
-    const btn = document.createElement('div');
-    btn.className = 'week-chip' + (w === currentReadingWeek ? ' active' : '');
-    btn.textContent = `Wk ${w} · ${READINGS[w].date}`;
-    const action = () => { currentReadingWeek = w; initReading(); };
-    btn.onclick = action;
-    btn.addEventListener('touchend', (e) => { e.preventDefault(); action(); }, {passive:false});
-    sel.appendChild(btn);
-  });
-  [5,6,7,8,9,10].forEach(w => {
-    const btn = document.createElement('div');
-    btn.className = 'week-chip';
-    btn.style.opacity = '0.4';
-    btn.textContent = `Wk ${w}`;
-    const action = () => showToast('Reading coming soon for Week ' + w);
-    btn.onclick = action;
-    btn.addEventListener('touchend', (e) => { e.preventDefault(); action(); }, {passive:false});
-    sel.appendChild(btn);
-  });
-  renderReading();
+  try {
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {"Content-Type": "application/json", "x-api-key": AI_API_KEY, "anthropic-version": "2023-06-01"},
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 1000,
+        system: AI_SYSTEM,
+        messages: aiMessages
+      })
+    });
+    const data = await response.json();
+    const reply = data.content[0].text;
+    aiMessages.push({role: "assistant", content: reply});
+
+    document.getElementById("ai-thinking").remove();
+    chat.innerHTML += "<div style='background:linear-gradient(135deg,rgba(46,125,90,0.15),rgba(46,125,90,0.05));border:1px solid var(--border2);border-radius:4px 12px 12px 12px;padding:10px 14px;font-size:13px;color:var(--text);line-height:1.65;max-width:92%'>" + reply.replace(/\n/g, "<br>").replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") + "</div>";
+    chat.scrollTop = chat.scrollHeight;
+  } catch(e) {
+    document.getElementById("ai-thinking").remove();
+    chat.innerHTML += "<div style='color:#e74c3c;font-size:12px;padding:4px 0'>Error connecting to AI. Check your connection and try again.</div>";
+  }
+  btn.disabled = false;
+  btn.textContent = "Send";
 }
 
-function renderReading() {
-  const r = READINGS[currentReadingWeek];
-  const el = document.getElementById('reading-content');
-  if (!r) { el.innerHTML = '<div class="card"><div class="text-sm text-muted" style="text-align:center;padding:20px">Reading not yet uploaded for this week</div></div>'; return; }
-
-  let html = `
-    <div class="card2" style="margin-bottom:14px">
-      <div class="text-xs text-muted" style="margin-bottom:4px">WEEK ${r.week} · ${r.date}</div>
-      <div class="fw6" style="margin-bottom:4px">${r.focus}</div>
-      <div class="text-sm text-muted">${r.articles.length} article${r.articles.length > 1 ? 's' : ''} assigned</div>
-    </div>
-  `;
-
-  r.articles.forEach((a, i) => {
-    html += `
-      <div class="section-title">Article ${i + 1}</div>
-      <div class="card" style="margin-bottom:10px">
-        <div class="fw6" style="margin-bottom:4px;font-size:13px">${a.title}</div>
-        <div class="text-xs text-muted" style="margin-bottom:10px">${a.source}</div>
-        ${a.url ? `<a href="${a.url}" target="_blank" class="btn btn-ghost btn-sm btn-full" style="margin-bottom:12px;text-decoration:none">🔗 Read Article</a>` : '<div class="text-xs text-muted" style="margin-bottom:10px;padding:6px;background:rgba(255,255,255,0.04);border-radius:6px;border:1px solid var(--border)">📄 PDF uploaded to Populi — access through course portal</div>'}
-
-        <div class="section-title" style="margin-top:0">Key Points</div>
-        ${a.keyPoints.map(p => `<div style="display:flex;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text2)"><span style="color:var(--jade-light);flex-shrink:0">✦</span><span>${p}</span></div>`).join('')}
-
-        <div class="section-title" style="margin-top:12px">Summary</div>
-        <div class="text-sm" style="color:var(--text2);line-height:1.65">${a.summary}</div>
-
-        <div class="section-title" style="margin-top:12px">APA Citation</div>
-        <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:6px;padding:10px;font-size:11px;color:var(--text3);line-height:1.6;font-style:italic">${a.apa}</div>
-      </div>
-    `;
-  });
-
-  html += `
-    <div class="section-title">Reading Response Prompt</div>
-    <div class="card2" style="margin-bottom:10px">
-      <div class="text-xs text-gold" style="margin-bottom:6px">✍ RESPONSE PROMPT · APA FORMAT</div>
-      <div class="text-sm" style="line-height:1.65;color:var(--text2)">${r.responsePrompt}</div>
-    </div>
-
-    <div class="section-title">Journal Connection</div>
-    <div class="card2" style="margin-bottom:10px">
-      <div class="text-xs text-jade" style="margin-bottom:6px">📓 CONNECTS TO WEEK ${r.week} JOURNAL</div>
-      <div class="text-sm" style="line-height:1.65;color:var(--text2)">${r.journalConnection}</div>
-    </div>
-  `;
-
-  el.innerHTML = html;
-}
 
 // ══════════════════════════════
 // SERVICE WORKER
@@ -2488,7 +2391,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   updateTimerDisplay();
   // Init journal
   initJournal();
-  initReading();
   // Nav default
   document.getElementById('nav-today').classList.add('active');
 });
