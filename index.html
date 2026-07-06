@@ -55,23 +55,24 @@ html,body{height:100%;overflow:hidden;background:var(--ink);color:var(--text);fo
   backdrop-filter:blur(20px);
   overflow-x:auto;
   overflow-y:hidden;
-  scroll-snap-type:x mandatory;
   -webkit-overflow-scrolling:touch;
 }
 #nav::-webkit-scrollbar{display:none}
 .nav-btn{
   flex:0 0 auto;
-  min-width:62px;
+  min-width:64px;
   display:flex;flex-direction:column;align-items:center;gap:3px;
   padding:6px 8px;cursor:pointer;border:none;background:none;
   color:var(--text3);font-size:9px;font-family:'Inter',sans-serif;
   letter-spacing:0.04em;transition:color 0.2s;
-  scroll-snap-align:start;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:rgba(46,125,90,0.2);
+  user-select:none;
 }
 .nav-btn .icon{font-size:20px;line-height:1;transition:transform 0.2s}
 .nav-btn.active{color:var(--jade-light)}
 .nav-btn.active .icon{transform:scale(1.15)}
-.nav-btn:active .icon{transform:scale(0.9)}
+.nav-btn:active{opacity:0.7}
 
 /* ── PAGES ── */
 .page{display:none;min-height:100%;animation:fadeIn 0.25s ease}
@@ -990,34 +991,34 @@ textarea:focus{border-color:var(--jade)}
 
   <!-- NAV -->
   <nav id="nav">
-    <button class="nav-btn active" onclick="switchPage('today')" id="nav-today">
+    <button class="nav-btn active" onclick="switchPage('today')" ontouchend="event.preventDefault();switchPage('today')" id="nav-today">
       <span class="icon">🏠</span>Today
     </button>
-    <button class="nav-btn" onclick="switchPage('forms')" id="nav-forms">
+    <button class="nav-btn" onclick="switchPage('forms')" ontouchend="event.preventDefault();switchPage('forms')" id="nav-forms">
       <span class="icon">🥋</span>Forms
     </button>
-    <button class="nav-btn" onclick="switchPage('timer')" id="nav-timer">
+    <button class="nav-btn" onclick="switchPage('timer')" ontouchend="event.preventDefault();switchPage('timer')" id="nav-timer">
       <span class="icon">⏱</span>Practice
     </button>
-    <button class="nav-btn" onclick="switchPage('music')" id="nav-music">
+    <button class="nav-btn" onclick="switchPage('music')" ontouchend="event.preventDefault();switchPage('music')" id="nav-music">
       <span class="icon">🎵</span>Music
     </button>
-    <button class="nav-btn" onclick="switchPage('journal')" id="nav-journal">
+    <button class="nav-btn" onclick="switchPage('journal')" ontouchend="event.preventDefault();switchPage('journal')" id="nav-journal">
       <span class="icon">📓</span>Journal
     </button>
-    <button class="nav-btn" onclick="switchPage('schedule')" id="nav-schedule">
+    <button class="nav-btn" onclick="switchPage('schedule')" ontouchend="event.preventDefault();switchPage('schedule')" id="nav-schedule">
       <span class="icon">📅</span>Schedule
     </button>
-    <button class="nav-btn" onclick="switchPage('flash')" id="nav-flash">
+    <button class="nav-btn" onclick="switchPage('flash')" ontouchend="event.preventDefault();switchPage('flash')" id="nav-flash">
       <span class="icon">🃏</span>Cards
     </button>
-    <button class="nav-btn" onclick="switchPage('exam')" id="nav-exam">
+    <button class="nav-btn" onclick="switchPage('exam')" ontouchend="event.preventDefault();switchPage('exam')" id="nav-exam">
       <span class="icon">🎯</span>Exam
     </button>
-    <button class="nav-btn" onclick="switchPage('reading')" id="nav-reading">
+    <button class="nav-btn" onclick="switchPage('reading')" ontouchend="event.preventDefault();switchPage('reading')" id="nav-reading">
       <span class="icon">📖</span>Reading
     </button>
-    <button class="nav-btn" onclick="switchPage('tools')" id="nav-tools">
+    <button class="nav-btn" onclick="switchPage('tools')" ontouchend="event.preventDefault();switchPage('tools')" id="nav-tools">
       <span class="icon">🛠</span>Tools
     </button>
   </nav>
