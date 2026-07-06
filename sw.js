@@ -1,4 +1,4 @@
-const CACHE = 'qigong-tb300-v5';
+const CACHE = 'qigong-tb300-v6';
 const ASSETS = [
   './',
   './index.html',
