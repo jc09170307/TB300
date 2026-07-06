@@ -845,6 +845,21 @@ textarea:focus{border-color:var(--jade)}
     </div>
 
 
+    <!-- ═══════════ READING ═══════════ -->
+    <div class="page" id="page-reading">
+      <div class="hero">
+        <div class="hero-zh">讀書</div>
+        <div class="hero-badge">Weekly Readings · APA Citations Included</div>
+        <h1>Required Readings</h1>
+        <p>Key concepts · Response prompts · Journal connections</p>
+      </div>
+      <div style="padding:16px 16px 80px">
+        <div class="journal-week-sel" id="reading-week-sel"></div>
+        <div id="reading-content"></div>
+      </div>
+    </div>
+
+
     <!-- ═══════════ AI TUTOR ═══════════ -->
     <div class="page" id="page-ai">
       <div class="hero">
@@ -1049,7 +1064,10 @@ textarea:focus{border-color:var(--jade)}
     <button class="nav-btn" onclick="switchPage('exam')" ontouchend="event.preventDefault();switchPage('exam')" id="nav-exam">
       <span class="icon">🎯</span>Exam
     </button>
-<button class="nav-btn" onclick="switchPage('ai')" ontouchend="event.preventDefault();switchPage('ai')" id="nav-ai">
+    <button class="nav-btn" onclick="switchPage('reading')" ontouchend="event.preventDefault();switchPage('reading')" id="nav-reading">
+      <span class="icon">📖</span>Reading
+    </button>
+    <button class="nav-btn" onclick="switchPage('ai')" ontouchend="event.preventDefault();switchPage('ai')" id="nav-ai">
       <span class="icon">🤖</span>AI Tutor
     </button>
     <button class="nav-btn" onclick="switchPage('tools')" ontouchend="event.preventDefault();switchPage('tools')" id="nav-tools">
@@ -2296,6 +2314,202 @@ function showToast(msg) {
 
 
 // ══════════════════════════════
+// READING DATA + PAGE
+// ══════════════════════════════
+const READINGS = {
+  1: {
+    week: 1, date: "Jul 7", focus: "Introduction to Qigong",
+    articles: [
+      {
+        title: "Qigong: What You Need to Know",
+        source: "NCCIH - National Center for Complementary and Integrative Health",
+        url: "https://www.nccih.nih.gov/health/qigong-what-you-need-to-know",
+        apa: "National Center for Complementary and Integrative Health. (n.d.). Qigong: What you need to know. https://www.nccih.nih.gov/health/qigong-what-you-need-to-know",
+        keyPoints: [
+          "Qigong is a mind-body-spirit practice combining movement, breathing, and meditation",
+          "Used in TCM to cultivate and balance the flow of qi (vital energy)",
+          "Generally safe and low-impact — adaptable for all populations",
+          "Research shows potential benefits for blood pressure, immune function, stress, and quality of life",
+          "Qigong and Tai Chi share similar roots and therapeutic mechanisms"
+        ],
+        summary: "This NCCIH overview introduces Qigong as a mind-body practice rooted in TCM. Covers basic principles of qi cultivation, safety considerations, and current research. An excellent starting point for understanding how Western medicine views Qigong."
+      },
+      {
+        title: "What Is Qigong? A Beginners Guide to This Energetic Movement Practice",
+        source: "Everyday Health",
+        url: "https://www.everydayhealth.com/wellness/what-is-qigong-a-beginners-guide-to-this-energetic-movement-practice/",
+        apa: "Everyday Health. (n.d.). What is Qigong? A beginners guide to this energetic movement practice. https://www.everydayhealth.com/wellness/",
+        keyPoints: [
+          "Qigong has over 5,000 years of history rooted in Chinese philosophy and medicine",
+          "The word Qigong combines qi (energy/life force) and gong (skill/cultivation)",
+          "Three core elements: posture and movement, breathing techniques, and mental focus",
+          "Styles include Medical Qigong, Martial Qigong, and Spiritual Qigong",
+          "Benefits include stress reduction, improved balance, flexibility, and energy levels"
+        ],
+        summary: "A beginner-friendly introduction covering history, philosophy, and types of Qigong. Explains the meaning of qi and how the three elements work together. Good foundation for understanding why Ba Duan Jin is structured the way it is."
+      }
+    ],
+    journalConnection: "Week 1 journal: Describe your first experience with Qigong. How do these articles describe qi and mind-body connection? How does it relate to what you felt during the Opening Position?",
+    responsePrompt: "Summarize the key therapeutic principles of Qigong described in both articles. How do these principles connect to TCM theory (CLO 1)?"
+  },
+  2: {
+    week: 2, date: "Jul 14", focus: "What is Qi and What is Qigong?",
+    articles: [
+      {
+        title: "What is Qi and What is Qigong?",
+        source: "YMAA Publication Center",
+        url: "https://ymaa.com/articles/2016/what-is-qi-and-what-is-qigong",
+        apa: "YMAA Publication Center. (2016). What is Qi and what is Qigong? https://ymaa.com/articles/2016/what-is-qi-and-what-is-qigong",
+        keyPoints: [
+          "Qi is the energy or natural force that fills the universe and circulates through meridians in the body",
+          "Three main types of Qi: Original Qi (Yuan Qi), Food Qi (Gu Qi), and Air Qi (Kong Qi)",
+          "Qigong means the study, research, and practices related to Qi",
+          "The goal of Qigong is to understand Qi and control its flow to improve health and longevity",
+          "Regulating the body, breath, and mind are the three fundamental adjustments of Qigong",
+          "Smooth unobstructed Qi flow equals health; blocked or stagnant Qi equals disease"
+        ],
+        summary: "A deep dive into the TCM concept of Qi from YMAA, one of the leading Qigong education publishers. Explains the different types of Qi, how they relate to organs and meridians, and what Qigong aims to achieve. Essential reading for the theoretical foundation beneath every Ba Duan Jin movement."
+      }
+    ],
+    journalConnection: "Week 2 journal: How does your understanding of Qi from this reading change how you experience breath coordination during practice? Can you feel Qi moving during specific movements?",
+    responsePrompt: "Define Qi and explain the three types described in the article. How does this TCM framework relate to Ba Duan Jin movements? Use APA in-text citation (YMAA Publication Center, 2016)."
+  },
+  3: {
+    week: 3, date: "Jul 21", focus: "Clinical Evidence Base for Qigong",
+    articles: [
+      {
+        title: "Evidence Base of Clinical Studies on Qi Gong: A Bibliometric Analysis",
+        source: "Complementary Therapies in Medicine - Zhang et al. 2020",
+        url: "",
+        apa: "Zhang, Y.-P., et al. (2020). Evidence base of clinical studies on Qi Gong: A bibliometric analysis. Complementary Therapies in Medicine, 50, 102392. https://doi.org/10.1016/j.ctim.2020.102392",
+        keyPoints: [
+          "886 clinical studies identified: 47 systematic reviews, 705 RCTs, 116 non-randomized studies",
+          "Ba Duan Jin was the most researched Qigong form — 492 of 886 studies (55.5%)",
+          "Top conditions studied: diabetes, COPD, hypertension, stroke, lumbar disc herniation, insomnia",
+          "96.5% of studies reported positive results for Qigong interventions",
+          "China produced 95.3% of all Qigong clinical research",
+          "Most effective protocol: 5 sessions per week, 1 hour each, for 3 months",
+          "Authors call for standardized reporting and higher-quality study designs"
+        ],
+        summary: "A landmark bibliometric analysis of the entire published clinical evidence base for Qigong. Reviewed 886 studies spanning 134 disease types across 17 body systems. Ba Duan Jin dominance validates its central role in this course. Overwhelmingly positive results support Qigong use in integrative medicine."
+      }
+    ],
+    journalConnection: "Week 3 journal: Given that 96.5% of Qigong studies showed positive results, which conditions from the top 10 list do you see most in TCM practice? How might Ba Duan Jin serve those patients?",
+    responsePrompt: "Summarize the key findings of the bibliometric analysis. What does Ba Duan Jin dominance in clinical research tell us? Connect to CLO 2. Cite as (Zhang et al., 2020)."
+  },
+  4: {
+    week: 4, date: "Jul 28", focus: "Qigong Mechanisms and Mental Health",
+    articles: [
+      {
+        title: "Qigong as a Stress-Reducing and Health-Promoting Intervention",
+        source: "Journal of Bodywork and Movement Therapies - Week 4 PDF",
+        url: "",
+        apa: "See Week 4 PDF in Populi course portal.",
+        keyPoints: [
+          "4 core components: Physical Exercise, Active Relaxation, Focused Attention, Controlled Breathing",
+          "Active relaxation: muscles tense then release. Quote: An anxious mind cannot exist in a relaxed body",
+          "Focused attention creates mindfulness — Qigong is meditation in motion",
+          "Controlled breathing synchronized with movement — inhale raising, exhale lowering",
+          "Qigong reduces cortisol, adrenaline, and noradrenaline — inhibits the stress response",
+          "Improves sleep quality and reduces fatigue — effects maintained 3 months post-intervention",
+          "Reduces both state anxiety (immediate) and trait anxiety (chronic)",
+          "Alleviates depression via reduced cortisol and parasympathetic activation",
+          "Effective protocol: 30 to 60 min, 2 to 3 times per week, 8 to 16 weeks"
+        ],
+        summary: "A systematic review examining biological and psychological mechanisms behind Qigong health benefits. Breaks down how each of the four components individually and collectively produce therapeutic effects. Stress-reduction outcomes table is particularly useful for clinical practice."
+      },
+      {
+        title: "Effects of Baduanjin on Mental Health: A Comprehensive Review",
+        source: "Journal of Bodywork and Movement Therapies - Cheng 2015",
+        url: "https://doi.org/10.1016/j.jbmt.2014.11.001",
+        apa: "Cheng, F. K. (2015). Effects of Baduanjin on mental health: A comprehensive review. Journal of Bodywork and Movement Therapies, 19(1), 138-149. https://doi.org/10.1016/j.jbmt.2014.11.001",
+        keyPoints: [
+          "Reviewed 28 publications (3 English, 25 Chinese) on Baduanjin and mental health",
+          "Participants: college students, middle-aged individuals, elderly, and chronic illness patients",
+          "Results consistently showed enhancement in quality of life and psychological wellbeing",
+          "Intervention duration ranged from 4 weeks to 6 months at 2 to 7 sessions per week",
+          "Baduanjin is a viable complementary intervention for mental health conditions",
+          "Benefits extend across diverse populations regardless of age or health status"
+        ],
+        summary: "The first comprehensive review focused on Baduanjin effects on mental health. Synthesizes Chinese and English literature showing consistent improvements across a wide range of populations. Directly relevant to CLO 4 and CLO 5 — Baduanjin is a research-backed clinical tool."
+      }
+    ],
+    journalConnection: "Week 4 journal: Which of the 4 mechanisms — physical exercise, active relaxation, focused attention, or controlled breathing — do you feel most strongly during daily practice? How does this connect to managing your own stress as a doctoral student (CLO 4)?",
+    responsePrompt: "Explain the four core components of Qigong and how they produce therapeutic effects. Connect Cheng 2015 findings on mental health to Baduanjin clinical value (CLO 1 and 2). Cite both sources in APA format."
+  }
+};
+
+let currentReadingWeek = 1;
+
+function initReading() {
+  const sel = document.getElementById("reading-week-sel");
+  if (!sel) return;
+  sel.innerHTML = "";
+  [1,2,3,4].forEach(function(w) {
+    const btn = document.createElement("div");
+    btn.className = "week-chip" + (w === currentReadingWeek ? " active" : "");
+    btn.textContent = "Wk " + w + " · " + READINGS[w].date;
+    btn.onclick = function() { currentReadingWeek = w; initReading(); };
+    btn.addEventListener("touchend", function(e) { e.preventDefault(); currentReadingWeek = w; initReading(); }, {passive: false});
+    sel.appendChild(btn);
+  });
+  [5,6,7,8,9,10].forEach(function(w) {
+    const btn = document.createElement("div");
+    btn.className = "week-chip";
+    btn.style.opacity = "0.4";
+    btn.textContent = "Wk " + w;
+    btn.onclick = function() { showToast("Reading coming soon for Week " + w); };
+    sel.appendChild(btn);
+  });
+  renderReading();
+}
+
+function renderReading() {
+  const r = READINGS[currentReadingWeek];
+  const el = document.getElementById("reading-content");
+  if (!el || !r) return;
+
+  let html = "<div class=\"card2\" style=\"margin-bottom:14px\">";
+  html += "<div class=\"text-xs text-muted\" style=\"margin-bottom:4px\">WEEK " + r.week + " · " + r.date + "</div>";
+  html += "<div class=\"fw6\" style=\"margin-bottom:4px\">" + r.focus + "</div>";
+  html += "<div class=\"text-sm text-muted\">" + r.articles.length + " article" + (r.articles.length > 1 ? "s" : "") + " assigned</div></div>";
+
+  r.articles.forEach(function(a, i) {
+    html += "<div class=\"section-title\">Article " + (i+1) + "</div>";
+    html += "<div class=\"card\" style=\"margin-bottom:10px\">";
+    html += "<div class=\"fw6\" style=\"margin-bottom:4px;font-size:13px\">" + a.title + "</div>";
+    html += "<div class=\"text-xs text-muted\" style=\"margin-bottom:10px\">" + a.source + "</div>";
+    if (a.url) {
+      html += "<a href=\"" + a.url + "\" target=\"_blank\" class=\"btn btn-ghost btn-sm btn-full\" style=\"margin-bottom:12px;text-decoration:none\">🔗 Read Article</a>";
+    } else {
+      html += "<div class=\"text-xs text-muted\" style=\"margin-bottom:10px;padding:6px;background:rgba(255,255,255,0.04);border-radius:6px;border:1px solid var(--border)\">📄 PDF in Populi course portal</div>";
+    }
+    html += "<div class=\"section-title\" style=\"margin-top:0\">Key Points</div>";
+    a.keyPoints.forEach(function(p) {
+      html += "<div style=\"display:flex;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text2)\"><span style=\"color:var(--jade-light);flex-shrink:0\">✦</span><span>" + p + "</span></div>";
+    });
+    html += "<div class=\"section-title\" style=\"margin-top:12px\">Summary</div>";
+    html += "<div class=\"text-sm\" style=\"color:var(--text2);line-height:1.65\">" + a.summary + "</div>";
+    html += "<div class=\"section-title\" style=\"margin-top:12px\">APA Citation</div>";
+    html += "<div style=\"background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:6px;padding:10px;font-size:11px;color:var(--text3);line-height:1.6;font-style:italic\">" + a.apa + "</div>";
+    html += "</div>";
+  });
+
+  html += "<div class=\"section-title\">Reading Response Prompt</div>";
+  html += "<div class=\"card2\" style=\"margin-bottom:10px\">";
+  html += "<div class=\"text-xs text-gold\" style=\"margin-bottom:6px\">✍ RESPONSE PROMPT · APA FORMAT</div>";
+  html += "<div class=\"text-sm\" style=\"line-height:1.65;color:var(--text2)\">" + r.responsePrompt + "</div></div>";
+
+  html += "<div class=\"section-title\">Journal Connection</div>";
+  html += "<div class=\"card2\" style=\"margin-bottom:10px\">";
+  html += "<div class=\"text-xs text-jade\" style=\"margin-bottom:6px\">📓 CONNECTS TO WEEK " + r.week + " JOURNAL</div>";
+  html += "<div class=\"text-sm\" style=\"line-height:1.65;color:var(--text2)\">" + r.journalConnection + "</div></div>";
+
+  el.innerHTML = html;
+}
+
+
+// ══════════════════════════════
 // AI TUTOR
 // ══════════════════════════════
 function copyAndOpen(prompt) {
@@ -2344,6 +2558,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   updateTimerDisplay();
   // Init journal
   initJournal();
+  initReading();
   // Nav default
   document.getElementById('nav-today').classList.add('active');
 });
