@@ -2496,16 +2496,99 @@ function renderReading() {
   });
 
   html += "<div class=\"section-title\">Reading Response Prompt</div>";
-  html += "<div class=\"card2\" style=\"margin-bottom:10px\">";
+  html += "<div class=\"card2\" style=\"margin-bottom:8px\">";
   html += "<div class=\"text-xs text-gold\" style=\"margin-bottom:6px\">✍ RESPONSE PROMPT · APA FORMAT</div>";
-  html += "<div class=\"text-sm\" style=\"line-height:1.65;color:var(--text2)\">" + r.responsePrompt + "</div></div>";
+  html += "<div class=\"text-sm\" style=\"line-height:1.65;color:var(--text2);margin-bottom:10px\">" + r.responsePrompt + "</div>";
+  html += "<button class=\"btn btn-gold btn-sm btn-full\" onclick=\"generateReadingResponse(" + r.week + ")\">✨ Generate 500-Word Draft Response</button>";
+  html += "</div>";
 
   html += "<div class=\"section-title\">Journal Connection</div>";
   html += "<div class=\"card2\" style=\"margin-bottom:10px\">";
   html += "<div class=\"text-xs text-jade\" style=\"margin-bottom:6px\">📓 CONNECTS TO WEEK " + r.week + " JOURNAL</div>";
-  html += "<div class=\"text-sm\" style=\"line-height:1.65;color:var(--text2)\">" + r.journalConnection + "</div></div>";
+  html += "<div class=\"text-sm\" style=\"line-height:1.65;color:var(--text2);margin-bottom:10px\">" + r.journalConnection + "</div>";
+  html += "<button class=\"btn btn-primary btn-sm btn-full\" onclick=\"generateJournalDraft(" + r.week + ")\">📓 Generate Journal Draft</button>";
+  html += "</div>";
 
   el.innerHTML = html;
+}
+
+
+// ══════════════════════════════
+// READING RESPONSE GENERATORS
+// ══════════════════════════════
+const READING_CONTEXTS = {
+  1: {
+    articles: "Article 1: NCCIH Qigong overview - covers Qigong as a mind-body-spirit practice combining movement, breathing, and meditation rooted in TCM, used to cultivate qi, generally safe, research shows benefits for blood pressure immune function stress and quality of life. Article 2: Everyday Health Qigong guide - covers 5000 year history, qi means energy plus gong means cultivation, three core elements of posture/movement/breathing/mental focus, styles include Medical Martial and Spiritual Qigong, benefits include stress reduction balance flexibility energy.",
+    prompt: "Summarize the key therapeutic principles of Qigong described in both articles. How do these principles connect to TCM theory (CLO 1)?"
+  },
+  2: {
+    articles: "Article: YMAA Publication Center 2016 - What is Qi and Qigong. Qi is vital energy circulating through meridians. Three types: Original Qi (Yuan Qi), Food Qi (Gu Qi), Air Qi (Kong Qi). Qigong means study and practice of Qi. Goal is to understand and control Qi flow for health and longevity. Three fundamental adjustments: body, breath, mind. Smooth Qi flow equals health, blocked Qi equals disease.",
+    prompt: "Define Qi and explain the three types described in the article. How does this TCM framework relate to Ba Duan Jin movements? Use APA in-text citation (YMAA Publication Center, 2016)."
+  },
+  3: {
+    articles: "Article: Zhang et al. 2020 bibliometric analysis in Complementary Therapies in Medicine vol 50. 886 clinical studies identified: 47 systematic reviews, 705 RCTs, 116 non-randomized. Ba Duan Jin most researched at 55.5% of studies. Top conditions: diabetes COPD hypertension stroke lumbar disc insomnia. 96.5% positive results. China 95.3% of research. Best protocol: 5x/week 1hr for 3 months. Calls for standardized reporting.",
+    prompt: "Summarize the key findings of the bibliometric analysis. What does Ba Duan Jin dominance in clinical research tell us? Connect to CLO 2 - differentiate Qigong systems. Cite as (Zhang et al., 2020)."
+  },
+  4: {
+    articles: "Article 1: Qigong stress-reducing intervention systematic review. 4 core components: Physical Exercise (dynamic movement reduces stress hormones), Active Relaxation (tense-release muscles, anxious mind cannot exist in relaxed body - Jacobson), Focused Attention (mindfulness/meditation in motion), Controlled Breathing (synchronized inhale on rise exhale on lower). Reduces cortisol adrenaline noradrenaline. Improves sleep anxiety depression cognition. 30-60min 2-3x/week 8-16 weeks. Article 2: Cheng 2015 JBMT 19(1) 138-149. 28 publications on Baduanjin mental health. College students middle-aged elderly chronic illness. Consistent improvement in quality of life and psychological wellbeing. 4 weeks to 6 months interventions.",
+    prompt: "Explain the four core components of Qigong and how they produce therapeutic effects. Connect Cheng 2015 findings on mental health to Baduanjin clinical value (CLO 1 and 2). Cite both sources in APA format."
+  }
+};
+
+function generateReadingResponse(week) {
+  const ctx = READING_CONTEXTS[week];
+  if (!ctx) { showToast("No data for this week yet"); return; }
+  
+  const prompt = "I am a doctoral student in a TB300 Qi Gong course at Virginia University of Integrative Medicine (VUIM) studying under Dr. Justin Flinner. I need a 500-word reading response draft based on the following assigned readings and prompt. THIS IS FOR STUDY REFERENCE ONLY — I will rewrite it completely in my own words before submitting.\n\nREADINGS: " + ctx.articles + "\n\nRESPONSE PROMPT: " + ctx.prompt + "\n\nPlease write a 500-word academic response that: (1) directly addresses the prompt, (2) references specific content from the readings with proper APA in-text citations, (3) connects to TCM theory and clinical practice, (4) is written in first person as a student reflection, (5) ends with a full APA reference list. Format it professionally with an introduction, body paragraphs, and conclusion.";
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(prompt).then(function() {
+      showToast("Prompt copied! Opening Claude...");
+    }).catch(function() {
+      showToast("Opening Claude...");
+    });
+  } else {
+    const ta = document.createElement("textarea");
+    ta.value = prompt;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+    showToast("Prompt copied! Opening Claude...");
+  }
+  setTimeout(function() { window.open("https://claude.ai", "_blank"); }, 600);
+}
+
+function generateJournalDraft(week) {
+  const ctx = READING_CONTEXTS[week];
+  if (!ctx) { showToast("No data for this week yet"); return; }
+
+  const journalPrompts = {
+    1: "Describe your first experience with the Opening Position and the concept of qi. What did you notice physically and mentally? How does the lower dantian concept relate to TCM theory from your readings?",
+    2: "Describe your daily home practice this week. What improvements are you noticing? How does breath coordination in Ba Duan Jin differ from everyday breathing? What challenges came up?",
+    3: "Which Ba Duan Jin movements feel most natural? Which require more practice? Connect one movement to a Five Elements concept from your reading. Cite the source in APA format.",
+    4: "Which of the 4 Qigong mechanisms (physical exercise, active relaxation, focused attention, controlled breathing) do you feel most strongly during daily practice? How does this connect to managing your own stress as a doctoral student (CLO 4)?"
+  };
+
+  const jp = journalPrompts[week] || ctx.prompt;
+  const prompt = "I am a doctoral student in TB300 Qi Gong at VUIM. I need a 400-word journal entry draft for Week " + week + " of my course. THIS IS FOR STUDY REFERENCE ONLY — I will completely rewrite it in my own authentic voice and personal experience before submitting.\n\nCOURSE READING CONTEXT: " + ctx.articles + "\n\nJOURNAL PROMPT: " + jp + "\n\nPlease write a 400-word personal reflective journal entry that: (1) is written in first person as a doctoral TCM student, (2) reflects genuine physical and mental observations from practice, (3) connects personal experience to TCM theory from the readings with APA citations, (4) addresses the CLO learning outcomes, (5) feels authentic and personal not academic. Include an APA reference at the end.";
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(prompt).then(function() {
+      showToast("Journal prompt copied! Opening Claude...");
+    }).catch(function() {
+      showToast("Opening Claude...");
+    });
+  } else {
+    const ta = document.createElement("textarea");
+    ta.value = prompt;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+    showToast("Journal prompt copied! Opening Claude...");
+  }
+  setTimeout(function() { window.open("https://claude.ai", "_blank"); }, 600);
 }
 
 
